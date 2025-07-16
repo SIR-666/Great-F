@@ -1,0 +1,74 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff !important; /* Change color as needed and use !important if necessary */
+  color: rgb(40, 181, 54) !important; /* Ensures text color changes */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+  height: 60px;
+  padding: 0 30px;
+}
+
+.header a {
+  color: #333;
+  margin-right: 20px;
+}
+
+.header a:hover {
+  color: #000;
+}
+.header ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+}
+
+.logo {
+  color: rgb(40, 181, 54);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.logo a {
+  color: rgb(40, 181, 54);
+}
+
+.desktopMenu {
+  /* Ensure there is no automatic right alignment */
+  align-items: flex-start; /* Align items to the start of the flex container */
+  margin-left: 20px; /* Optional: space between logo and menu */
+}
+
+/* Add new media queries for ranges between 600px and 899px */
+@media (min-width: 600px) and (max-width: 899px) {
+  .desktopMenu {
+    display: none; /* Or adjust as needed for tablets/small desktops */
+  }
+  /* Add additional styles for this viewport range if necessary */
+}
+
+@media (max-width: 599px) {
+  .desktopMenu {
+    display: none; /* Hide by default */
+  }
+
+  .header {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .header ul {
+    margin: 20px 0;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header a {
+    margin-right: 0;
+  }
+
+  .logo {
+    margin: 20px 0;
+  }
+}
