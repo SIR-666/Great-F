@@ -20,13 +20,13 @@ export default function Dashboard() {
               Coba request training sekarang
             </button>
           </div>
-          <div className="ml-6">
+          {/* <div className="ml-6"> */}
             <img
-              src="https://via.placeholder.com/150x100"
+              src="/images/search.png"
               alt="Training illustration"
-              className="w-40 h-auto rounded-md shadow-md"
+              className="w-60 h-auto  p-5"
             />
-          </div>
+          {/* </div> */}
         </header>
 
         {/* Tabs */}
@@ -48,9 +48,11 @@ export default function Dashboard() {
 
         {/* Load More Button */}
         <div className="text-center mt-8">
-          <button className="px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors shadow-md">
-            Lihat Training Lainnya
-          </button>
+          <Link href="/training/show">
+            <button className="px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors shadow-md">
+              Lihat Training Lainnya
+            </button>
+          </Link>
         </div>
       </div>
     </Layout>
@@ -91,9 +93,11 @@ function ClassCard({ title, date, time, teacher, status, img }) {
         <span className="mr-2">👨‍🏫</span>
         {teacher}
       </p>
-      <button className="w-full text-sm text-blue-500 font-semibold hover:text-blue-700 transition-colors py-2 border border-blue-200 rounded-lg hover:border-blue-300 hover:bg-blue-50">
-        Lihat Detail
-      </button>
+      <Link href="/training/dashboard-user/training-details">
+        <button className="w-full text-sm text-blue-500 font-semibold hover:text-blue-700 transition-colors py-2 border border-blue-200 rounded-lg hover:border-blue-300 hover:bg-blue-50">
+          Lihat Detail
+        </button>
+      </Link>
     </div>
   );
 }
@@ -105,7 +109,7 @@ const classData = [
     time: "18:20 - 19:45 WIB",
     teacher: "Kak Max",
     status: "1 hari lagi",
-    img: "https://via.placeholder.com/400x200?text=Kelas+Max",
+    img: "/images/training.png",
   },
   {
     title: "Training Quality Control",
@@ -113,7 +117,7 @@ const classData = [
     time: "18:50 - 20:15 WIB",
     teacher: "Kak Hanif",
     status: "10 jam lagi",
-    img: "https://via.placeholder.com/400x200?text=Kelas+Hanif",
+    img: "/images/training.png",
   },
   {
     title: "Training Maintenance",
@@ -121,6 +125,6 @@ const classData = [
     time: "18:20 - 19:40 WIB",
     teacher: "Kak Abelle",
     status: "Selesai",
-    img: "https://via.placeholder.com/400x200?text=Kelas+Abelle",
+    img: "/images/training.png",
   },
 ];
