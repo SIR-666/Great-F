@@ -197,6 +197,11 @@ export default function Header() {
                 </Link>
               </li>
               <li>
+                <Link href="/dashboard-user">
+                  <a>Training User</a>
+                </Link>
+              </li>
+              <li>
                 <button
                   onClick={() => logout()}
                   className="btn-secondary btn-icon"

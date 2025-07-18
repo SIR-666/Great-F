@@ -24,6 +24,7 @@ const navItemsDesktop = [
   { label: "Audit Behaviour", path: "/auditBehaviours/add2" },
   { label: "Add GMP", path: "/gmp/addGMP" },
   { label: "PSG Initiaton", path: "/psg" },
+  { label: "Training User", path: "/training" },
   // Add more items as needed
 ];
 
@@ -41,6 +42,7 @@ const navItemsLogin = [
   { label: "PSG Initiaton", path: "/psg" },
   { label: "PSG Project", path: "/account/dashboard" },
   { label: "greenSHIELD", path: "/greenshield/list" },
+  { label: "Training", path: "/training" },
   // Add more items as needed
 ];
 
