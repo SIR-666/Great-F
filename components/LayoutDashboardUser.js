@@ -10,8 +10,10 @@ function Sidebar() {
   
   const menuItems = [
     { icon: "📚", text: "Training Modul", href: "/training/dashboard-user" },
-    { icon: "📄", text: "Modul", href: "/training/dashboard-user/module" },
-    { icon: "🌐", text: "Hasil Test", href: "/training/dashboard-user/test-result" }
+    { icon: "📚", text: "Competency", href: "/training/dashboard-user" },
+    { icon: "📄", text: "Module", href: "/training/dashboard-user/module" },
+    { icon: "📄", text: "Development People", href: "/training/dashboard-user/module" },
+    { icon: "🌐", text: "Test Result", href: "/training/dashboard-user/test-result" }
   ];
 
   return (
