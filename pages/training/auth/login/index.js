@@ -35,7 +35,7 @@ export default function LoginPage() {
                 toast.success('Login successful! Redirecting...');
                 
                 setTimeout(() => {
-                    router.push('/training/dashboard-user');
+                    router.push('/training/dashboard-superuser');
                 }, 1500);
             } catch (error) {
                 toast.error('Login failed. Please try again.');
