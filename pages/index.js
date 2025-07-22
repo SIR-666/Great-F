@@ -17,14 +17,21 @@ export default function HomePage({ events }) {
         <Link href="/events">
           <a className="btn-secondary">View All Projects</a>
         </Link>
-      )}
+      )} 
     </Layout>
   );
 }
 
 export async function getStaticProps() {
   const res = await fetch(`${API_URL}/events?_sort=projectDate:ASC&_limit=3`);
-  const events = await res.json();
+  const text = await res.text();
+  let events = [];
+  try {
+    events = JSON.parse(text);
+  } catch (e) {
+    console.error("Invalid JSON from API:", text);
+    events = [];
+  }
 
   return {
     props: { events },

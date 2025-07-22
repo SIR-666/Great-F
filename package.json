@@ -43,7 +43,8 @@
     "react-typed": "1.2.0",
     "react-usestateref": "^1.0.8",
     "sharethis-reactjs": "1.6.0",
-    "styled-components": "5.3.5"
+    "styled-components": "5.3.5",
+    "sweetalert2": "^11.22.2"
   },
   "devDependencies": {
     "eslint": "8.19.0",

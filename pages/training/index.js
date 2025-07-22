@@ -35,7 +35,7 @@ export default function TrainingHomePage() {
                 <span className="text-yellow-400"> Elevating Potential</span>
               </h1>
               <p className="text-xl mb-8 text-blue-100">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Tingkatkan kompetensi dan raih potensi terbaik Anda bersama platform Elevana Greenfields.
               </p>
             </div>
             <div className="lg:text-right">
@@ -274,12 +274,12 @@ function FeatureCard({
     <Link href={linkUrl} className="block">
       <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-1">
         <div className="relative h-48 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-          <div className="w-20 h-20 relative group-hover:scale-110 transition-transform duration-300">
+          <div className="w-260 h-160 relative group-hover:scale-110 transition-transform duration-300">
             <Image
               src={iconImage}
               alt={title}
-              width={80}
-              height={80}
+              width={160}
+              height={160}
               className="object-contain filter brightness-0 invert"
             />
           </div>
@@ -384,7 +384,7 @@ const featuredFeatures = [
     title: "Competency Management",
     description:
       "Buat dan kelola modul pembelajaran interaktif dengan berbagai format konten multimedia yang engaging.",
-    iconImage: "/images/book-stack.png",
+    iconImage: "/images/20943633.jpg",
     linkUrl: "/training/dashboard-superuser/module",
     category: "Content",
     features: [
