@@ -196,6 +196,11 @@ export default function Header() {
                   <a>PSG Initiaton</a>
                 </Link>
               </li>
+              {/* <li>
+                <Link href="/dashboard-user">
+                  <a>Training User</a>
+                </Link>
+              </li> */}
               <li>
                 <button
                   onClick={() => logout()}

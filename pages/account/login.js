@@ -49,7 +49,9 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
+          <div> 
+            <Link href="/account/forgotPassword">Forgot Password?</Link>
+          </div>
           <input type="submit" value="Login" className="btn" />
         </form>
 

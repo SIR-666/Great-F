@@ -2,6 +2,7 @@
 
 import { AuthProvider } from "@/context/AuthContext";
 import "../styles/globals.css";
+import "../styles/tailwind.css"; // Import Tailwind CSS
 
 // function MyApp({ Component, pageProps }) {
 //   return (
@@ -23,7 +24,9 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
-      <Component {...pageProps} />
+      <div id="tailwind-root">
+        <Component {...pageProps} />
+      </div>
     </AuthProvider>
   );
 }
