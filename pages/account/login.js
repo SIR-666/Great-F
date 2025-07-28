@@ -21,7 +21,8 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login({ nik, email, password });
+    // login({ nik, email, password });
+    login({ email, password });
   };
 
   return (
@@ -32,7 +33,7 @@ export default function LoginPage() {
         </h1>
         <ToastContainer />
         <form onSubmit={handleSubmit}>
-          <div>
+          {/* <div>
             <label htmlFor="nik">NIK</label>
             <input
               type="text"
@@ -40,7 +41,7 @@ export default function LoginPage() {
               value={nik}
               onChange={(e) => setNik(e.target.value)}
             />
-          </div>
+          </div> */}
           <div>
             <label htmlFor="email">Email Address</label>
             <input

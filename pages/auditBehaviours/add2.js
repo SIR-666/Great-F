@@ -471,13 +471,14 @@ function reducer(state, action) {
 // //////////////////////////////
 
 export default function AddEventPage({}) {
-  const { user, getIdentityData } = useContext(AuthContext);
+  // const { user, getIdentityData } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [pic, setPic] = useState([]);
   const [options, setOptions] = useState([]);
   const [optionsDept, setOptionsDept] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [employeeName, setEmployeeName] = useState("");
-  const [employeeDept, setEmployeeDept] = useState("");
+  // const [employeeName, setEmployeeName] = useState("");
+  // const [employeeDept, setEmployeeDept] = useState("");
   let today = moment().format("YYYY-MM-DD");
   // var hariIni = new Date().toISOString().split("T")[0];
   const date = new Date();
@@ -754,7 +755,7 @@ export default function AddEventPage({}) {
               onChange={handleInputChange}
             ></input>
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="pic">Auditor</label>
             <Select
               value={employeeName ? { value: employeeName + " / " + employeeDept, label: employeeName + " / " + employeeDept } : null}
@@ -762,6 +763,16 @@ export default function AddEventPage({}) {
               id="pic"
               placeholder="Select Auditor"
               isDisabled={true}
+            />
+          </div> */}
+          <div>
+            <label htmlFor="pic">Auditor</label>
+            <Select
+              defaultValue={values.pic}
+              name="pic"
+              id="pic"
+              onChange={handleInputChange2}
+              options={options}
             />
           </div>
           <div>
