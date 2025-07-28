@@ -10,6 +10,7 @@ import styles from "@/styles/AuthForm.module.css";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nik, setNik] = useState("");
 
   const { login, error } = useContext(AuthContext);
 
@@ -20,7 +21,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login({ email, password });
+    login({ nik, email, password });
   };
 
   return (
@@ -31,6 +32,15 @@ export default function LoginPage() {
         </h1>
         <ToastContainer />
         <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="nik">NIK</label>
+            <input
+              type="text"
+              id="nik"
+              value={nik}
+              onChange={(e) => setNik(e.target.value)}
+            />
+          </div>
           <div>
             <label htmlFor="email">Email Address</label>
             <input
@@ -49,7 +59,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div> 
+          <div>
             <Link href="/account/forgotPassword">Forgot Password?</Link>
           </div>
           <input type="submit" value="Login" className="btn" />
