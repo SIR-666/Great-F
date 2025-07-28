@@ -471,11 +471,13 @@ function reducer(state, action) {
 // //////////////////////////////
 
 export default function AddEventPage({}) {
-  const { user } = useContext(AuthContext);
+  const { user, getIdentityData } = useContext(AuthContext);
   const [pic, setPic] = useState([]);
   const [options, setOptions] = useState([]);
   const [optionsDept, setOptionsDept] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [employeeName, setEmployeeName] = useState("");
+  const [employeeDept, setEmployeeDept] = useState("");
   let today = moment().format("YYYY-MM-DD");
   // var hariIni = new Date().toISOString().split("T")[0];
   const date = new Date();
@@ -708,10 +710,19 @@ export default function AddEventPage({}) {
       }
     };
     fetchData();
+    // Get employee name from identity data
+    const empName = getIdentityData("employee_name") || "";
+    setEmployeeName(empName);
+    console.log("Employee name from identity:", empName);
+    
+    const empDept = getIdentityData("section_name") || "";
+    setEmployeeDept(empDept);
+    console.log("Employee department from identity:", empDept);
+
     const username = getCookie("username");
     const role = getCookie("role");
     checkUser(username);
-  }, []);
+  }, [getIdentityData]);
 
   return (
     <Layout title="Add New Event">
@@ -746,11 +757,11 @@ export default function AddEventPage({}) {
           <div>
             <label htmlFor="pic">Auditor</label>
             <Select
-              defaultValue={values.pic}
+              value={employeeName ? { value: employeeName + " / " + employeeDept, label: employeeName + " / " + employeeDept } : null}
               name="pic"
               id="pic"
-              onChange={handleInputChange2}
-              options={options}
+              placeholder="Select Auditor"
+              isDisabled={true}
             />
           </div>
           <div>
