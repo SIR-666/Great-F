@@ -1,121 +1,15 @@
 import React, { useReducer, useState, useContext, useEffect } from "react";
-import { parseCookies } from "@/helpers/index";
 import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
-import ReactDOM from "react-dom";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "@/components/Layout";
-import { API_URL } from "@/config/index";
 import styles from "@/styles/Form.module.css";
 import AuthContext from "@/context/AuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
-
-// import dayjs from "dayjs";
-
-const options2 = [
-  { value: "Adi_Nugroho", label: " Adi Nugroho" },
-  { value: "Ahmad_Alvi_Syahrin", label: " Ahmad Alvi Syahrin" },
-  { value: "Aji_Yahnuar_Prasetyo", label: " Aji Yahnuar Prasetyo" },
-  { value: "Akmal_Adyarazan", label: " Akmal Adyarazan" },
-  { value: "Andi_Suryo_Putro", label: " Andi Suryo Putro" },
-  { value: "Yohanes_Sigit", label: " Yohanes Sigit" },
-  { value: "Andri_Swasono", label: " Andri Swasono" },
-  { value: "Ari_Isnadi", label: " Ari Isnadi" },
-  { value: "Arief_Musthofa,_Stp", label: " Arief Musthofa, Stp" },
-  { value: "Arif_Hidayatullah", label: " Arif Hidayatullah" },
-  // { value: "Arifni_Choirussabila", label: " Arifni Choirussabila" },
-  { value: "Array_Sidi_Tirtana", label: " Array Sidi Tirtana" },
-  { value: "Avida_Nur_Hidayah", label: " Avida Nur Hidayah" },
-  { value: "Bambang_Setyawan", label: " Bambang Setyawan" },
-  { value: "Bhayu_Dian_Cahyono", label: " Bhayu Dian Cahyono" },
-  { value: "Budi_Haryanto", label: " Budi Haryanto" },
-  { value: "Cahyono", label: " Cahyono" },
-  { value: "Danang_Galih", label: " Danang Galih" },
-  { value: "Deni_Hari_Jaya", label: " Deni Hari Jaya" },
-  { value: "Didik_Setyono_Adi", label: " Didik Setyono Adi" },
-  { value: "Dwi_Prasetya_Adi", label: " Dwi Prasetya Adi" },
-  { value: "Dwi_Putranto_Sulyandoko", label: " Dwi Putranto Sulyandoko" },
-  { value: "Dyah_Ratri_Rahadini", label: " Dyah Ratri Rahadini" },
-  { value: "Edy_Winarto", label: " Edy Winarto" },
-  { value: "Eko_Retnaning_Puspitasari", label: " Eko Retnaning Puspitasari" },
-  { value: "Eva_Yuliana_Ari_Wardhani", label: " Eva Yuliana Ari Wardhani" },
-  { value: "Fadil_Amrulloh", label: " Fadil Amrulloh" },
-  { value: "Faridah_Sri_Wahyuningsih", label: " Faridah Sri Wahyuningsih" },
-  { value: "Hariyati,_Amd", label: " Hariyati, Amd" },
-  { value: "Heri_Susanto", label: " Heri Susanto" },
-  { value: "Ida_Wati", label: " Ida Wati" },
-  { value: "Ido_Sigit_Triwinanto", label: " Ido Sigit Triwinanto" },
-  { value: "Imam_Nurhadi", label: " Imam Nurhadi" },
-  { value: "Imam_Suyoko", label: " Imam Suyoko" },
-  { value: "Irma_Lesyana", label: " Irma Lesyana" },
-  { value: "Irmansah", label: " Irmansah" },
-  // { value: "Iswara", label: " Iswara" },
-  { value: "Iwan_Purnomo", label: " Iwan Purnomo" },
-  { value: "Jamaludin", label: " Jamaludin" },
-  { value: "Jamingan", label: " Jamingan" },
-  { value: "Joeng_Loekman_Adi_Oetomo", label: " Joeng Loekman Adi Oetomo" },
-  // { value: "Jusep_Pramudanto", label: " Jusep Pramudanto" },
-  { value: "Kholilurrahman", label: " Kholilurrahman" },
-  { value: "Kusminardi", label: " Kusminardi" },
-  { value: "Kustiadi", label: " Kustiadi" },
-  { value: "Ladiono", label: " Ladiono" },
-  { value: "Marjhy_Maratapatria", label: " Marjhy Maratapatria" },
-  { value: "Minto", label: " Minto" },
-  { value: "Mohammad_Tatok_Efendi", label: " Mohammad Tatok Efendi" },
-  { value: "Mulyo_Kuntono", label: " Mulyo Kuntono" },
-  { value: "Norma_Fabian_S", label: " Norma Fabian S" },
-  { value: "Noviana_Ika_Setyaningrum", label: " Noviana Ika Setyaningrum" },
-  { value: "Nur_Ngazam_Fuadi", label: " Nur Ngazam Fuadi" },
-  // { value: "Nur_Sidiq", label: " Nur Sidiq" },
-  { value: "Pungky_Artiwi", label: " Pungky Artiwi" },
-  { value: "Puput_Mosthoqolifah", label: " Puput Mosthoqolifah" },
-  { value: "R._Bambang_Tri_Atmadja", label: " R. Bambang Tri Atmadja" },
-  { value: "Rahpuan_Katk", label: " Rahpuan Katk" },
-  { value: "Ricky_Adi_Sanja", label: " Ricky Adi Sanja" },
-  { value: "Rifai_Santoso", label: " Rifai Santoso" },
-  { value: "Robby_Sashudi", label: " Robby Sashudi" },
-  { value: "Roni_Pambudi", label: " Roni Pambudi" },
-  { value: "Ronny_Hari_Prasetyono", label: " Ronny Hari Prasetyono" },
-  { value: "Roufu_Rokhim", label: " Roufu Rokhim" },
-  { value: "Ruswanto", label: " Ruswanto" },
-  { value: "Saiful_Imam", label: " Saiful Imam" },
-  { value: "Subroto", label: " Subroto" },
-  { value: "Sudarwanto_", label: " Sudarwanto " },
-  { value: "Sugiono,_Stp", label: " Sugiono, Stp" },
-  { value: "Suherman_Hasan", label: " Suherman Hasan" },
-  { value: "Suprayitno", label: " Suprayitno" },
-  { value: "Supriadi", label: " Supriadi" },
-  { value: "Susetyo_Hadi_Purwanto", label: " Susetyo Hadi Purwanto" },
-  { value: "Syahrul_Marufi", label: " Syahrul Marufi" },
-  { value: "Taat_Mulyono", label: " Taat Mulyono" },
-  { value: "Tarmujiono", label: " Tarmujiono" },
-  { value: "Taufik_Septiyanto", label: " Taufik Septiyanto" },
-  { value: "Teguh_Iman_Santoso", label: " Teguh Iman Santoso" },
-  { value: "Teguh_Istiono", label: " Teguh Istiono" },
-  { value: "Thio_Budi_Utomo", label: " Thio Budi Utomo" },
-  { value: "Tri_Puguh_Widodo", label: " Tri Puguh Widodo" },
-  { value: "Wahyu_Prihanto", label: " Wahyu Prihanto" },
-  { value: "Wahyudi_Alutfi", label: " Wahyudi Alutfi" },
-  { value: "Wiyatno", label: " Wiyatno" },
-  { value: "Yan_Ardianto", label: " Yan Ardianto" },
-  { value: "Yudho_Lestari_Dwi_Puspito", label: " Yudho Lestari Dwi Puspito" },
-  { value: "Yudi_Eko_Prabowo", label: " Yudi Eko Prabowo" },
-  { value: "Yusuf_Agus_Prastomo", label: " Yusuf Agus Prastomo" },
-  { value: "Tri_Edi_Kurniawanto", label: " Tri Edi Kurniawanto" },
-  { value: "Zoni_Wirawan", label: " Zoni Wirawan" },
-  { value: "Zuh_Rotul_Aulia", label: " Zuh Rotul Aulia" },
-];
-
-// const daftarPIC = pic.map((orang) => {
-//   return {
-//     value: orang.name,
-//     label: orang.name,
-//   };
-// });
+import { getCookie } from "cookies-next";
 
 const optionsArea = [
   { value: "AHU Area Milk", label: " AHU Area Milk" },
@@ -240,21 +134,11 @@ const optionsArea = [
   { value: "WWTP", label: " WWTP" },
 ];
 
-const optionInternal = [
-  // { label: "-", value: "-" },
-  { label: "Internal", value: "Internal" },
-  { label: "Third Party", value: "Third Party" },
-];
-
 const optionOpenClose = [
-  // { label: "-", value: "-" },
   { label: "Open", value: "Open" },
   { label: "Close", value: "Close" },
 ];
 
-////////////////////////////////////////////////////////////////////////
-// untuk select multi
-////////////////////////////////
 const POPULATE_STATE = "populateState";
 const CLEAR = "clear";
 
@@ -451,9 +335,6 @@ function reducer(state, action) {
     case POPULATE_STATE:
       return {
         ...state,
-        // disableCountry: true,
-        // disableState: false,
-        // loadingState: true,
         statesToBeLoaded: data.safety_categories.find(
           (safety_category) => safety_category.value === action.safety_category
         ).states,
@@ -467,59 +348,132 @@ function reducer(state, action) {
   }
 }
 
-//END untuk select multi
-// //////////////////////////////
-
 export default function AddEventPage({}) {
   const { user, getIdentityData } = useContext(AuthContext);
-  // const { user } = useContext(AuthContext);
-  const [pic, setPic] = useState([]);
-  const [options, setOptions] = useState([]);
-  const [optionsDept, setOptionsDept] = useState([]);
   const [loading, setLoading] = useState(false);
   const [employeeName, setEmployeeName] = useState("");
   const [employeeDept, setEmployeeDept] = useState("");
   let today = moment().format("YYYY-MM-DD");
-  // var hariIni = new Date().toISOString().split("T")[0];
-  const date = new Date();
-  const tanggal1 = new Date(date.getFullYear(), date.getMonth());
-  let tanggalSiji = moment(tanggal1).format("YYYY-MM-DD");
+  const router = useRouter();
   const [values, setValues] = useState({
     date_of_audit: "",
-    due_date_of_close: null,
-    pic: "", //auto by login
+    due_date_of_close: today,
+    pic: "",
     safety_category: "",
     potential_hazard: "",
     internal_3rdparty: "",
     behaviour_category: "",
     location: "",
-    internal_3rdparty: "",
     description: "",
     corrective_action: "",
     preventive_action: "",
     corrective_status: "",
     preventive_status: "",
     datesystem: today,
-    department_area: "", // auto by rumus
-    footprint: user ? user.email : null, // auto by login
-    finding_audit_status: "", // rumus
-    // photo_open: null,
-    // photo_closed: null,
-    // photo_open_preview: null,
-    // photo_closed_preview: null,
-
-    // safety_patrol: "", // ga dipake
-    // photo_before: "",
-    // phot_after: "",
-    // locationpic: "",
+    department_area: "",
+    footprint: user ? user.email : null,
+    finding_audit_status: "",
   });
-  const router = useRouter();
-  const [selectedOption, setSelectedOption] = useState(null);
+
+  useEffect(() => {
+    async function fetchAuditBehaviourData() {
+      const { id } = router.query;
+
+      if (!id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        console.log("Fetching data for ID:", id);
+        const res = await fetch(
+          `http://10.24.0.155:3030/api/audit-behaviour/${id}`
+        );
+
+        if (!res.ok) {
+          console.error("Failed to fetch:", res.status, res.statusText);
+          toast.error("Failed to load data");
+          setLoading(false);
+          return;
+        }
+
+        const response = await res.json();
+        console.log("Raw API response:", response);
+
+        const data = response.data || response;
+        console.log("Extracted data:", data);
+
+        // Helper function untuk construct URL foto
+        const constructImageURL = (filename) => {
+          if (!filename) return null;
+          if (filename.startsWith("http")) return filename;
+          return `http://10.24.0.155:3030/uploads/audit-behaviour/${filename}`;
+        };
+
+        // ✅ Fix due_date_of_close logic
+        let dueDateClose;
+
+        if (data.due_date_of_close && data.due_date_of_close !== null) {
+          // Jika sudah ada di database, gunakan yang existing
+          dueDateClose = data.due_date_of_close.split("T")[0];
+          console.log("Using existing due_date_of_close:", dueDateClose);
+        } else {
+          // Jika null/kosong, set ke current date
+          dueDateClose = moment().format("YYYY-MM-DD");
+          console.log(
+            "Auto-set due_date_of_close to current date:",
+            dueDateClose
+          );
+        }
+
+        setValues((prevValues) => ({
+          ...prevValues,
+          date_of_audit: data.date_of_audit
+            ? data.date_of_audit.split("T")[0]
+            : "",
+          due_date_of_close: dueDateClose, // ✅ Gunakan value yang sudah di-calculate
+          pic: data.pic || "",
+          footprint: data.footprint || user ? user.email : null,
+          safety_category: data.safety_category || "",
+          potential_hazard: data.potential_hazard || null,
+          internal_3rdparty: data.internal_3rdparty || "",
+          behaviour_category: data.behaviour_category || "",
+          location: data.location || "",
+          description: data.description || "",
+          corrective_action: data.corrective_action || "",
+          preventive_action: data.preventive_action || "",
+          corrective_status: data.corrective_status || "",
+          preventive_status: data.preventive_status || "",
+          department_area: data.department_area || "",
+          finding_audit_status: data.finding_audit_status || "",
+          photo_before: data.photo_before || null,
+          photo_before_preview: constructImageURL(data.photo_before),
+          photo_after_preview: constructImageURL(data.photo_after),
+        }));
+
+        // Update reducer untuk dropdown
+        if (data.safety_category) {
+          dispatch({
+            type: POPULATE_STATE,
+            safety_category: data.safety_category,
+          });
+        }
+
+        console.log("Data loaded successfully");
+        console.log("Final due_date_of_close value:", dueDateClose);
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch audit behaviour data:", err);
+        toast.error("Error loading data");
+        setLoading(false);
+      }
+    }
+
+    fetchAuditBehaviourData();
+  }, [router.query.id]);
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [sdata, setSdata] = useState("");
-  const [sdata2, setSdata2] = useState("");
-  const [sdata3, setSdata3] = useState("");
 
   const handleFileChange = (e) => {
     const { name } = e.target;
@@ -543,6 +497,10 @@ export default function AddEventPage({}) {
     e.preventDefault();
     // console.log(values);
     // Validation
+
+    const { id } = router.query;
+    const isEditMode = !!id;
+
     const hasEmptyFields = Object.values(values).some(
       (element) => element === ""
     );
@@ -579,6 +537,29 @@ export default function AddEventPage({}) {
 
       const formData = new FormData();
 
+      // Tambahkan logging lebih detail di frontend
+      const appendField = (key, value) => {
+        console.log(
+          `Attempting to append: ${key} = ${value} (type: ${typeof value})`
+        );
+
+        if (
+          value !== null &&
+          value !== undefined &&
+          value !== "" &&
+          value !== "undefined"
+        ) {
+          formData.append(key, value);
+          console.log(`Successfully appended: ${key}`);
+        } else {
+          console.log(`Skipped: ${key} (value was null/undefined/empty)`);
+        }
+      };
+
+      // Check specifically for date_of_audit
+      console.log("date_of_audit before append:", data.date_of_audit);
+      appendField("date_of_audit", data.date_of_audit);
+
       Object.keys(values).forEach((key) => {
         if (values[key] !== null && values[key] !== undefined) {
           // Jika field adalah file
@@ -593,14 +574,30 @@ export default function AddEventPage({}) {
         }
       });
 
-      const res = await fetch(`http://10.24.0.155:3030/api/audit-behaviour`, {
-        method: "POST",
-        headers: {
-          // "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(`${key}:`, {
+            type: "File",
+            name: value.name,
+            size: value.size,
+            lastModified: value.lastModified,
+          });
+        } else {
+          console.log(`${key}:`, value);
+        }
+      }
+
+      const res = await fetch(
+        `http://10.24.0.155:3030/api/audit-behaviour/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            // "Content-Type": "application/json",
+            // Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       if (!res.ok) {
         if (res.status === 403 || res.status === 401) {
@@ -635,26 +632,27 @@ export default function AddEventPage({}) {
     // Jika yang diubah adalah corrective_action, update juga preventive_action
     if (name === "corrective_action") {
       setValues({ ...values, [name]: value, preventive_action: value });
+    } else if (name === "date_of_audit") {
+      const auditDate = new Date(value);
+      auditDate.setDate(auditDate.getDate() + 1);
+      const dueDateClose = moment(auditDate).format("YYYY-MM-DD");
+
+      setValues({
+        ...values,
+        [name]: value,
+        due_date_of_close: dueDateClose,
+      });
     } else {
       setValues({ ...values, [name]: value });
     }
   };
-
-  // const handleInputChange2 = (e) => {
-  //   // const { name, value } = e.value;
-  //   // setValues({ ...values, pic: e.value });
-  //   // set value departement from mapping optionsDept
-  //   const findDep = optionsDept.find(({ named }) => named == e.value);
-  //   // console.log(findDep.dept);
-  //   setValues({ ...values, department_area: findDep.dept, pic: e.value });
-  // };
 
   // Modifikasi handleInputChange2 untuk menggunakan employeeName dan employeeDept
   const handleInputChange2 = () => {
     setValues({
       ...values,
       department_area: employeeDept,
-      pic: employeeName + " / " + employeeDept,
+      pic: employeeName,
     });
   };
 
@@ -749,40 +747,9 @@ export default function AddEventPage({}) {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const arr = [];
-      try {
-        await fetch("http://10.24.7.70:8080/userDept", {
-          method: "GET",
-        })
-          .then((response) => {
-            return response.json(); // return response.json() first
-          })
-          .then((json) => {
-            const options = json.map((d) => ({
-              value: d.named,
-              label: d.named,
-            }));
-            setOptions(options);
-            //console.log(options);
-            //optionsDept
-            const optionsDept = json.map((d) => ({
-              name: d.name,
-              dept: d.dept,
-              section: d.section,
-              named: d.named,
-            }));
-            setOptionsDept(optionsDept);
-            // console.log(optionsDept);
-          });
-      } catch (err) {
-        console.log("terjadi error:", err);
-      }
-    };
-    fetchData();
     // Get employee data
     const empName = getIdentityData("employee_name") || "";
-    const empDept = getIdentityData("department_name") || "";
+    const empDept = getIdentityData("section_name") || "";
 
     console.log("=== SETTING EMPLOYEE DATA ===");
     console.log("empName from getIdentityData:", empName);
@@ -797,10 +764,10 @@ export default function AddEventPage({}) {
       setValues((prevValues) => ({
         ...prevValues,
         department_area: empDept,
-        pic: empName + "" + " / " + empDept,
+        pic: empName,
       }));
       console.log("Values updated with:", {
-        pic: empName + "" + " / " + empDept,
+        pic: empName,
         department_area: empDept,
       });
     }
@@ -808,7 +775,6 @@ export default function AddEventPage({}) {
     const username = getCookie("username");
     checkUser(username);
   }, [getIdentityData]);
-  // }, []);
 
   return (
     <Layout title="Add New Event">
@@ -823,10 +789,11 @@ export default function AddEventPage({}) {
               type="date"
               name="date_of_audit"
               id="date_of_audit"
-              min={tanggalSiji}
-              max={today}
+              // min={tanggalSiji}
+              disabled={true}
+              // max={today}
               value={values.date_of_audit}
-              onChange={handleInputChange}
+              // onChange={handleInputChange}
             ></input>
           </div>
           {/* <div>
@@ -840,6 +807,12 @@ export default function AddEventPage({}) {
               onChange={handleInputChange}
             ></input>
           </div> */}
+          <input
+            type="hidden"
+            name="due_date_of_close"
+            id="due_date_of_close"
+            value={values.due_date_of_close}
+          />
 
           <div>
             <label htmlFor="pic">Auditor</label>
@@ -847,7 +820,7 @@ export default function AddEventPage({}) {
               value={
                 employeeName
                   ? {
-                      value: employeeName + " / " + employeeDept,
+                      value: employeeName,
                       label: employeeName + " / " + employeeDept,
                     }
                   : null
@@ -859,24 +832,22 @@ export default function AddEventPage({}) {
               onChange={handleInputChange2}
             />
           </div>
-          {/* <div>
-            <label htmlFor="pic">Auditor</label>
-            <Select
-              defaultValue={values.pic}
-              name="pic"
-              id="pic"
-              onChange={handleInputChange2}
-              options={options}
-            />
-          </div> */}
           <div>
             <label htmlFor="safety_category">Safety Category</label>
             <Select
-              isDisabled={state.disableCountry}
+              value={
+                values.safety_category
+                  ? {
+                      value: values.safety_category,
+                      label:
+                        data.safety_categories.find(
+                          (cat) => cat.value === values.safety_category
+                        )?.label || values.safety_category,
+                    }
+                  : null
+              }
+              isDisabled={true}
               isLoading={state.loadingState}
-              // isClearable
-              // isSearchable
-              // placeholder="Safety Category"
               name="safety_category"
               options={data.safety_categories}
               onChange={(e) => {
@@ -884,9 +855,7 @@ export default function AddEventPage({}) {
                   type: POPULATE_STATE,
                   safety_category: e.value,
                 });
-                // dispatch({ type: CLEAR });
                 handleInputChange4(e);
-                setSdata(e);
               }}
             />
           </div>
@@ -920,13 +889,21 @@ export default function AddEventPage({}) {
           <div>
             <label htmlFor="behaviour_category">Behaviour category</label>
             <Select
-              // isClearable
-              // isSearchable
-              // placeholder="Behaviour category"
+              value={
+                values.behaviour_category
+                  ? {
+                      value: values.behaviour_category,
+                      label:
+                        state.statesToBeLoaded2.find(
+                          (cat) => cat.value === values.behaviour_category
+                        )?.label || values.behaviour_category,
+                    }
+                  : null
+              }
+              isDisabled={true}
               name="behaviour_category"
               options={state.statesToBeLoaded2}
               onChange={(e) => {
-                setSdata3(e);
                 handleInputChange9(e);
               }}
             />
@@ -934,9 +911,18 @@ export default function AddEventPage({}) {
           <div>
             <label htmlFor="location">Audit Area</label>
             <Select
-              defaultValue={values.location}
-              // value={values.location}
-              // onChange={setSelectedOption}
+              value={
+                values.location
+                  ? {
+                      value: values.location,
+                      label:
+                        optionsArea.find(
+                          (area) => area.value === values.location
+                        )?.label || values.location,
+                    }
+                  : null
+              }
+              isDisabled={true}
               name="location"
               id="location"
               onChange={handleInputChange3}
@@ -957,6 +943,7 @@ export default function AddEventPage({}) {
                   type="radio"
                   name="internal_3rdparty"
                   value="Internal"
+                  disabled={true}
                   checked={values.internal_3rdparty === "Internal"}
                   onChange={handleInputChange}
                   style={{
@@ -979,6 +966,7 @@ export default function AddEventPage({}) {
                   type="radio"
                   name="internal_3rdparty"
                   value="Third Party"
+                  disabled={true}
                   checked={values.internal_3rdparty === "Third Party"}
                   onChange={handleInputChange}
                   style={{
@@ -1011,6 +999,7 @@ export default function AddEventPage({}) {
             type="text"
             name="description"
             id="description"
+            disabled={true}
             placeholder="Enter audit description..."
             value={values.description}
             onChange={handleInputChange}
@@ -1018,7 +1007,7 @@ export default function AddEventPage({}) {
         </div>
         <div style={{ marginBottom: "20px" }}>
           <label htmlFor="corrective_action">
-            Tindakan yang harus dilakukan (Sementara/Rekomendasi)
+            Actions That Must be Taken (Temporary/Recommendations)
           </label>
           {values.safety_category == "Safety Inspection Positive" ||
           values.safety_category == "Safe Act" ? (
@@ -1027,7 +1016,6 @@ export default function AddEventPage({}) {
               name="corrective_action"
               id="corrective_action"
               placeholder="Enter corrective action..."
-              disabled
               value={values.corrective_action}
               onChange={handleInputChange}
             ></textarea>
@@ -1051,23 +1039,30 @@ export default function AddEventPage({}) {
           />
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <label htmlFor="corrective_status">Status</label>
+          <label htmlFor="corrective_status">Corrective Status</label>
           {values.safety_category == "Safety Inspection Positive" ||
           values.safety_category == "Safe Act" ? (
             <input
               type="text"
-              disabled
               name="corrective_status"
               id="corrective_status"
               value={values.corrective_status}
               onChange={handleInputChange6}
-            ></input>
+            />
           ) : (
             <Select
-              defaultValue={values.corrective_status}
+              value={
+                values.corrective_status
+                  ? {
+                      value: values.corrective_status,
+                      label:
+                        optionOpenClose.find(
+                          (opt) => opt.value === values.corrective_status
+                        )?.label || values.corrective_status,
+                    }
+                  : null
+              }
               onChange={handleInputChange6}
-              // value={values.corrective_status}
-              // onChange={setSelectedOption}
               name="corrective_status"
               id="corrective_status"
               options={optionOpenClose}
@@ -1083,8 +1078,8 @@ export default function AddEventPage({}) {
           />
         </div>
         <div className={styles.grid}>
-          {/* ✅ Conditional rendering - Hide photo inputs untuk Safe Act dan Safety Inspection Positive */}
-          {values.safety_category !== "Safe Act" && values.safety_category !== "Unsafe Act" &&
+          {values.safety_category !== "Safe Act" &&
+            values.safety_category !== "Unsafe Act" &&
             values.safety_category !== "Safety Inspection Positive" && (
               <>
                 <div>
@@ -1094,15 +1089,19 @@ export default function AddEventPage({}) {
                     name="photo_before"
                     id="photo_before"
                     accept="image/*"
+                    disabled={true} // Tetap disabled karena tidak bisa diubah
                     onChange={handleFileChange}
                     style={{
                       padding: "8px",
                       border: "1px solid #ddd",
                       borderRadius: "4px",
                       width: "100%",
+                      backgroundColor: "#f5f5f5", // Visual indicator bahwa disabled
+                      cursor: "not-allowed",
                     }}
                   />
-                  {values.photo_before && (
+
+                  {values.photo_before_preview && (
                     <div style={{ marginTop: "10px" }}>
                       <p
                         style={{
@@ -1111,21 +1110,52 @@ export default function AddEventPage({}) {
                           marginBottom: "5px",
                         }}
                       >
-                        Selected: {values.photo_before.name}
+                        Current photo before:
                       </p>
-                      {values.photo_before_preview && (
-                        <img
-                          src={values.photo_before_preview}
-                          alt="Photo Before Preview"
-                          style={{
-                            maxWidth: "200px",
-                            maxHeight: "150px",
-                            border: "1px solid #ddd",
-                            borderRadius: "4px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      )}
+                      <img
+                        src={values.photo_before_preview}
+                        alt="Current Photo Before"
+                        style={{
+                          maxWidth: "200px",
+                          maxHeight: "150px",
+                          border: "1px solid #ddd",
+                          borderRadius: "4px",
+                          objectFit: "cover",
+                        }}
+                        onError={(e) => {
+                          console.error(
+                            "Error loading photo before:",
+                            values.photo_before_preview
+                          );
+                          e.target.style.display = "none";
+                          // Pesan error
+                          e.target.parentNode.innerHTML = `
+                  <p style="color: red; font-size: 12px;">
+                    Unable to load photo before
+                  </p>
+                `;
+                        }}
+                        onLoad={() => {
+                          console.log(
+                            "Photo before loaded successfully:",
+                            values.photo_before_preview
+                          );
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {!values.photo_before_preview && (
+                    <div style={{ marginTop: "10px" }}>
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          color: "#999",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        No photo before available
+                      </p>
                     </div>
                   )}
                 </div>
@@ -1139,15 +1169,12 @@ export default function AddEventPage({}) {
                     name="photo_after"
                     id="photo_after"
                     accept="image/*"
-                    disabled={true}
                     onChange={handleFileChange}
                     style={{
                       padding: "8px",
                       border: "1px solid #ddd",
                       borderRadius: "4px",
                       width: "100%",
-                      backgroundColor: "#f5f5f5",
-                      cursor: "not-allowed",
                     }}
                   />
                   {values.photo_after && (
@@ -1180,9 +1207,9 @@ export default function AddEventPage({}) {
               </>
             )}
 
-          {/* ✅ Show message ketika photo upload hidden */}
           {(values.safety_category === "Safe Act" ||
-            values.safety_category === "Safety Inspection Positive") || values.safety_category === "Unsafe Act" && (
+            values.safety_category === "Unsafe Act" ||
+            values.safety_category === "Safety Inspection Positive") && (
             <div
               style={{
                 gridColumn: "1 / -1",
@@ -1199,109 +1226,6 @@ export default function AddEventPage({}) {
               </p>
             </div>
           )}
-        </div>
-        <div className={styles.grid}>
-          {/* <div>
-            <label htmlFor="corrective_action">Corrective Action</label>
-            {values.safety_category == "Safety Inspection Positive" ||
-            values.safety_category == "Safe Act" ? (
-              <textarea
-                type="text"
-                name="corrective_action"
-                id="corrective_action"
-                disabled
-                value={values.corrective_action}
-                onChange={handleInputChange}
-              ></textarea>
-            ) : (
-              <textarea
-                type="text"
-                name="corrective_action"
-                id="corrective_action"
-                value={values.corrective_action}
-                onChange={handleInputChange}
-              ></textarea>
-            )}
-          </div>
-          <div>
-            <label htmlFor="preventive_action">Preventive Action</label>
-            {values.safety_category == "Safety Inspection Positive" ||
-            values.safety_category == "Safe Act" ? (
-              <textarea
-                type="text"
-                name="preventive_action"
-                id="preventive_action"
-                disabled
-                value={values.preventive_action}
-                onChange={handleInputChange}
-              ></textarea>
-            ) : (
-              <textarea
-                type="text"
-                name="preventive_action"
-                id="preventive_action"
-                value={values.preventive_action}
-                onChange={handleInputChange}
-              ></textarea>
-            )}
-          </div> */}
-          {/* <div>
-            <label htmlFor="corrective_status">Corrective Status</label>
-            {values.safety_category == "Safety Inspection Positive" ||
-            values.safety_category == "Safe Act" ? (
-              <input
-                type="text"
-                disabled
-                name="corrective_status"
-                id="corrective_status"
-                value={values.corrective_status}
-                onChange={handleInputChange6}
-              ></input>
-            ) : (
-              <Select
-                defaultValue={values.corrective_status}
-                onChange={handleInputChange6}
-                // value={values.corrective_status}
-                // onChange={setSelectedOption}
-                name="corrective_status"
-                id="corrective_status"
-                options={optionOpenClose}
-              />
-            )}
-          </div> */}
-          {/* <div>
-            <label htmlFor="preventive_status">Preventive Status</label>
-            {values.safety_category == "Safety Inspection Positive" ||
-            values.safety_category == "Safe Act" ? (
-              <input
-                type="text"
-                disabled
-                name="preventive_status"
-                id="preventive_status"
-                value={values.preventive_status}
-                onChange={handleInputChange7}
-              ></input>
-            ) : (
-              <Select
-                defaultValue={values.preventive_status}
-                onChange={handleInputChange7}
-                // value={values.preventive_status}
-                // onChange={setSelectedOption}
-                name="preventive_status"
-                id="preventive_status"
-                options={optionOpenClose}
-              />
-            )} */}
-          {/* <Select
-              defaultValue={values.preventive_status}
-              value={values.preventive_status}
-              // onChange={setSelectedOption}
-              name="preventive_status"
-              id="preventive_status"
-              onChange={handleInputChange7}
-              options={optionOpenClose}
-            /> */}
-          {/* </div> */}
         </div>
         {loading ? (
           <CircularProgress />
