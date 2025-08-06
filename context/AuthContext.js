@@ -14,80 +14,11 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   // Helper function untuk validate identity berdasarkan NIK
-  // const validateIdentity = async (nik) => {
-  //   console.log("🔍 validateIdentity called with NIK:", nik);
-  //   console.log("🌐 API_URL3:", API_URL3);
-  //   console.log("📡 Full URL:", `${API_URL3}/api/validate-identity`);
-
-  //   try {
-  //     const res = await fetch(`${API_URL3}/api/validate-identity`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ nik }),
-  //     });
-
-  //     console.log("Response status:", res.status);
-  //     console.log("Response ok:", res.ok);
-
-  //     const data = await res.json();
-  //     console.log("Response data:", data);
-
-  //     if (res.ok) {
-  //       console.log("Saving to sessionStorage:", data);
-  //       sessionStorage.setItem("identityData", JSON.stringify(data));
-
-  //       const stored = sessionStorage.getItem("identityData");
-  //       console.log("Verification - stored data:", stored);
-
-  //       return data;
-  //     } else {
-  //       console.error("API Error:", data.message);
-  //       setError(data.message);
-  //       return null;
-  //     }
-  //   } catch (error) {
-  //     console.error("Network/Fetch Error:", error);
-  //     setError("Network error during identity validation");
-  //     return null;
-  //   }
-  // };
-
-  // // // Helper function untuk mengambil data karyawan
-  // const getIdentityData = (field = null) => {
-  //   try {
-  //     if (typeof window === 'undefined') {
-  //       console.log("getIdentityData called during SSR, returning null");
-  //       return null;
-  //     }
-
-  //     const data = sessionStorage.getItem("identityData");
-  //     if (!data) {
-  //       console.log("No identity data in sessionStorage");
-  //       return null;
-  //     }
-
-  //     const parsedData = JSON.parse(data);
-  //     console.log("Parsed identity data:", parsedData);
-
-  //     if (field) {
-  //       const fieldValue = parsedData.data?.[field] || null;
-  //       console.log(`Field '${field}':`, fieldValue);
-  //       return fieldValue;
-  //     }
-
-  //     // Return semua data
-  //     const result = parsedData.data || null;
-  //     console.log("Returning all identity data:", result);
-  //     return result;
-  //   } catch (error) {
-  //     console.error("Error parsing identity data:", error);
-  //     return null;
-  //   }
-  // };
-
   const validateIdentity = async (nik) => {
+    console.log("🔍 validateIdentity called with NIK:", nik);
+    console.log("🌐 API_URL3:", API_URL3);
+    console.log("📡 Full URL:", `${API_URL3}/api/validate-identity`);
+
     try {
       const res = await fetch(`${API_URL3}/api/validate-identity`, {
         method: "POST",
@@ -104,12 +35,11 @@ export const AuthProvider = ({ children }) => {
       console.log("Response data:", data);
 
       if (res.ok) {
-        console.log("Saving identity data to cookies only:", data);
+        console.log("Saving to sessionStorage:", data);
+        sessionStorage.setItem("identityData", JSON.stringify(data));
 
-        setCookie("identityData", JSON.stringify(data));
-
-        const stored = getCookie("identityData");
-        console.log("Verification - stored identity data in cookies:", stored);
+        const stored = sessionStorage.getItem("identityData");
+        console.log("Verification - stored data:", stored);
 
         return data;
       } else {
@@ -124,22 +54,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // // Helper function untuk mengambil data karyawan
   const getIdentityData = (field = null) => {
     try {
-      if (typeof window === "undefined") {
+      if (typeof window === 'undefined') {
         console.log("getIdentityData called during SSR, returning null");
         return null;
       }
 
-      const cookieData = getCookie("identityData");
-
-      if (!cookieData) {
-        console.log("No identity data in cookies");
+      const data = sessionStorage.getItem("identityData");
+      if (!data) {
+        console.log("No identity data in sessionStorage");
         return null;
       }
 
-      console.log("Found identity data in cookies:", cookieData);
-      const parsedData = JSON.parse(cookieData);
+      const parsedData = JSON.parse(data);
       console.log("Parsed identity data:", parsedData);
 
       if (field) {
@@ -153,10 +82,81 @@ export const AuthProvider = ({ children }) => {
       console.log("Returning all identity data:", result);
       return result;
     } catch (error) {
-      console.error("Error parsing identity data from cookies:", error);
+      console.error("Error parsing identity data:", error);
       return null;
     }
   };
+
+  // const validateIdentity = async (nik) => {
+  //   try {
+  //     const res = await fetch(`${API_URL3}/api/validate-identity`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ nik }),
+  //     });
+
+  //     console.log("Response status:", res.status);
+  //     console.log("Response ok:", res.ok);
+
+  //     const data = await res.json();
+  //     console.log("Response data:", data);
+
+  //     if (res.ok) {
+  //       console.log("Saving identity data to cookies only:", data);
+
+  //       setCookie("identityData", JSON.stringify(data));
+
+  //       const stored = getCookie("identityData");
+  //       console.log("Verification - stored identity data in cookies:", stored);
+
+  //       return data;
+  //     } else {
+  //       console.error("API Error:", data.message);
+  //       setError(data.message);
+  //       return null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Network/Fetch Error:", error);
+  //     setError("Network error during identity validation");
+  //     return null;
+  //   }
+  // };
+
+  // const getIdentityData = (field = null) => {
+  //   try {
+  //     if (typeof window === "undefined") {
+  //       console.log("getIdentityData called during SSR, returning null");
+  //       return null;
+  //     }
+
+  //     const cookieData = getCookie("identityData");
+
+  //     if (!cookieData) {
+  //       console.log("No identity data in cookies");
+  //       return null;
+  //     }
+
+  //     console.log("Found identity data in cookies:", cookieData);
+  //     const parsedData = JSON.parse(cookieData);
+  //     console.log("Parsed identity data:", parsedData);
+
+  //     if (field) {
+  //       const fieldValue = parsedData.data?.[field] || null;
+  //       console.log(`Field '${field}':`, fieldValue);
+  //       return fieldValue;
+  //     }
+
+  //     // Return semua data
+  //     const result = parsedData.data || null;
+  //     console.log("Returning all identity data:", result);
+  //     return result;
+  //   } catch (error) {
+  //     console.error("Error parsing identity data from cookies:", error);
+  //     return null;
+  //   }
+  // };
 
   const forgotPassword = async (email) => {
     const res = await fetch(`${API_URL2}/api/forgot-password`, {
