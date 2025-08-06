@@ -430,24 +430,131 @@ export default function AddEventPage({ token }) {
     const { name } = e.target;
     const file = e.target.files[0];
 
-    console.log(`File selected for ${name}:`, file);
-
     if (file) {
-      // Create preview URL
       const previewUrl = URL.createObjectURL(file);
 
-      setValues({
-        ...values,
+      // ✅ Gunakan functional update agar state selalu fresh
+      setValues((prevValues) => ({
+        ...prevValues,
         [name]: file,
-        [`${name}_preview`]: previewUrl, // Tambahkan preview URL
-      });
+        [`${name}_preview`]: previewUrl,
+      }));
     }
   };
 
+  useEffect(() => {
+    async function fetchAuditGMPData() {
+      const { id } = router.query;
+
+      if (!id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        console.log("Fetching Audit GMP data for ID:", id);
+        const res = await fetch(`http://localhost:3030/api/audit-gmp/${id}`);
+
+        if (!res.ok) {
+          console.error("Failed to fetch:", res.status, res.statusText);
+          toast.error("Failed to load data");
+          setLoading(false);
+          return;
+        }
+
+        const response = await res.json();
+        console.log("API response:", response);
+
+        const data = response.data || response;
+        console.log("Fetched data:", data);
+
+        const constructImageURL = (filename) => {
+          if (!filename) return null;
+          if (filename.startsWith("http")) return filename;
+          return `http://localhost:3030/uploads/audit-behaviour/${filename}`;
+        };
+
+        let dueDateClose;
+        if (data.due_date_of_close && data.due_date_of_close !== null) {
+          // Jika sudah ada di database, gunakan yang existing
+          dueDateClose = data.due_date_of_close.split("T")[0];
+          console.log("Using existing due_date_of_close:", dueDateClose);
+        } else {
+          // Jika null/kosong, set ke current date
+          dueDateClose = moment().format("YYYY-MM-DD");
+          console.log(
+            "Auto-set due_date_of_close to current date:",
+            dueDateClose
+          );
+        }
+
+        setValues((prevValues) => ({
+          ...prevValues,
+          date_of_audit: data.date_of_audit
+            ? data.date_of_audit.split("T")[0]
+            : "",
+          due_date_of_close: dueDateClose,
+          pic: data.pic || "",
+          gmp_category: data.gmp_category || "",
+          grading_finding: data.grading_finding || null,
+          internal_3rdparty: data.internal_3rdparty || "",
+          gmp_subcategory: data.gmp_subcategory || "",
+          location: data.location || "",
+          description: data.description || "",
+          corrective_action: data.corrective_action || "",
+          preventive_action: data.preventive_action || "",
+          corrective_status: data.corrective_status || "",
+          preventive_status: data.preventive_status || "",
+          finding_audit_status: data.finding_audit_status || "",
+          department_area: data.department_area || "",
+
+          photo_before: data.photo_before
+            ? constructImageURL(data.photo_before)
+            : null,
+          photo_before_preview: data.photo_before
+            ? constructImageURL(data.photo_before)
+            : null,
+
+          // ✅ FIX: Tambah photo_after yang missing
+          photo_after: data.photo_after
+            ? constructImageURL(data.photo_after)
+            : null,
+          photo_after_preview: data.photo_after
+            ? constructImageURL(data.photo_after)
+            : null,
+        }));
+
+        // if (data.safety_category) {
+        //   dispatch({
+        //     type: POPULATE_STATE,
+        //     safety_category: data.safety_category,
+        //   });
+        // }
+
+        // if (data.safety_category) {
+        //   dispatch({
+        //     type: POPULATE_STATE,
+        //     safety_category: data.safety_category,
+        //   });
+        // }
+      } catch (error) {
+        console.error("Error fetching Audit GMP data:", error);
+      }
+    }
+    fetchAuditGMPData();
+  }, [router.query.id]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(values);
     // Validation
+
+    const { id } = router.query;
+
+    if (!id) {
+      toast.error("ID not found in query parameters");
+      return;
+    }
+
     const hasEmptyFields = Object.values(values).some(
       (element) => element === ""
     );
@@ -498,8 +605,16 @@ export default function AddEventPage({ token }) {
         }
       });
 
-      const res = await fetch(`http://localhost:3030/api/audit-gmp`, {
-        method: "POST",
+      console.log("=== ISI FORMDATA ===");
+      for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(`${key}: FILE - ${value.name} (${value.size} bytes)`);
+        } else {
+          console.log(`${key}: ${value}`);
+        }
+      }
+      const res = await fetch(`http://localhost:3030/api/audit-gmp/${id}`, {
+        method: "PUT",
         headers: {
           // "Content-Type": "application/json",
           // Authorization: `Bearer ${token}`,
@@ -715,6 +830,7 @@ export default function AddEventPage({ token }) {
               type="date"
               name="date_of_audit"
               id="date_of_audit"
+              disabled={true}
               min={tanggalSiji}
               max={today}
               value={values.date_of_audit}
@@ -753,11 +869,20 @@ export default function AddEventPage({ token }) {
           <div>
             <label htmlFor="gmp_category">GMP Category</label>
             <Select
-              isDisabled={state.disableCountry}
+              // ✅ Add value prop untuk show selected value
+              value={
+                values.gmp_category
+                  ? {
+                      value: values.gmp_category,
+                      label:
+                        data.safety_categories.find(
+                          (cat) => cat.value === values.gmp_category
+                        )?.label || values.gmp_category,
+                    }
+                  : null
+              }
+              isDisabled={true}
               isLoading={state.loadingState}
-              // isClearable
-              // isSearchable
-              // placeholder="Safety Category"
               name="gmp_category"
               options={data.safety_categories}
               onChange={(e) => {
@@ -765,7 +890,6 @@ export default function AddEventPage({ token }) {
                   type: POPULATE_STATE,
                   gmp_category: e.value,
                 });
-                // dispatch({ type: CLEAR });
                 handleInputChange4(e);
                 setSdata(e);
               }}
@@ -801,9 +925,19 @@ export default function AddEventPage({ token }) {
           <div>
             <label htmlFor="gmp_subcategory">GMP Sub-category</label>
             <Select
-              // isClearable
-              // isSearchable
-              // placeholder="Behaviour category"
+              // ✅ Add value prop untuk show selected value
+              value={
+                values.gmp_subcategory
+                  ? {
+                      value: values.gmp_subcategory,
+                      label:
+                        state.statesToBeLoaded2.find(
+                          (sub) => sub.value === values.gmp_subcategory
+                        )?.label || values.gmp_subcategory,
+                    }
+                  : null
+              }
+              isDisabled={true}
               name="gmp_subcategory"
               options={state.statesToBeLoaded2}
               onChange={(e) => {
@@ -815,13 +949,23 @@ export default function AddEventPage({ token }) {
           <div>
             <label htmlFor="location">Audit Area</label>
             <Select
-              defaultValue={values.location}
-              // value={values.location}
-              // onChange={setSelectedOption}
+              // ✅ Use value instead of defaultValue
+              value={
+                values.location
+                  ? {
+                      value: values.location,
+                      label:
+                        optionsArea.find(
+                          (area) => area.value === values.location
+                        )?.label || values.location,
+                    }
+                  : null
+              }
               name="location"
               id="location"
               onChange={handleInputChange3}
               options={optionsArea}
+              isDisabled={true}
             />
           </div>
           <div>
@@ -838,6 +982,7 @@ export default function AddEventPage({ token }) {
                   type="radio"
                   name="internal_3rdparty"
                   value="Internal"
+                  disabled={true}
                   checked={values.internal_3rdparty === "Internal"}
                   onChange={handleInputChange}
                   style={{
@@ -860,6 +1005,7 @@ export default function AddEventPage({ token }) {
                   type="radio"
                   name="internal_3rdparty"
                   value="Third Party"
+                  disabled={true}
                   checked={values.internal_3rdparty === "Third Party"}
                   onChange={handleInputChange}
                   style={{
@@ -881,6 +1027,7 @@ export default function AddEventPage({ token }) {
             type="text"
             name="description"
             id="description"
+            disabled={true}
             value={values.description}
             onChange={handleInputChange}
           ></textarea>
@@ -930,13 +1077,22 @@ export default function AddEventPage({ token }) {
               id="corrective_status"
               value={values.corrective_status}
               onChange={handleInputChange6}
-            ></input>
+            />
           ) : (
             <Select
-              defaultValue={values.corrective_status}
+              // ✅ Use value instead of defaultValue
+              value={
+                values.corrective_status
+                  ? {
+                      value: values.corrective_status,
+                      label:
+                        optionOpenClose.find(
+                          (opt) => opt.value === values.corrective_status
+                        )?.label || values.corrective_status,
+                    }
+                  : null
+              }
               onChange={handleInputChange6}
-              // value={values.corrective_status}
-              // onChange={setSelectedOption}
               name="corrective_status"
               id="corrective_status"
               options={optionOpenClose}
@@ -952,124 +1108,126 @@ export default function AddEventPage({ token }) {
           />
         </div>
         <div className={styles.grid}>
-          {/* ✅ Conditional rendering - Hide photo inputs untuk Safe Act dan Safety Inspection Positive */}
-          {values.safety_category !== "Safe Act" &&
-            values.safety_category !== "Unsafe Act" &&
-            values.safety_category !== "Safety Inspection Positive" && (
-              <>
-                <div>
-                  <label htmlFor="photo_before">Photo Before (Evidence)</label>
-                  <input
-                    type="file"
-                    name="photo_before"
-                    id="photo_before"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    style={{
-                      padding: "8px",
-                      border: "1px solid #ddd",
-                      borderRadius: "4px",
-                      width: "100%",
-                    }}
-                  />
-                  {values.photo_before && (
-                    <div style={{ marginTop: "10px" }}>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "#666",
-                          marginBottom: "5px",
-                        }}
-                      >
-                        Selected: {values.photo_before.name}
-                      </p>
-                      {values.photo_before_preview && (
-                        <img
-                          src={values.photo_before_preview}
-                          alt="Photo Before Preview"
-                          style={{
-                            maxWidth: "200px",
-                            maxHeight: "150px",
-                            border: "1px solid #ddd",
-                            borderRadius: "4px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      )}
-                    </div>
-                  )}
-                </div>
+          <div>
+            <label htmlFor="photo_before">Photo Before (Evidence)</label>
+            <input
+              type="file"
+              name="photo_before"
+              id="photo_before"
+              accept="image/*"
+              disabled={false} // Tetap disabled karena tidak bisa diubah
+              onChange={handleFileChange}
+              style={{
+                padding: "8px",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                width: "100%",
+                backgroundColor: "#f5f5f5", // Visual indicator bahwa disabled
+                cursor: "not-allowed",
+              }}
+            />
 
-                <div>
-                  <label htmlFor="photo_after">
-                    Photo After (Corrective Action)
-                  </label>
-                  <input
-                    type="file"
-                    name="photo_after"
-                    id="photo_after"
-                    accept="image/*"
-                    disabled={true}
-                    onChange={handleFileChange}
-                    style={{
-                      padding: "8px",
-                      border: "1px solid #ddd",
-                      borderRadius: "4px",
-                      width: "100%",
-                      backgroundColor: "#f5f5f5",
-                      cursor: "not-allowed",
-                    }}
-                  />
-                  {values.photo_after && (
-                    <div style={{ marginTop: "10px" }}>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "#666",
-                          marginBottom: "5px",
-                        }}
-                      >
-                        Selected: {values.photo_after.name}
-                      </p>
-                      {values.photo_after_preview && (
-                        <img
-                          src={values.photo_after_preview}
-                          alt="Photo After Preview"
-                          style={{
-                            maxWidth: "200px",
-                            maxHeight: "150px",
-                            border: "1px solid #ddd",
-                            borderRadius: "4px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      )}
-                    </div>
-                  )}
-                </div>
-              </>
+            {values.photo_before_preview && (
+              <div style={{ marginTop: "10px" }}>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "#666",
+                    marginBottom: "5px",
+                  }}
+                >
+                  Current photo before:
+                </p>
+                <img
+                  src={values.photo_before_preview}
+                  alt="Current Photo Before"
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "150px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    objectFit: "cover",
+                  }}
+                  onError={(e) => {
+                    console.error(
+                      "Error loading photo before:",
+                      values.photo_before_preview
+                    );
+                    e.target.style.display = "none";
+                    // Pesan error
+                    e.target.parentNode.innerHTML = `
+                  <p style="color: red; font-size: 12px;">
+                    Unable to load photo before
+                  </p>
+                `;
+                  }}
+                  onLoad={() => {
+                    console.log(
+                      "Photo before loaded successfully:",
+                      values.photo_before_preview
+                    );
+                  }}
+                />
+              </div>
             )}
 
-          {/* ✅ Show message ketika photo upload hidden */}
-          {values.safety_category === "Safe Act" ||
-            values.safety_category === "Safety Inspection Positive" ||
-            (values.safety_category === "Unsafe Act" && (
-              <div
-                style={{
-                  gridColumn: "1 / -1",
-                  textAlign: "center",
-                  padding: "20px",
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #dee2e6",
-                  borderRadius: "4px",
-                  color: "#6c757d",
-                }}
-              >
-                <p style={{ margin: 0, fontStyle: "italic" }}>
-                  📸 Photo uploads are not required
+            {!values.photo_before_preview && (
+              <div style={{ marginTop: "10px" }}>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "#999",
+                    fontStyle: "italic",
+                  }}
+                >
+                  No photo before available
                 </p>
               </div>
-            ))}
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="photo_after">Photo After (Corrective Action)</label>
+            <input
+              type="file"
+              name="photo_after"
+              id="photo_after"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{
+                padding: "8px",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                width: "100%",
+              }}
+            />
+            {values.photo_after && (
+              <div style={{ marginTop: "10px" }}>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "#666",
+                    marginBottom: "5px",
+                  }}
+                >
+                  Selected: {values.photo_after.name}
+                </p>
+                {values.photo_after_preview && (
+                  <img
+                    src={values.photo_after_preview}
+                    alt="Photo After Preview"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "150px",
+                      border: "1px solid #ddd",
+                      borderRadius: "4px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
+              </div>
+            )}
+          </div>
         </div>
         {loading ? (
           <CircularProgress />
