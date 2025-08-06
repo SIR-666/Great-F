@@ -25,6 +25,7 @@ import AuthContext from "@/context/AuthContext";
 import { useRouter } from "next/router";
 import { WhatsappShareButton, WhatsappIcon } from "next-share";
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
+import { ImageCell } from "@/utils/imageHelpers";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -145,15 +146,39 @@ export default function DisableFieldEditable({ evt, token }) {
       field: "gmp_subcategory",
       editable: "never",
     },
-    {
-      title: "Potential Hazard",
-      field: "grading_finding",
-      editable: "never",
-    },
+    // {
+    //   title: "Potential Hazard",
+    //   field: "grading_finding",
+    //   editable: "never",
+    // },
     {
       title: "Description",
       field: "description",
       editable: "onUpdate",
+    },
+    {
+      title: "Photo Before",
+      field: "photo_before",
+      editable: "never",
+      render: (rowData) => (
+        <ImageCell filename={rowData.photo_before} altText="Photo Before" />
+      ),
+      cellStyle: {
+        width: "80px",
+        textAlign: "center",
+      },
+    },
+    {
+      title: "Photo After",
+      field: "photo_after",
+      editable: "never",
+      render: (rowData) => (
+        <ImageCell filename={rowData.photo_after} altText="Photo After" />
+      ),
+      cellStyle: {
+        width: "80px",
+        textAlign: "center",
+      },
     },
     {
       title: "Corrective Action",
@@ -248,6 +273,22 @@ export default function DisableFieldEditable({ evt, token }) {
       {evt.length === 0 && <h3>No data to show</h3>}
       <MaterialTable
         title="Audit GMP"
+        actions={[
+          {
+            icon: tableIcons.Edit,
+            tooltip: "Edit Record",
+            onClick: (event, rowData) => {
+              console.log("Edit rowData:", rowData);
+              router.push(`/gmp/edit?id=${rowData.ID}`);
+            },
+          },
+          {
+            icon: tableIcons.Add,
+            tooltip: "Add User",
+            isFreeAction: true,
+            onClick: (event) => alert("You want to add a new row"),
+          },
+        ]}
         // actions={[
         //   {
         //     icon: tableIcons.Delete,
@@ -265,39 +306,39 @@ export default function DisableFieldEditable({ evt, token }) {
         icons={tableIcons}
         columns={columns}
         data={data}
-        editable={{
-          // onRowAdd: (newData) =>
-          //   new Promise((resolve, reject) => {
-          //     setTimeout(() => {
-          //       setData([...data, newData]);
-          //       resolve();
-          //     }, 1000);
-          //   }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                const dataUpdate = [...data];
-                const index = oldData.tableData.id;
-                // console.log("id ", index); //ID OF ARRAY
-                dataUpdate[index] = newData;
-                // console.log("newData ID ", newData.ID); //ID database
-                // console.log("newData ", newData); //data baru database
-                setData([...dataUpdate]);
-                postData(newData.ID, newData);
-                resolve();
-              }, 1000);
-            }),
-          // onRowDelete: (oldData) =>
-          //   new Promise((resolve, reject) => {
-          //     setTimeout(() => {
-          //       const dataDelete = [...data];
-          //       const index = oldData.tableData.id;
-          //       dataDelete.splice(index, 1);
-          //       setData([...dataDelete]);
-          //       resolve();
-          //     }, 1000);
-          //   }),
-        }}
+        editable={{}}
+        // onRowAdd: (newData) =>
+        //   new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       setData([...data, newData]);
+        //       resolve();
+        //     }, 1000);
+        //   }),
+        // onRowUpdate: (newData, oldData) =>
+        //   new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       const dataUpdate = [...data];
+        //       const index = oldData.tableData.id;
+        //       // console.log("id ", index); //ID OF ARRAY
+        //       dataUpdate[index] = newData;
+        //       // console.log("newData ID ", newData.ID); //ID database
+        //       // console.log("newData ", newData); //data baru database
+        //       setData([...dataUpdate]);
+        //       postData(newData.ID, newData);
+        //       resolve();
+        //     }, 1000);
+        //   }),
+        // onRowDelete: (oldData) =>
+        //   new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       const dataDelete = [...data];
+        //       const index = oldData.tableData.id;
+        //       dataDelete.splice(index, 1);
+        //       setData([...dataDelete]);
+        //       resolve();
+        //     }, 1000);
+        //   }),
+        // }}
         options={{
           headerStyle: {
             backgroundColor: "#57d450",
@@ -346,17 +387,53 @@ export default function DisableFieldEditable({ evt, token }) {
 }
 
 export async function getServerSideProps() {
-  // const { token } = parseCookies(req);
+  try {
+    const res = await fetch(`http://localhost:3030/api/audit-gmps`);
+    const response = await res.json();
 
-  // const res = await fetch(`${API_URL}/events/${id}`);
-  // http://10.24.7.70:8080/auditbhvy/2022
-  const res = await fetch(`http://10.24.7.70:8080/getGMP/2022`);
-  const evt = await res.json();
+    // Cek struktur response dan extract data
+    let evt;
+    if (response.success && Array.isArray(response.data)) {
+      // API 2 structure: { success: true, data: [...] }
+      evt = response.data;
+    } else if (Array.isArray(response)) {
+      // API 1 structure: [...]
+      evt = response;
+    } else {
+      // Fallback jika struktur tidak dikenali
+      console.error("Unknown API response structure:", response);
+      evt = [];
+    }
 
-  return {
-    props: {
-      evt,
-      // token,
-    },
-  };
+    console.log("Processed data for MaterialTable:", evt);
+
+    return {
+      props: {
+        evt,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching audit behaviours:", error);
+    return {
+      props: {
+        evt: [], // Return empty array jika ada error
+      },
+    };
+  }
 }
+
+// export async function getServerSideProps() {
+//   // const { token } = parseCookies(req);
+
+//   // const res = await fetch(`${API_URL}/events/${id}`);
+//   // http://10.24.7.70:8080/auditbhvy/2022
+//   const res = await fetch(`http://10.24.7.70:8080/getGMP/2022`);
+//   const evt = await res.json();
+
+//   return {
+//     props: {
+//       evt,
+//       // token,
+//     },
+//   };
+// }
