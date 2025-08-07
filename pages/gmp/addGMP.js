@@ -498,7 +498,7 @@ export default function AddEventPage({ token }) {
         }
       });
 
-      const res = await fetch(`http://localhost:3030/api/audit-gmp`, {
+      const res = await fetch(`http://10.24.0.155:3030/api/audit-gmp`, {
         method: "POST",
         headers: {
           // "Content-Type": "application/json",

@@ -453,7 +453,7 @@ export default function AddEventPage({ token }) {
 
       try {
         console.log("Fetching Audit GMP data for ID:", id);
-        const res = await fetch(`http://localhost:3030/api/audit-gmp/${id}`);
+        const res = await fetch(`http://10.24.0.155:3030/api/audit-gmp/${id}`);
 
         if (!res.ok) {
           console.error("Failed to fetch:", res.status, res.statusText);
@@ -471,7 +471,7 @@ export default function AddEventPage({ token }) {
         const constructImageURL = (filename) => {
           if (!filename) return null;
           if (filename.startsWith("http")) return filename;
-          return `http://localhost:3030/uploads/audit-behaviour/${filename}`;
+          return `http://10.24.0.155:3030/uploads/audit-behaviour/${filename}`;
         };
 
         let dueDateClose;
@@ -613,7 +613,7 @@ export default function AddEventPage({ token }) {
           console.log(`${key}: ${value}`);
         }
       }
-      const res = await fetch(`http://localhost:3030/api/audit-gmp/${id}`, {
+      const res = await fetch(`http://10.24.0.155:3030/api/audit-gmp/${id}`, {
         method: "PUT",
         headers: {
           // "Content-Type": "application/json",

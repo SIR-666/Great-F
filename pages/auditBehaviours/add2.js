@@ -531,11 +531,25 @@ export default function AddEventPage({}) {
       // Create preview URL
       const previewUrl = URL.createObjectURL(file);
 
-      setValues({
+      const updatedValues = {
         ...values,
         [name]: file,
         [`${name}_preview`]: previewUrl, // Tambahkan preview URL
-      });
+      };
+
+      if (
+        name === "photo_after" ||
+        (name === "photo_before" && values.photo_after)
+      ) {
+        updatedValues.corrective_status = "Close";
+        updatedValues.preventive_status = "Close";
+        updatedValues.finding_audit_status = "Close";
+      } else if (name === "photo_before" && !values.photo_after) {
+        // Jika hanya photo_before yang ada, belum auto-close
+        // Biarkan user tetap bisa pilih status
+      }
+
+      setValues(updatedValues);
     }
   };
 
@@ -1053,24 +1067,55 @@ export default function AddEventPage({}) {
         <div style={{ marginBottom: "20px" }}>
           <label htmlFor="corrective_status">Status</label>
           {values.safety_category == "Safety Inspection Positive" ||
-          values.safety_category == "Safe Act" ? (
-            <input
-              type="text"
-              disabled
-              name="corrective_status"
-              id="corrective_status"
-              value={values.corrective_status}
-              onChange={handleInputChange6}
-            ></input>
+          values.safety_category == "Safe Act" ||
+          (values.photo_before && values.photo_after) ? (
+            <>
+              <input
+                type="text"
+                disabled
+                name="corrective_status"
+                id="corrective_status"
+                value={values.corrective_status}
+                onChange={handleInputChange6}
+                style={{
+                  padding: "8px 12px",
+                  border: "2px solid #e9ecef",
+                  borderRadius: "6px",
+                  backgroundColor: "#f8f9fa",
+                  color: "#495057",
+                  cursor: "not-allowed",
+                  fontWeight: "500",
+                  width: "100%",
+                }}
+              />
+              {values.photo_before && values.photo_after && (
+                <small
+                  style={{
+                    color: "#28a745",
+                    fontStyle: "italic",
+                    display: "block",
+                    marginTop: "4px",
+                  }}
+                >
+                  ✅ Auto-close: Kedua foto evidence telah diupload
+                </small>
+              )}
+            </>
           ) : (
             <Select
-              defaultValue={values.corrective_status}
+              value={
+                values.corrective_status
+                  ? {
+                      value: values.corrective_status,
+                      label: values.corrective_status,
+                    }
+                  : null
+              }
               onChange={handleInputChange6}
-              // value={values.corrective_status}
-              // onChange={setSelectedOption}
               name="corrective_status"
               id="corrective_status"
               options={optionOpenClose}
+              placeholder="Select Status"
             />
           )}
         </div>
@@ -1084,7 +1129,8 @@ export default function AddEventPage({}) {
         </div>
         <div className={styles.grid}>
           {/* ✅ Conditional rendering - Hide photo inputs untuk Safe Act dan Safety Inspection Positive */}
-          {values.safety_category !== "Safe Act" && values.safety_category !== "Unsafe Act" &&
+          {values.safety_category !== "Safe Act" &&
+            values.safety_category !== "Unsafe Act" &&
             values.safety_category !== "Safety Inspection Positive" && (
               <>
                 <div>
@@ -1132,24 +1178,56 @@ export default function AddEventPage({}) {
 
                 <div>
                   <label htmlFor="photo_after">
-                    Photo After (Corrective Action)
+                    Photo After (Evidence)
+                    {/* ✅ Show indicator jika photo_before belum ada */}
+                    {!values.photo_before && (
+                      <span
+                        style={{
+                          color: "#999",
+                          fontSize: "12px",
+                          fontStyle: "italic",
+                        }}
+                      ></span>
+                    )}
                   </label>
                   <input
                     type="file"
                     name="photo_after"
                     id="photo_after"
                     accept="image/*"
-                    disabled={true}
+                    disabled={!values.photo_before} // ✅ Disable jika photo_before belum ada
                     onChange={handleFileChange}
                     style={{
                       padding: "8px",
                       border: "1px solid #ddd",
                       borderRadius: "4px",
                       width: "100%",
-                      backgroundColor: "#f5f5f5",
-                      cursor: "not-allowed",
+                      backgroundColor: !values.photo_before
+                        ? "#f5f5f5"
+                        : "white", // ✅ Visual indicator
+                      cursor: !values.photo_before ? "not-allowed" : "pointer",
+                      opacity: !values.photo_before ? 0.6 : 1,
                     }}
                   />
+
+                  {/* ✅ Show message jika photo_before belum ada */}
+                  {!values.photo_before && (
+                    <div style={{ marginTop: "10px" }}>
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          color: "#ff6b6b",
+                          fontStyle: "italic",
+                          margin: 0,
+                        }}
+                      >
+                        ⚠️ Mohon upload Photo Before terlebih dahulu sebelum
+                        mengupload Photo After.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* ✅ Show preview jika photo_after sudah ada */}
                   {values.photo_after && (
                     <div style={{ marginTop: "10px" }}>
                       <p
@@ -1182,7 +1260,8 @@ export default function AddEventPage({}) {
 
           {/* ✅ Show message ketika photo upload hidden */}
           {(values.safety_category === "Safe Act" ||
-            values.safety_category === "Safety Inspection Positive") || values.safety_category === "Unsafe Act" && (
+            values.safety_category === "Safety Inspection Positive" ||
+            values.safety_category === "Unsafe Act") && (
             <div
               style={{
                 gridColumn: "1 / -1",
@@ -1195,7 +1274,7 @@ export default function AddEventPage({}) {
               }}
             >
               <p style={{ margin: 0, fontStyle: "italic" }}>
-                📸 Photo uploads are not required
+                📸 Photo uploads are not required for this category
               </p>
             </div>
           )}

@@ -388,7 +388,7 @@ export default function DisableFieldEditable({ evt, token }) {
 
 export async function getServerSideProps() {
   try {
-    const res = await fetch(`http://localhost:3030/api/audit-gmps`);
+    const res = await fetch(`http://10.24.0.155:3030/api/audit-gmps`);
     const response = await res.json();
 
     // Cek struktur response dan extract data
