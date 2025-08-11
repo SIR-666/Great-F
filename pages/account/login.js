@@ -12,17 +12,37 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [nik, setNik] = useState("");
 
-  const { login, error } = useContext(AuthContext);
+  const { login, error, setError } = useContext(AuthContext);
+  const [localNikError, setLocalNikError] = useState(null);
 
   useEffect(() => {
-    error && toast.error(error.message);
-    // error && console.log("status: ", error.message);
-  });
+    if (error) {
+      if (typeof error === "string") {
+        toast.error(error);
+      } else if (error && error.message) {
+        toast.error(error.message);
+      }
+      // Reset error agar toast bisa muncul lagi jika error sama terjadi
+      if (typeof error !== "undefined" && error !== null) {
+        // Panggil setError dari context jika tersedia
+        if (typeof setError === "function") setError(null);
+      }
+    }
+    if (localNikError) {
+      toast.error(localNikError);
+      setLocalNikError(null);
+    }
+  }, [error, localNikError]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login({ nik, email, password });
-    // login({ email, password });
+    // Cek NIK dulu sebelum login
+    if (!nik) {
+      setLocalNikError("NIK wajib diisi");
+      return;
+    }
+    // Panggil login, jika validateIdentity gagal, error akan di-set di context
+    await login({ nik, email, password });
   };
 
   return (
@@ -38,6 +58,7 @@ export default function LoginPage() {
             <input
               type="text"
               id="nik"
+              required
               value={nik}
               onChange={(e) => setNik(e.target.value)}
             />
