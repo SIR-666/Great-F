@@ -247,6 +247,8 @@ export const AuthProvider = ({ children }) => {
       }
     } else {
       console.log("No NIK provided, skipping identity validation");
+      setError("No NIK provided, skipping identity validation");
+      return null;
     }
 
     console.log("Proceeding with login API call...");
