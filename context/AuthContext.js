@@ -15,11 +15,10 @@ export const AuthProvider = ({ children }) => {
 
   // Helper function untuk validate identity berdasarkan NIK
   const validateIdentity = async (nik) => {
-    
     console.log("🔍 validateIdentity called with NIK:", nik);
     console.log("🌐 API_URL3:", API_URL3);
     console.log("📡 Full URL:", `${API_URL3}/api/validate-identity`);
-    
+
     try {
       const res = await fetch(`${API_URL3}/api/validate-identity`, {
         method: "POST",
@@ -34,8 +33,6 @@ export const AuthProvider = ({ children }) => {
 
       const data = await res.json();
       console.log("Response data:", data);
-
-    
 
       if (res.ok) {
         console.log("Saving to sessionStorage:", data);
@@ -250,8 +247,6 @@ export const AuthProvider = ({ children }) => {
       }
     } else {
       console.log("No NIK provided, skipping identity validation");
-      setError("No NIK provided, skipping identity validation");
-      return null;
     }
 
     console.log("Proceeding with login API call...");
