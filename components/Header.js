@@ -6,6 +6,7 @@ import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/Header.module.css";
 import Image from "next/image";
 import Grid from "@mui/material/Grid";
+import CryptoJS from "crypto-js";
 
 // Material-UI imports
 import AppBar from "@mui/material/AppBar";
@@ -17,15 +18,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-
-const navItemsDesktop = [
-  { label: "greenTAG", path: "/greentag" },
-  { label: "Room Reservation", path: "/reservation" },
-  { label: "Audit Behaviour", path: "/auditBehaviours/add2" },
-  { label: "Add GMP", path: "/gmp/addGMP" },
-  { label: "PSG Initiaton", path: "/psg" },
-  // Add more items as needed
-];
 
 //all user login
 const navItemsLogin = [
@@ -158,6 +150,34 @@ export default function Header() {
     setMobileOpen(false);
   };
 
+  const handleHRGARedirect = () => {
+    if (!user) {
+      alert("User belum login!");
+      return;
+    }
+    const payload = JSON.stringify({
+      username: user.username,
+      email: user.email,
+      role: user.role?.id || "",
+    });
+    const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // Ganti dengan key yang aman
+    const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
+    const targetUrl = `http://10.24.0.81:3000/?id=${encodeURIComponent(
+      encrypted
+    )}`;
+    window.location.href = targetUrl;
+  };
+
+  const navItemsDesktop = [
+    { label: "greenTAG", path: "/greentag" },
+    { label: "Room Reservation", path: "/reservation" },
+    { label: "Audit Behaviour", path: "/auditBehaviours/add2" },
+    { label: "Add GMP", path: "/gmp/addGMP" },
+    { label: "PSG Initiaton", path: "/psg" },
+    { label: "HRGA", onClick: handleHRGARedirect },
+    // Add more items as needed
+  ];
+
   const drawer = (
     <List>
       {user &&
@@ -252,11 +272,20 @@ export default function Header() {
             {user &&
               navItemsDesktop.map((item) => (
                 <ListItem key={item.label} disablePadding>
-                  <Link href={item.path} passHref>
-                    <ListItemButton sx={{ textAlign: "center" }}>
+                  {item.onClick ? (
+                    <ListItemButton
+                      sx={{ textAlign: "center" }}
+                      onClick={item.onClick}
+                    >
                       <ListItemText primary={item.label} />
                     </ListItemButton>
-                  </Link>
+                  ) : (
+                    <Link href={item.path} passHref>
+                      <ListItemButton sx={{ textAlign: "center" }}>
+                        <ListItemText primary={item.label} />
+                      </ListItemButton>
+                    </Link>
+                  )}
                 </ListItem>
               ))}
             {!user && (
