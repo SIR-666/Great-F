@@ -106,7 +106,10 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         console.log("Saving identity data to cookies only:", data);
 
-        setCookie("identityData", JSON.stringify(data));
+        setCookie("identityData", JSON.stringify(data), {
+          maxAge: 60 * 60 * 24 * 30, // 30 hari
+          path: "/",
+        });
 
         const stored = getCookie("identityData");
         console.log("Verification - stored identity data in cookies:", stored);
