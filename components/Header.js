@@ -7,6 +7,7 @@ import styles from "@/styles/Header.module.css";
 import Image from "next/image";
 import Grid from "@mui/material/Grid";
 import CryptoJS from "crypto-js";
+import { getCookie } from "cookies-next";
 
 // Material-UI imports
 import AppBar from "@mui/material/AppBar";
@@ -155,10 +156,23 @@ export default function Header() {
       alert("User belum login!");
       return;
     }
+
+    let identityData = null;
+
+    try {
+      const cookieData = getCookie("identityData");
+      if (cookieData) {
+        identityData = JSON.parse(cookieData).data || null;
+      }
+    } catch (e) {
+      identityData = null;
+    }
+
     const payload = JSON.stringify({
       username: user.username,
       email: user.email,
       role: user.role?.id || "",
+      ...identityData,
     });
     const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // Ganti dengan key yang aman
     const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
