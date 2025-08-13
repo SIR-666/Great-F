@@ -464,7 +464,7 @@ export default function AddEventPage({}) {
 
         setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch audit behaviour data:", err);
+        console.error("Failed to fetch Audit Behavior data:", err);
         toast.error("Error loading data");
         setLoading(false);
       }
@@ -1232,7 +1232,7 @@ export default function AddEventPage({}) {
         ) : (
           <input
             type="submit"
-            value="Add Audit Behaviour"
+            value="Add Audit Behavior"
             className="btn"
             disabled={loading}
           />

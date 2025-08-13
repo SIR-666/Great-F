@@ -1387,7 +1387,7 @@ export default function AddEventPage({}) {
         ) : (
           <input
             type="submit"
-            value="Add Audit Behaviour"
+            value="Add Audit Behavior"
             className="btn"
             disabled={loading}
           />

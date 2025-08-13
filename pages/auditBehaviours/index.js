@@ -183,10 +183,10 @@ export default function DisableFieldEditable({ evt }) {
   const data = useMemo(() => (Array.isArray(evt) ? evt : []), [evt]);
 
   return (
-    <Layout title="Audit Behaviour">
+    <Layout title="Audit Behavior">
       {/* Title hanya muncul di HP */}
             <h2 style={{ fontSize: isMobile ? 25 : 20, fontWeight: 700, textAlign: "center", color: "#334155" }} className={Styles.auditmobile}>
-              Audit Behaviour
+              Audit Behavior
             </h2>
       <ThemeProvider theme={theme}>
         <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden" }}>
@@ -196,7 +196,7 @@ export default function DisableFieldEditable({ evt }) {
                 style={{ fontSize: isMobile ? 16 : 36, fontWeight: 700, color: "#334155" }} 
                 className={Styles.desktopMenu}
               >
-                Audit Behaviour
+                Audit Behavior
               </span>
             }
             icons={tableIcons}
@@ -369,7 +369,7 @@ export async function getServerSideProps() {
 
     return { props: { evt } };
   } catch (error) {
-    console.error("Error fetching audit behaviours:", error);
+    console.error("Error fetching Audit Behaviors:", error);
     return { props: { evt: [] } };
   }
 }

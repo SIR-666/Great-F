@@ -243,7 +243,7 @@ export default function DisableFieldEditable({ evt, token }) {
   // }, []);
 
   return (
-    <Layout title="Audit Behaviour">
+    <Layout title="Audit Behavior">
       {evt.length === 0 && <h3>No data to show</h3>}
       <MaterialTable
         title="Loss Processing Milk"

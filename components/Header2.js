@@ -171,7 +171,7 @@ export default function Header() {
               </li>
               <li>
                 <Link href="/auditBehaviours">
-                  <a>Audit Behaviour</a>
+                  <a>Audit Behavior</a>
                 </Link>
               </li>
               <li>
