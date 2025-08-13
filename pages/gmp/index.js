@@ -89,21 +89,21 @@ export default function AuditGMPPage({ evt }) {
 
   // ========== Desktop: kolom lengkap ==========
   const desktopColumns = [
-    {
-      title: "WA",
-      render: (d) => {
-        const title = `*#Deskripsi:* ${d.description} *#Lokasi:* ${d.location} *#Prev Action:* ${d.preventive_action} *#Cor Action:* ${d.corrective_action} *#Auditor:* ${d.pic} *#ID:* ${d.ID}`;
-        return (
-          <WhatsappShareButton url={"http://10.24.0.155:3000/gmp"} title={title} separator=":: ">
-            <WhatsappIcon size={28} round />
-          </WhatsappShareButton>
-        );
-      },
-      cellStyle: { paddingTop: 0, paddingLeft: 6, width: 68, textAlign: "center" },
-      sorting: false,
-      filtering: false,
-      searchable: false,
-    },
+    // {
+    //   title: "WA",
+    //   render: (d) => {
+    //     const title = `*#Deskripsi:* ${d.description} *#Lokasi:* ${d.location} *#Prev Action:* ${d.preventive_action} *#Cor Action:* ${d.corrective_action} *#Auditor:* ${d.pic} *#ID:* ${d.ID}`;
+    //     return (
+    //       <WhatsappShareButton url={"http://10.24.0.155:3000/gmp"} title={title} separator=":: ">
+    //         <WhatsappIcon size={28} round />
+    //       </WhatsappShareButton>
+    //     );
+    //   },
+    //   cellStyle: { paddingTop: 0, paddingLeft: 6, width: 68, textAlign: "center" },
+    //   sorting: false,
+    //   filtering: false,
+    //   searchable: false,
+    // },
     { title: "ID", field: "ID", editable: "never", cellStyle: { minWidth: 80 } },
     { title: "Date of Audit", field: "date_of_audit", editable: "never", type: "date", cellStyle: { minWidth: 140 } },
     { title: "Due Date of Close", field: "due_date_of_close", editable: "onUpdate", type: "date", cellStyle: { minWidth: 160 } },
@@ -112,7 +112,7 @@ export default function AuditGMPPage({ evt }) {
     { title: "Auditor", field: "pic", editable: "never", cellStyle: { minWidth: 140 } },
     { title: "Internal 3rd party", field: "internal_3rdparty", editable: "never", cellStyle: { minWidth: 160 } },
     { title: "GMP Subcategory", field: "gmp_subcategory", editable: "never", cellStyle: { minWidth: 180 } },
-    { title: "Description", field: "description", editable: "onUpdate", cellStyle: { minWidth: 280 } },
+    // { title: "Description", field: "description", editable: "onUpdate", cellStyle: { minWidth: 280 } },
     {
       title: "Photo Before",
       field: "photo_before",
@@ -135,10 +135,10 @@ export default function AuditGMPPage({ evt }) {
       ),
       cellStyle: { minWidth: 140, textAlign: "center" },
     },
-    { title: "Corrective Action", field: "corrective_action", editable: "onUpdate", cellStyle: { minWidth: 240 } },
-    { title: "Corrective Status", field: "corrective_status", editable: "onUpdate", lookup: { "Close     ": "Close     ", "Open      ": "Open      " }, cellStyle: { minWidth: 160 } },
-    { title: "Preventive Action", field: "preventive_action", editable: "onUpdate", cellStyle: { minWidth: 240 } },
-    { title: "Preventive Status", field: "preventive_status", editable: "onUpdate", lookup: { "Close     ": "Close     ", "Open      ": "Open      " }, cellStyle: { minWidth: 160 } },
+    // { title: "Corrective Action", field: "corrective_action", editable: "onUpdate", cellStyle: { minWidth: 240 } },
+    // { title: "Corrective Status", field: "corrective_status", editable: "onUpdate", lookup: { "Close     ": "Close     ", "Open      ": "Open      " }, cellStyle: { minWidth: 160 } },
+    // { title: "Preventive Action", field: "preventive_action", editable: "onUpdate", cellStyle: { minWidth: 240 } },
+    // { title: "Preventive Status", field: "preventive_status", editable: "onUpdate", lookup: { "Close     ": "Close     ", "Open      ": "Open      " }, cellStyle: { minWidth: 160 } },
     {
       title: "Finding Status",
       field: "finding_audit_status",
@@ -155,11 +155,11 @@ export default function AuditGMPPage({ evt }) {
 
   // ========== Mobile: hanya 4 kolom ==========
   const mobileColumns = [
-    { title: "Date of Audit", field: "date_of_audit", editable: "never", type: "date", cellStyle: { minWidth: 140 } },
-    { title: "Area", field: "location", editable: "never", cellStyle: { minWidth: 160 } },
+    { title: "Date of Audit", field: "date_of_audit", editable: "never", type: "date", cellStyle: { minWidth: 110 } },
+    { title: "Area", field: "location", editable: "never", cellStyle: { minWidth: 130 } },
     {
-      title: "Description",
-      field: "description",
+      title: "GMP Subcategory",
+      field: "gmp_subcategory",
       editable: "never",
       cellStyle: { minWidth: 240, whiteSpace: "normal", wordBreak: "break-word", overflow: "visible" },
     },
@@ -191,7 +191,7 @@ export default function AuditGMPPage({ evt }) {
       </h2>
       <ThemeProvider theme={theme}>
         
-        <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden" }}>
+        <Box sx={{ width: "100%", overflowX: "auto", overflowY: "auto" }}>
           <MaterialTable
             title={
               <span
@@ -296,7 +296,7 @@ export default function AuditGMPPage({ evt }) {
             ]}
             onRowClick={(_evt, _row, togglePanel) => togglePanel && togglePanel()}
             options={{
-              tableLayout: "fixed",
+              tableLayout: "auto",
               headerStyle: {
                 backgroundColor: "#57d450",
                 color: "#FFF",

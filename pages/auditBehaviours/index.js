@@ -88,22 +88,22 @@ export default function DisableFieldEditable({ evt }) {
   // Kolom lengkap (desktop)
   // --------------------------
   const desktopColumns = [
-    {
-      title: "WA",
-      render: (d) => (
-        <WhatsappShareButton
-          url={"http://10.24.0.155:3000/auditBehaviours"}
-          title={`*#Deskripsi:* ${d.description} *#Lokasi:* ${d.location} *#Prev Action:* ${d.preventive_action} *#Cor Action:* ${d.corrective_action} *#Auditor:* ${d.pic} *#ID:* ${d.ID}`}
-          separator=":: "
-        >
-          <WhatsappIcon size={28} round />
-        </WhatsappShareButton>
-      ),
-      cellStyle: { paddingTop: 0, paddingLeft: 6, width: 68, textAlign: "center" },
-      sorting: false,
-      filtering: false,
-      searchable: false,
-    },
+    // {
+    //   title: "WA",
+    //   render: (d) => (
+    //     <WhatsappShareButton
+    //       url={"http://10.24.0.155:3000/auditBehaviours"}
+    //       title={`*#Deskripsi:* ${d.description} *#Lokasi:* ${d.location} *#Prev Action:* ${d.preventive_action} *#Cor Action:* ${d.corrective_action} *#Auditor:* ${d.pic} *#ID:* ${d.ID}`}
+    //       separator=":: "
+    //     >
+    //       <WhatsappIcon size={28} round />
+    //     </WhatsappShareButton>
+    //   ),
+    //   cellStyle: { paddingTop: 0, paddingLeft: 6, width: 68, textAlign: "center" },
+    //   sorting: false,
+    //   filtering: false,
+    //   searchable: false,
+    // },
     { title: "ID", field: "ID", editable: "never", cellStyle: { minWidth: 80 } },
     { title: "Date of Audit", field: "date_of_audit", editable: "never", type: "date", cellStyle: { minWidth: 140 } },
     { title: "Due Date of Close", field: "due_date_of_close", editable: "never", type: "date", cellStyle: { minWidth: 160 } },
@@ -113,7 +113,7 @@ export default function DisableFieldEditable({ evt }) {
     { title: "Auditor", field: "pic", editable: "never", cellStyle: { minWidth: 140 } },
     { title: "Internal 3rd party", field: "internal_3rdparty", editable: "never", cellStyle: { minWidth: 180 } },
     { title: "Behaviour Category", field: "behaviour_category", editable: "never", cellStyle: { minWidth: 180 } },
-    { title: "Description", field: "description", editable: "never", cellStyle: { minWidth: 280 } },
+    // { title: "Description", field: "description", editable: "never", cellStyle: { minWidth: 580 } },
     {
       title: "Photo Before",
       field: "photo_before",
@@ -136,10 +136,10 @@ export default function DisableFieldEditable({ evt }) {
       ),
       cellStyle: { minWidth: 140, textAlign: "center" },
     },
-    { title: "Corrective Action", field: "corrective_action", editable: "never", cellStyle: { minWidth: 260 } },
-    { title: "Corrective Status", field: "corrective_status", editable: "never", cellStyle: { minWidth: 160 } },
-    { title: "Preventive Action", field: "preventive_action", editable: "never", cellStyle: { minWidth: 260 } },
-    { title: "Preventive Status", field: "preventive_status", editable: "never", cellStyle: { minWidth: 160 } },
+    // { title: "Corrective Action", field: "corrective_action", editable: "never", cellStyle: { minWidth: 260 } },
+    // { title: "Corrective Status", field: "corrective_status", editable: "never", cellStyle: { minWidth: 160 } },
+    // { title: "Preventive Action", field: "preventive_action", editable: "never", cellStyle: { minWidth: 260 } },
+    // { title: "Preventive Status", field: "preventive_status", editable: "never", cellStyle: { minWidth: 160 } },
     {
       title: "Finding Status",
       field: "finding_audit_status",
@@ -158,13 +158,13 @@ export default function DisableFieldEditable({ evt }) {
   // (hanya 4 kolom diminta)
   // --------------------------
   const mobileColumns = [
-    { title: "Date of Audit", field: "date_of_audit", editable: "never", type: "date", cellStyle: { minWidth: 140 } },
-    { title: "Area", field: "location", editable: "never", cellStyle: { minWidth: 160 } },
+    { title: "Date of Audit", field: "date_of_audit", editable: "never", type: "date", cellStyle: { minWidth: 110 } },
+    { title: "Area", field: "location", editable: "never", cellStyle: { minWidth: 90 } },
     {
-      title: "Description",
-      field: "description",
+      title: "Behaviour Category",
+      field: "behaviour_category",
       editable: "never",
-      cellStyle: { minWidth: 260, whiteSpace: "normal", wordBreak: "break-word", overflow: "visible" },
+      cellStyle: { minWidth: 160, whiteSpace: "normal", wordBreak: "break-word", overflow: "visible" },
     },
     {
       title: "Finding Status",
@@ -189,7 +189,7 @@ export default function DisableFieldEditable({ evt }) {
               Audit Behavior
             </h2>
       <ThemeProvider theme={theme}>
-        <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden" }}>
+        <Box sx={{ width: "100%", overflowX: "auto", overflowY: "auto" }}>
           <MaterialTable
             title={
               <span
