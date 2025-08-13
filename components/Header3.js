@@ -23,7 +23,7 @@ const navItemsDesktop = [
   { label: "Room Reservation", path: "/reservation" },
   { label: "Audit Behaviour", path: "/auditBehaviours/add2" },
   { label: "Add GMP", path: "/gmp/addGMP" },
-  { label: "PSG Initiaton", path: "/psg" },
+  // { label: "PSG Initiaton", path: "/psg" },
   // Add more items as needed
 ];
 
@@ -33,10 +33,10 @@ const navItemsLogin = [
   { label: "greenTAGs list", path: "/greentag/list" },
   { label: "Room Reservation", path: "/reservation" },
   { label: "Audit Behaviour", path: "/auditBehaviours" },
-  { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  { label: "Add Behaviour Based Safety", path: "/auditBehaviours/add2" },
   { label: "Audit GMP", path: "/gmp" },
   { label: "Add GMP", path: "/gmp/addGMP" },
-  { label: "PSG Initiaton", path: "/psg" },
+  // { label: "PSG Initiaton", path: "/psg" },
   // Add more items as needed
 ];
 

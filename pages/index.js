@@ -6,7 +6,7 @@ import { API_URL } from "@/config/index";
 export default function HomePage({ events }) {
   return (
     <Layout>
-      <h1>PSG PROJECTS</h1>
+      <h1>Moo News</h1>
       {/* {events.length === 0 && <h3>No projects to show</h3>}
 
       {events.map((evt) => (
