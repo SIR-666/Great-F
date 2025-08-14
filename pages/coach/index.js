@@ -107,6 +107,7 @@ export default function CoachingTablePage({ data }) {
             </div>
           );
         }
+        const photoUrl = row.photo ? `http://10.24.0.155:3030/uploads/coach/${row.photo}` : null;
         return (
           <div style={{ padding: 16, background: '#F8FAFC', borderTop: '1px solid #E2E8F0' }}>
             <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 8 }}>
@@ -119,6 +120,12 @@ export default function CoachingTablePage({ data }) {
                 <FieldRow label="Area Observation" value={row.area_observation} />
                 <FieldRow label="Result Observation" value={row.result_observation} />
                 <FieldRow label="Coachee" value={Array.isArray(row.employees) && row.employees.length > 0 ? row.employees.map(e => e.employee_name ?? '-').join(", ") : '-'} />
+                {photoUrl && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <div style={{ color: '#334155', fontWeight: 600 }}>Photo</div>
+                    <img src={photoUrl} alt="Coach Photo" style={{ maxWidth: 220, maxHeight: 220, borderRadius: 8, border: '1px solid #eee' }} />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -206,7 +213,7 @@ export default function CoachingTablePage({ data }) {
 
 export async function getServerSideProps() {
   try {
-    const res = await fetch(`http://localhost:3030/api/coaching`);
+    const res = await fetch(`http://10.24.0.155:3030/api/coaching`);
     const response = await res.json();
     let data = [];
     if (response.success && Array.isArray(response.data)) {

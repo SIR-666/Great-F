@@ -142,6 +142,7 @@ export default function AddCoachPage() {
     area_observation: "",
     result_observation: "",
     coachy: [], // array of selected coachee employee objects
+    photo: null, // file object
   });
   // --- Coachy (Coachee) selection logic ---
   const [allEmployees, setAllEmployees] = useState([]);
@@ -176,9 +177,9 @@ export default function AddCoachPage() {
   // Selected coachy (coachee) list
   const selectedCoachy = values.coachy;
 
-  // Add picked available to selected
+  // Add picked available to selected (fix: ambil dari allEmployees agar pickedAvailable tetap global)
   const movePickedToSelected = () => {
-    const toAdd = filteredEmployees.filter((e) =>
+    const toAdd = allEmployees.filter((e) =>
       pickedAvailable.includes(e.employee_no)
     );
     setValues((prev) => ({
@@ -270,8 +271,12 @@ export default function AddCoachPage() {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setValues((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
+      setValues((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -285,31 +290,41 @@ export default function AddCoachPage() {
       toast.error("Pilih minimal satu Coachy (Coachee)");
       return;
     }
-    // Log form values before submit
-    console.log("Form values to submit:", {
-      date_of_coach: values.date_of_coach,
-      coach: values.coach,
-      area_observation: values.area_observation,
-      result_observation: values.result_observation,
-      employee_ids: values.coachy.map((c) => c.employee_no),
-      coachy_full: values.coachy,
-    });
     setLoading(true);
     try {
-      const res = await fetch("http://10.24.0.155:3030/api/coaching", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          date_of_coach: values.date_of_coach,
-          coach: values.coach,
-          area_observation: values.area_observation,
-          result_observation: values.result_observation,
-          employee_ids: values.coachy.map((c) => c.employee_no),
-        }),
-      });
-      const data = await res.json();
+      let res, data;
+      if (values.photo) {
+        // Kirim multipart/form-data jika ada file photo
+        const formData = new FormData();
+        formData.append("date_of_coach", values.date_of_coach);
+        formData.append("coach", values.coach);
+        formData.append("area_observation", values.area_observation);
+        formData.append("result_observation", values.result_observation);
+        values.coachy.forEach((c, idx) => {
+          formData.append("employee_ids[]", c.employee_no);
+        });
+        formData.append("photo", values.photo);
+        res = await fetch("http://localhost:3030/api/coaching", {
+          method: "POST",
+          body: formData,
+        });
+      } else {
+        // Kirim JSON biasa jika tidak ada file
+        res = await fetch("http://localhost:3030/api/coaching", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            date_of_coach: values.date_of_coach,
+            coach: values.coach,
+            area_observation: values.area_observation,
+            result_observation: values.result_observation,
+            employee_ids: values.coachy.map((c) => c.employee_no),
+          }),
+        });
+      }
+      data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || "Gagal menyimpan data");
       }
@@ -543,6 +558,7 @@ export default function AddCoachPage() {
             </div>
           </div>
         </div>
+
         <div className={coachyStyles.formGroup}>
           <label
             htmlFor="result_observation"
@@ -558,6 +574,30 @@ export default function AddCoachPage() {
             rows={4}
             className={coachyStyles.formTextarea}
           />
+        </div>
+
+        {/* Input photo */}
+        <div className={coachyStyles.formGroup}>
+          <label htmlFor="photo" className={coachyStyles.formLabel}>
+            Photo (optional)
+          </label>
+          <input
+            type="file"
+            name="photo"
+            id="photo"
+            accept="image/*"
+            onChange={handleInputChange}
+            className={coachyStyles.formInput}
+          />
+          {values.photo && (
+            <div style={{ marginTop: 8 }}>
+              <img
+                src={URL.createObjectURL(values.photo)}
+                alt="Preview"
+                style={{ maxWidth: 180, maxHeight: 180, borderRadius: 8, border: '1px solid #eee' }}
+              />
+            </div>
+          )}
         </div>
 
         <div style={{ marginTop: "2.5rem" }}>
