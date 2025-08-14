@@ -178,7 +178,7 @@ export default function Header() {
     });
     const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // Ganti dengan key yang aman
     const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
-    const targetUrl = `http://localhost:3000/?id=${encodeURIComponent(
+    const targetUrl = `http://10.24.0.81:3000/?id=${encodeURIComponent(
       encrypted
     )}`;
     window.location.href = targetUrl;

@@ -304,13 +304,13 @@ export default function AddCoachPage() {
           formData.append("employee_ids[]", c.employee_no);
         });
         formData.append("photo", values.photo);
-        res = await fetch("http://localhost:3030/api/coaching", {
+        res = await fetch("http://10.24.0.155:3030/api/coaching", {
           method: "POST",
           body: formData,
         });
       } else {
         // Kirim JSON biasa jika tidak ada file
-        res = await fetch("http://localhost:3030/api/coaching", {
+        res = await fetch("http://10.24.0.155:3030/api/coaching", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -383,11 +383,18 @@ export default function AddCoachPage() {
         </div>
         <div className={coachyStyles.grid}>
           <div className={coachyStyles.formGroup}>
-            <label htmlFor="area_observation" className={coachyStyles.formLabel}>
+            <label
+              htmlFor="area_observation"
+              className={coachyStyles.formLabel}
+            >
               Area Observation
             </label>
             <Select
-              value={optionsArea.find(opt => opt.value === values.area_observation) || null}
+              value={
+                optionsArea.find(
+                  (opt) => opt.value === values.area_observation
+                ) || null
+              }
               name="area_observation"
               id="area_observation"
               onChange={handleInputChange3}
@@ -594,7 +601,12 @@ export default function AddCoachPage() {
               <img
                 src={URL.createObjectURL(values.photo)}
                 alt="Preview"
-                style={{ maxWidth: 180, maxHeight: 180, borderRadius: 8, border: '1px solid #eee' }}
+                style={{
+                  maxWidth: 180,
+                  maxHeight: 180,
+                  borderRadius: 8,
+                  border: "1px solid #eee",
+                }}
               />
             </div>
           )}
