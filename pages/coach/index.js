@@ -107,7 +107,7 @@ export default function CoachingTablePage({ data }) {
             </div>
           );
         }
-        const photoUrl = row.photo ? `http://10.24.0.155:3030/uploads/coach/${row.photo}` : null;
+        const photoUrl = row.photo ? `http://10.24.0.155:3030/uploads/coaching/${row.photo}` : null;
         return (
           <div style={{ padding: 16, background: '#F8FAFC', borderTop: '1px solid #E2E8F0' }}>
             <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 8 }}>
