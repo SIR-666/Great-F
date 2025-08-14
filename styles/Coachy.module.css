@@ -1,0 +1,263 @@
+
+.submitBtn {
+	width: 100%;
+	padding: 0.9rem 0;
+	border-radius: 8px;
+	background: red;
+	color: #fff;
+	font-size: 1.15rem;
+	font-weight: 700;
+	border: none;
+	box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
+	transition: background 0.18s, color 0.18s, opacity 0.18s;
+	cursor: pointer;
+	margin-top: 0.5rem;
+}
+.submitBtn:hover:not(:disabled) {
+	background: #1d4ed8;
+}
+.submitBtn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.form {
+	width: 100%;
+}
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 1.5rem;
+	margin-bottom: 2.5rem;
+}
+.formGroup {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 0.5rem;
+}
+.formLabel {
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+	color: #334155;
+	font-size: 1.02rem;
+}
+.formInput {
+	padding: 0.6rem 1rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	font-size: 1rem;
+	background: #fff;
+	transition: border 0.2s;
+}
+.formInput:focus {
+	border: 1.5px solid #2563eb;
+	outline: none;
+}
+.formInputDisabled {
+	background: #f1f5f9;
+	color: #64748b;
+	cursor: not-allowed;
+}
+.formTextarea {
+	padding: 0.7rem 1rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	font-size: 1rem;
+	background: #fff;
+	min-height: 90px;
+	resize: vertical;
+	transition: border 0.2s;
+}
+.formTextarea:focus {
+	border: 1.5px solid #2563eb;
+	outline: none;
+}
+.reactSelect {
+	font-size: 1rem;
+}
+
+.coachySection {
+	margin: 2.5rem 0 2.5rem 0;
+	padding: 2rem 1.5rem;
+	background: #f8fafc;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+}
+.coachyLabel {
+	font-weight: 700;
+	font-size: 1.15rem;
+	margin-bottom: 0.5rem;
+	display: block;
+	color: #1e293b;
+}
+.searchBoxWrapper {
+	margin: 0.5rem 0 1.25rem 0;
+}
+.searchBox {
+	width: 100%;
+	max-width: 340px;
+	padding: 0.6rem 1rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	font-size: 1rem;
+	background: #fff;
+	transition: border 0.2s;
+}
+.searchBox:focus {
+	border: 1.5px solid #2563eb;
+	outline: none;
+}
+.listsWrapper {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+.listCol {
+	flex: 1 1 260px;
+	min-width: 220px;
+	display: flex;
+	flex-direction: column;
+}
+.listTitle {
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+	color: #334155;
+}
+.listBox {
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	background: #fff;
+	max-height: 400px;
+	min-height: 260px;
+	overflow-y: auto;
+	margin-bottom: 0.75rem;
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03);
+}
+.clearBtn {
+	background: none;
+	border: none;
+	color: #dc2626;
+	font-weight: 600;
+	font-size: 0.98rem;
+	cursor: pointer;
+	padding: 0.2rem 0.7rem;
+	border-radius: 5px;
+	transition: background 0.15s, color 0.15s;
+}
+.clearBtn:hover {
+	background: #fee2e2;
+	color: #b91c1c;
+}
+.listItem {
+	display: flex;
+	align-items: center;
+	padding: 0.55rem 0.9rem;
+	cursor: pointer;
+	font-size: 1rem;
+	border-bottom: 1px solid #f1f5f9;
+	background: #fff;
+	transition: background 0.15s;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+.listItem:last-child {
+	border-bottom: none;
+}
+.listItem:hover {
+	background: #f1f5f9;
+}
+.listItemPicked {
+	background: #e0e7ff !important;
+}
+.listItemRemove {
+	background: #fee2e2 !important;
+}
+/* Prevent text selection on checkbox as well */
+.checkbox {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	margin-right: 0.7rem;
+	width: 20px;
+	height: 20px;
+	min-width: 20px;
+	min-height: 20px;
+	border: 2px solid #2563eb;
+	border-radius: 4px;
+	appearance: none;
+	-webkit-appearance: none;
+	background: #fff;
+	outline: none;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	vertical-align: middle;
+	transition: border 0.15s, box-shadow 0.15s, background 0.15s;
+	box-sizing: border-box;
+}
+.checkbox:focus {
+	box-shadow: 0 0 0 2px #93c5fd;
+}
+.checkbox:checked {
+	background: #2563eb;
+	border-color: #2563eb;
+}
+.checkbox:checked::after {
+	content: '';
+	display: block;
+	width: 6px;
+	height: 12px;
+	border: solid #fff;
+	border-width: 0 3px 3px 0;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -55%) rotate(45deg);
+}
+.itemMeta {
+	color: #64748b;
+	font-size: 0.93em;
+	margin-left: 0.2em;
+}
+.emptyMsg {
+	padding: 0.8rem;
+	color: #94a3b8;
+	font-size: 0.98em;
+	text-align: center;
+}
+.addBtn, .removeBtn {
+	padding: 0.7rem 1.2rem;
+	border-radius: 6px;
+	border: none;
+	font-weight: 600;
+	font-size: 1rem;
+	margin-top: 0.2rem;
+	transition: background 0.18s, color 0.18s, opacity 0.18s;
+	cursor: pointer;
+	width: 100%;
+	display: block;
+	box-sizing: border-box;
+}
+.addBtn {
+	background: #2563eb;
+	color: #fff;
+}
+.addBtn:hover:not(.btnDisabled) {
+	background: #1d4ed8;
+}
+.removeBtn {
+	background: #dc2626;
+	color: #fff;
+}
+.removeBtn:hover:not(.btnDisabled) {
+	background: #b91c1c;
+}
+.btnDisabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
