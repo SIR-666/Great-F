@@ -296,7 +296,7 @@ export default function AddCoachPage() {
     });
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3030/api/coaching", {
+      const res = await fetch("http://10.24.0.155:3030/api/coaching", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
