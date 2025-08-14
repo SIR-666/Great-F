@@ -31,6 +31,8 @@ const navItemsLogin = [
   { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
   { label: "Audit GMP", path: "/gmp" },
   { label: "Add GMP", path: "/gmp/addGMP" },
+  { label: "History Coach", path: "/coach/index" },
+  { label: "Add Coach", path: "/coach/add" },
   { label: "PSG Initiaton", path: "/psg" },
   { label: "PSG Project", path: "/account/dashboard" },
   { label: "greenSHIELD", path: "/greenshield/list" },
@@ -176,7 +178,7 @@ export default function Header() {
     });
     const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // Ganti dengan key yang aman
     const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
-    const targetUrl = `http://10.24.0.81:3000/?id=${encodeURIComponent(
+    const targetUrl = `http://localhost:3000/?id=${encodeURIComponent(
       encrypted
     )}`;
     window.location.href = targetUrl;
@@ -188,6 +190,7 @@ export default function Header() {
     { label: "Audit Behaviour", path: "/auditBehaviours/add2" },
     { label: "Add GMP", path: "/gmp/addGMP" },
     { label: "PSG Initiaton", path: "/psg" },
+    { label: "Coach", path: "/coach/add" },
     { label: "HRGA", onClick: handleHRGARedirect },
     // Add more items as needed
   ];
