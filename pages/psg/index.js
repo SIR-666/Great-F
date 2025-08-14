@@ -268,11 +268,11 @@ export default function DisableFieldEditable({ evt, evt2, token, evt3, evt4 }) {
   }, []);
 
   return (
-    <Layout title="PSG Initiation">
+    <Layout title="Moo News">
       <>
         {evt.length === 0 && <h3>No data to show</h3>}
         <MaterialTable
-          title="PSG Initiation PE"
+          title="None"
           // actions={[
           //   {
           //     icon: tableIcons.Delete,
@@ -354,7 +354,7 @@ export default function DisableFieldEditable({ evt, evt2, token, evt3, evt4 }) {
       <>
         {evt.length === 0 && <h3>No data to show</h3>}
         <MaterialTable
-          title="PSG Initiation OEE"
+          title="None"
           // actions={[
           //   {
           //     icon: tableIcons.Delete,

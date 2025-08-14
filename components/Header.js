@@ -27,15 +27,15 @@ const navItemsLogin = [
   { label: "greenTAG search", path: "/greentag/search" },
   { label: "greenTAG stock take", path: "/greentag/stock" },
   { label: "Room Reservation", path: "/reservation" },
-  { label: "Audit Behaviour", path: "/auditBehaviours" },
-  { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  { label: "Audit Behavior", path: "/auditBehaviours" },
+  { label: "Add Behaviour Based Safety", path: "/auditBehaviours/add2" },
   { label: "Audit GMP", path: "/gmp" },
   { label: "Add GMP", path: "/gmp/addGMP" },
   { label: "History Coach", path: "/coach/index" },
   { label: "Add Coach", path: "/coach/add" },
-  { label: "PSG Initiaton", path: "/psg" },
-  { label: "PSG Project", path: "/account/dashboard" },
-  { label: "greenSHIELD", path: "/greenshield/list" },
+  // { label: "PSG Initiaton", path: "/psg" },
+  // { label: "PSG Project", path: "/account/dashboard" },
+  // { label: "greenSHIELD", path: "/greenshield/list" },
   // Add more items as needed
 ];
 
@@ -57,8 +57,8 @@ const navItemsLogin3 = [
   // { label: "greenTAG search", path: "/greentag/search" },
   // { label: "greenTAG stock take", path: "/greentag/stock" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -82,8 +82,8 @@ const navItemsLogin4 = [
   // { label: "greenTAG search", path: "/greentag/search" },
   // { label: "greenTAG stock take", path: "/greentag/stock" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -107,8 +107,8 @@ const navItemsLogin5 = [
   // { label: "greenTAG search", path: "/greentag/search" },
   // { label: "greenTAG stock take", path: "/greentag/stock" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -132,8 +132,8 @@ const navItemsLogin6 = [
   // { label: "greenTAG search", path: "/greentag/search" },
   // { label: "greenTAG stock take", path: "/greentag/stock" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -187,10 +187,9 @@ export default function Header() {
   const navItemsDesktop = [
     { label: "greenTAG", path: "/greentag" },
     { label: "Room Reservation", path: "/reservation" },
-    { label: "Audit Behaviour", path: "/auditBehaviours/add2" },
+    { label: "Audit Behavior", path: "/auditBehaviours/add2" },
     { label: "Add GMP", path: "/gmp/addGMP" },
     { label: "PSG Initiaton", path: "/psg" },
-    { label: "Coach", path: "/coach/add" },
     { label: "HRGA", onClick: handleHRGARedirect },
     // Add more items as needed
   ];
@@ -273,12 +272,13 @@ export default function Header() {
         >
           <MenuIcon />
         </IconButton>
-        <Link href="/">
+        <Link href="http://great.greenfieldsdairy.com/">
           <Image src="/images/gfi.png" width={50} height={50} alt="logo" />
         </Link>
         <a
           // target="_blank"
           href="http://great.greenfieldsdairy.com/"
+          className={styles.desktopMenu}
           style={{ color: "green" }}
         >
           <b style={{ fontSize: 30, color: "green" }}>.R.E.A.T</b>

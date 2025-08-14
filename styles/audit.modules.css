@@ -13,6 +13,9 @@
   color: #333;
   margin-right: 20px;
 }
+.audit-title {
+    display: none !important;
+  }
 
 .header a:hover {
   color: #000;
@@ -74,11 +77,5 @@
 
   .logo {
     margin: 20px 0;
-  }
-}
-
-@media (min-width: 768px) {
-  .auditmobile {
-    display: none !important;
   }
 }

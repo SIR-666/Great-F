@@ -21,9 +21,9 @@ import ListItemText from "@mui/material/ListItemText";
 const navItemsDesktop = [
   { label: "greenTAG", path: "/greentag" },
   { label: "Room Reservation", path: "/reservation" },
-  { label: "Audit Behaviour", path: "/auditBehaviours/add2" },
+  { label: "Audit Behavior", path: "/auditBehaviours/add2" },
   { label: "Add GMP", path: "/gmp/addGMP" },
-  { label: "PSG Initiaton", path: "/psg" },
+  // { label: "PSG Initiaton", path: "/psg" },
   // Add more items as needed
 ];
 
@@ -32,11 +32,11 @@ const navItemsLogin = [
   { label: "greenTAG", path: "/greentag" },
   { label: "greenTAGs list", path: "/greentag/list" },
   { label: "Room Reservation", path: "/reservation" },
-  { label: "Audit Behaviour", path: "/auditBehaviours" },
-  { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  { label: "Audit Behavior", path: "/auditBehaviours" },
+  { label: "Add Behaviour Based Safety", path: "/auditBehaviours/add2" },
   { label: "Audit GMP", path: "/gmp" },
   { label: "Add GMP", path: "/gmp/addGMP" },
-  { label: "PSG Initiaton", path: "/psg" },
+  // { label: "PSG Initiaton", path: "/psg" },
   // Add more items as needed
 ];
 
@@ -56,8 +56,8 @@ const navItemsLogin3 = [
   // { label: "greenTAG", path: "/greentag" },
   // { label: "greenTAGs list", path: "/greentag/list" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -79,8 +79,8 @@ const navItemsLogin4 = [
   // { label: "greenTAG", path: "/greentag" },
   // { label: "greenTAGs list", path: "/greentag/list" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -102,8 +102,8 @@ const navItemsLogin5 = [
   // { label: "greenTAG", path: "/greentag" },
   // { label: "greenTAGs list", path: "/greentag/list" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -125,8 +125,8 @@ const navItemsLogin6 = [
   // { label: "greenTAG", path: "/greentag" },
   // { label: "greenTAGs list", path: "/greentag/list" },
   // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behaviour", path: "/auditBehaviours" },
-  // { label: "Add Audit Behaviour & Near Miss", path: "/auditBehaviours/add2" },
+  // { label: "Audit Behavior", path: "/auditBehaviours" },
+  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
   // { label: "Audit GMP", path: "/gmp" },
   // { label: "Add GMP", path: "/gmp/addGMP" },
   // { label: "PSG Initiaton", path: "/psg" },
@@ -456,12 +456,12 @@ export default function Header() {
   //             </li>
   //             <li>
   //               <Link href="/auditBehaviours">
-  //                 <a>Audit Behaviour</a>
+  //                 <a>Audit Behavior</a>
   //               </Link>
   //             </li>
   //             <li>
   //               <Link href="/auditBehaviours/add2">
-  //                 <a>Add Audit Behaviour & Near Miss</a>
+  //                 <a>Add Audit Behavior & Near Miss</a>
   //               </Link>
   //             </li>
 

@@ -827,7 +827,7 @@ export default function AddEventPage({}) {
   return (
     <Layout title="Add New Event">
       <Link href="/events">Go Back</Link>
-      <h1>Add Audit Behaviour / Near Miss</h1>
+      <h1>Add Behavior Based Safety (BBS)</h1>
       <ToastContainer />
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.grid}>
@@ -1387,7 +1387,7 @@ export default function AddEventPage({}) {
         ) : (
           <input
             type="submit"
-            value="Add Audit Behaviour"
+            value="Add Audit Behavior"
             className="btn"
             disabled={loading}
           />

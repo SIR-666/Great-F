@@ -171,12 +171,12 @@ export default function Header() {
               </li>
               <li>
                 <Link href="/auditBehaviours">
-                  <a>Audit Behaviour</a>
+                  <a>Audit Behavior</a>
                 </Link>
               </li>
               <li>
                 <Link href="/auditBehaviours/add2">
-                  <a>Add Audit Behaviour & Near Miss</a>
+                  <a>Add Behaviour Based Safety</a>
                 </Link>
               </li>
 
@@ -191,11 +191,11 @@ export default function Header() {
                 </Link>
               </li>
 
-              <li>
+              {/* <li>
                 <Link href="/psg">
                   <a>PSG Initiaton</a>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <button
                   onClick={() => logout()}

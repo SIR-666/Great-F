@@ -25,6 +25,7 @@
     "@mui/x-date-pickers": "^6.9.1",
     "cookie": "0.5.0",
     "cookies-next": "^2.1.2",
+    "crypto-js": "^4.2.0",
     "filefy": "^0.1.11",
     "material-table": "^1.69.3",
     "moment": "2.29.4",
@@ -41,7 +42,8 @@
     "react-typed": "1.2.0",
     "react-usestateref": "^1.0.8",
     "sharethis-reactjs": "1.6.0",
-    "styled-components": "5.3.5"
+    "styled-components": "5.3.5",
+    "sweetalert2": "^11.22.3"
   },
   "devDependencies": {
     "eslint": "8.19.0",
