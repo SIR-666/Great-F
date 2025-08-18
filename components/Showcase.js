@@ -21,12 +21,11 @@ export default function Showcase() {
       >
         <Typed
           strings={[
-            "#BeraniExtra",
-            "#ExtraFresh",
-            "#ExtraTasty",
-            "#ExtraGlam",
-            "#ExtraGo",
-            "#ExtraActive",
+            "#JujurlyFresh",
+            "#JujurlyPure",
+            "#SafetyFirst",
+            "#GreenWay",
+            "#ZeroDefect",
           ]}
           typeSpeed={80}
           loop={true}
