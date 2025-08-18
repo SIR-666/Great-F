@@ -365,7 +365,7 @@ export default function AddCoachPage() {
 
   return (
     <Layout title="Add Coach">
-      <h1>Add Coach</h1>
+      <h1>Add Coaching</h1>
       <ToastContainer />
 
       <form onSubmit={handleSubmit} className={coachyStyles.form}>
