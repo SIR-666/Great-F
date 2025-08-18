@@ -382,6 +382,18 @@ export default function AddCoachPage() {
               onChange={handleInputChange}
               required
               className={coachyStyles.formInput}
+              min={(() => {
+                const now = new Date();
+                return `${now.getFullYear()}-${String(
+                  now.getMonth() + 1
+                ).padStart(2, "0")}-01`;
+              })()}
+              max={(() => {
+                const now = new Date();
+                return `${now.getFullYear()}-${String(
+                  now.getMonth() + 1
+                ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+              })()}
             />
           </div>
           <div className={coachyStyles.formGroup}>
