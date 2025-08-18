@@ -45,6 +45,9 @@ const groupedNav = (user) => [
       ...(user?.role?.id === 6 || user?.role?.id === 3
         ? [{ label: "Edit Reservation", path: "/reservation/edit" }]
         : []),
+        ...(user?.role?.id === 6 || user?.role?.id === 3
+        ? [{ label: "List Reservation", path: "/reservation/list" }]
+        : []),
     ],
   },
   {
