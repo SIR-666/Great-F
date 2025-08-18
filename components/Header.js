@@ -31,8 +31,8 @@ const navItemsLogin = [
   { label: "Add Behavior Based Safety", path: "/auditBehaviours/add2" },
   { label: "Audit GMP", path: "/gmp" },
   { label: "Add GMP", path: "/gmp/addGMP" },
-  { label: "History Coach", path: "/coach" },
-  { label: "Add Coach", path: "/coach/add" },
+  { label: "History Coaching", path: "/coach" },
+  { label: "Add Coaching", path: "/coach/add" },
   // { label: "PSG Initiaton", path: "/psg" },
   // { label: "PSG Project", path: "/account/dashboard" },
   // { label: "greenSHIELD", path: "/greenshield/list" },
@@ -190,7 +190,7 @@ export default function Header() {
     { label: "Audit Behavior", path: "/auditBehaviours/add2" },
     { label: "Add GMP", path: "/gmp/addGMP" },
     // { label: "PSG Initiaton", path: "/psg" },
-    { label: "Coach", path: "/coach/add" },
+    { label: "Coaching", path: "/coach/add" },
     { label: "HRGA", onClick: handleHRGARedirect },
     // Add more items as needed
   ];
