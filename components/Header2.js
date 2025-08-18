@@ -176,7 +176,7 @@ export default function Header() {
               </li>
               <li>
                 <Link href="/auditBehaviours/add2">
-                  <a>Add Behaviour Based Safety</a>
+                  <a>Add Behavior Based Safety</a>
                 </Link>
               </li>
 
