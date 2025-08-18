@@ -1,11 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import Link from "next/link";
-import Search from "./Search";
 import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/Header.module.css";
 import Image from "next/image";
-import Grid from "@mui/material/Grid";
 import CryptoJS from "crypto-js";
 import { getCookie } from "cookies-next";
 
@@ -19,234 +17,169 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ListSubheader from "@mui/material/ListSubheader";
+import Divider from "@mui/material/Divider";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
-//all user login
-const navItemsLogin = [
-  { label: "greenTAG", path: "/greentag" },
-  { label: "greenTAG list", path: "/greentag/list" },
-  { label: "greenTAG search", path: "/greentag/search" },
-  { label: "greenTAG stock take", path: "/greentag/stock" },
-  { label: "Room Reservation", path: "/reservation" },
-  { label: "Audit Behavior Based Safety", path: "/auditBehaviours" },
-  { label: "Add Behavior Based Safety", path: "/auditBehaviours/add2" },
-  { label: "Audit GMP", path: "/gmp" },
-  { label: "Add GMP", path: "/gmp/addGMP" },
-  { label: "History Coaching", path: "/coach" },
-  { label: "Add Coaching", path: "/coach/add" },
-  // { label: "PSG Initiaton", path: "/psg" },
-  // { label: "PSG Project", path: "/account/dashboard" },
-  // { label: "greenSHIELD", path: "/greenshield/list" },
-  // Add more items as needed
-];
+const HEADER_TEXT_COLOR = "#024623ff";
 
-//super user
-const navItemsLogin3 = [
-  { label: "Add Project", path: "/events/add" },
-  { label: "Dashboard", path: "/account/dashboard" },
-  { label: "Loss Filling", path: "/loss" },
-  { label: "Loss Processing", path: "/loss/indexP" },
-  { label: "Input siQma Material", path: "/siqma" },
-  { label: "Rekap siQma", path: "/siqma/list" },
-  { label: "Input siQma-Milk #1", path: "/siqma/indexMilk" },
-  { label: "Input siQma-Milk #2", path: "/siqma/addMilk" },
-  { label: "Edit Reservation", path: "/reservation/edit" },
-  { label: "List Reservation", path: "/reservation/list" },
-
-  // { label: "greenTAG", path: "/greentag" },
-  // { label: "greenTAG list", path: "/greentag/list" },
-  // { label: "greenTAG search", path: "/greentag/search" },
-  // { label: "greenTAG stock take", path: "/greentag/stock" },
-  // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behavior", path: "/auditBehaviours" },
-  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
-  // { label: "Audit GMP", path: "/gmp" },
-  // { label: "Add GMP", path: "/gmp/addGMP" },
-  // { label: "PSG Initiaton", path: "/psg" },
-  // Add more items as needed
-];
-
-//loss filling
-const navItemsLogin4 = [
-  // { label: "Add Project", path: "/events/add" },
-  // { label: "Dashboard", path: "/account/dashboard" },
-  { label: "Loss Filling", path: "/loss" },
-  { label: "Loss Processing", path: "/loss/indexP" },
-  // { label: "Input siQma Material", path: "/siqma" },
-  // { label: "Rekap siQma", path: "/siqma/list" },
-  // { label: "Input siQma-Milk #1", path: "/siqma/indexMilk" },
-  // { label: "Input siQma-Milk #2", path: "/siqma/addMilk" },
-  // { label: "Edit Reservation", path: "/reservation/edit" },
-  // { label: "List Reservation", path: "/reservation/list" },
-  // { label: "greenTAG", path: "/greentag" },
-  // { label: "greenTAG list", path: "/greentag/list" },
-  // { label: "greenTAG search", path: "/greentag/search" },
-  // { label: "greenTAG stock take", path: "/greentag/stock" },
-  // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behavior", path: "/auditBehaviours" },
-  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
-  // { label: "Audit GMP", path: "/gmp" },
-  // { label: "Add GMP", path: "/gmp/addGMP" },
-  // { label: "PSG Initiaton", path: "/psg" },
-  // Add more items as needed
-];
-
-//siqma
-const navItemsLogin5 = [
-  // { label: "Add Project", path: "/events/add" },
-  // { label: "Dashboard", path: "/account/dashboard" },
-  // { label: "Loss Filling", path: "/loss" },
-  // { label: "Loss Processing", path: "/loss/indexP" },
-  { label: "Input siQma Material", path: "/siqma" },
-  { label: "Rekap siQma", path: "/siqma/list" },
-  { label: "Input siQma-Milk #1", path: "/siqma/indexMilk" },
-  { label: "Input siQma-Milk #2", path: "/siqma/addMilk" },
-  // { label: "Edit Reservation", path: "/reservation/edit" },
-  // { label: "List Reservation", path: "/reservation/list" },
-  // { label: "greenTAG", path: "/greentag" },
-  // { label: "greenTAG list", path: "/greentag/list" },
-  // { label: "greenTAG search", path: "/greentag/search" },
-  // { label: "greenTAG stock take", path: "/greentag/stock" },
-  // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behavior", path: "/auditBehaviours" },
-  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
-  // { label: "Audit GMP", path: "/gmp" },
-  // { label: "Add GMP", path: "/gmp/addGMP" },
-  // { label: "PSG Initiaton", path: "/psg" },
-  // Add more items as needed
-];
-
-//reservation HR
-const navItemsLogin6 = [
-  // { label: "Add Project", path: "/events/add" },
-  // { label: "Dashboard", path: "/account/dashboard" },
-  // { label: "Loss Filling", path: "/loss" },
-  // { label: "Loss Processing", path: "/loss/indexP" },
-  // { label: "Input siQma Material", path: "/siqma" },
-  // { label: "Rekap siQma", path: "/siqma/list" },
-  // { label: "Input siQma-Milk #1", path: "/siqma/indexMilk" },
-  // { label: "Input siQma-Milk #2", path: "/siqma/addMilk" },
-  { label: "Edit Reservation", path: "/reservation/edit" },
-  { label: "List Reservation", path: "/reservation/list" },
-  // { label: "greenTAG", path: "/greentag" },
-  // { label: "greenTAG list", path: "/greentag/list" },
-  // { label: "greenTAG search", path: "/greentag/search" },
-  // { label: "greenTAG stock take", path: "/greentag/stock" },
-  // { label: "Room Reservation", path: "/reservation" },
-  // { label: "Audit Behavior", path: "/auditBehaviours" },
-  // { label: "Add Audit Behavior & Near Miss", path: "/auditBehaviours/add2" },
-  // { label: "Audit GMP", path: "/gmp" },
-  // { label: "Add GMP", path: "/gmp/addGMP" },
-  // { label: "PSG Initiaton", path: "/psg" },
-  // Add more items as needed
+// ====== Grouped menu (kategori → submenu) ======
+const groupedNav = (user) => [
+  {
+    title: "Greentag",
+    key: "Greentag",
+    items: [
+      { label: "greenTAG", path: "/greentag" },
+      { label: "greenTAG list", path: "/greentag/list" },
+      { label: "greenTAG search", path: "/greentag/search" },
+      { label: "greenTAG stock take", path: "/greentag/stock" },
+    ],
+  },
+  {
+    title: "Room Reservation",
+    key: "RoomReservation",
+    items: [
+      { label: "Room Reservation", path: "/reservation" },
+      ...(user?.role?.id === 6 || user?.role?.id === 3
+        ? [{ label: "Edit Reservation", path: "/reservation/edit" }]
+        : []),
+    ],
+  },
+  {
+    title: "Audit",
+    key: "Audit",
+    items: [
+      { label: "Audit Behavior Based Safety", path: "/auditBehaviours" },
+      { label: "Add Behavior Based Safety", path: "/auditBehaviours/add2" },
+      { label: "Audit GMP", path: "/gmp" },
+      { label: "Add GMP", path: "/gmp/addGMP" },
+      { label: "History Coaching", path: "/coach" },
+      { label: "Add Coaching", path: "/coach/add" },
+      // { label: "PSG Initiaton", path: "/psg" },
+    ],
+  },
 ];
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  // expand/collapse state per-kategori
+  const [openSections, setOpenSections] = useState({
+    Greentag: true,
+    RoomReservation: false,
+    Audit: false,
+  });
+
+  const toggleSection = (key) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // This function will be called when the drawer needs to be closed
-  const handleDrawerClose = () => {
-    setMobileOpen(false);
-  };
+  const handleDrawerToggle = () => setMobileOpen((s) => !s);
+  const handleDrawerClose = () => setMobileOpen(false);
 
   const handleHRGARedirect = () => {
     if (!user) {
       alert("User belum login!");
       return;
     }
-
     let identityData = null;
-
     try {
       const cookieData = getCookie("identityData");
-      if (cookieData) {
-        identityData = JSON.parse(cookieData).data || null;
-      }
-    } catch (e) {
+      if (cookieData) identityData = JSON.parse(cookieData).data || null;
+    } catch {
       identityData = null;
     }
-
     const payload = JSON.stringify({
       username: user.username,
       email: user.email,
       role: user.role?.id || "",
       ...identityData,
     });
-    const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // Ganti dengan key yang aman
+    const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // TODO: pindahkan ke env
     const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
-    const targetUrl = `http://10.24.0.81:3000/?id=${encodeURIComponent(
-      encrypted
-    )}`;
+    const targetUrl = `http://10.24.0.81:3000/?id=${encodeURIComponent(encrypted)}`;
     window.location.href = targetUrl;
   };
 
   const navItemsDesktop = [
     { label: "greenTAG", path: "/greentag" },
     { label: "Room Reservation", path: "/reservation" },
-    { label: "Audit Behavior", path: "/auditBehaviours/add2" },
+    { label: "Add Behavior", path: "/auditBehaviours/add2" },
     { label: "Add GMP", path: "/gmp/addGMP" },
-    // { label: "PSG Initiaton", path: "/psg" },
     { label: "Coaching", path: "/coach/add" },
     { label: "HRGA", onClick: handleHRGARedirect },
-    // Add more items as needed
   ];
 
+  // Hitung sekali agar tidak memanggil groupedNav berkali-kali
+  const groups = useMemo(() => (user ? groupedNav(user) : []), [user]);
+
+  // ====== Drawer with grouped collapsible menus ======
   const drawer = (
-    <List>
+    <List
+      subheader={
+        <ListSubheader component="div" sx={{ bgcolor: "transparent" }}>
+          Menu
+        </ListSubheader>
+      }
+    >
       {user &&
-        user.role.id == 3 &&
-        navItemsLogin3.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            <ListItemButton component="a" href={item.path}>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
+        groups.map((group, gi) => (
+          <React.Fragment key={group.key}>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => toggleSection(group.key)}>
+                <ListItemText
+                  primary={group.title}
+                  primaryTypographyProps={{ fontWeight: 700 }}
+                />
+                {openSections[group.key] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+            </ListItem>
+
+            <Collapse in={openSections[group.key]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {group.items.map((item) => (
+                  <ListItem key={item.label} disablePadding sx={{ pl: 2 }}>
+                    {item.onClick ? (
+                      <ListItemButton onClick={item.onClick}>
+                        <ListItemText primary={item.label} />
+                      </ListItemButton>
+                    ) : (
+                      <Link
+                        href={item.path}
+                        style={{ width: "100%", textDecoration: "none" }}
+                      >
+                        <ListItemButton>
+                          <ListItemText primary={item.label} />
+                        </ListItemButton>
+                      </Link>
+                    )}
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+
+            {gi < groups.length - 1 && <Divider sx={{ my: 1 }} />}
+          </React.Fragment>
         ))}
-      {user &&
-        user.role.id == 4 &&
-        navItemsLogin4.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            <ListItemButton component="a" href={item.path}>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      {user &&
-        user.role.id == 5 &&
-        navItemsLogin5.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            <ListItemButton component="a" href={item.path}>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      {user &&
-        user.role.id == 6 &&
-        navItemsLogin6.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            <ListItemButton component="a" href={item.path}>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      {user &&
-        navItemsLogin.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            <ListItemButton component="a" href={item.path}>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+
       {!user && (
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/account/login">
-            <FaSignInAlt /> <span>Login</span>
-          </ListItemButton>
-        </ListItem>
+        <>
+          <Divider sx={{ my: 1 }} />
+          <ListItem disablePadding>
+            <Link
+              href="/account/login"
+              style={{ width: "100%", textDecoration: "none" }}
+            >
+              <ListItemButton>
+                <FaSignInAlt />
+                <span style={{ marginLeft: 8 }}>Login</span>
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        </>
       )}
     </List>
   );
@@ -257,27 +190,28 @@ export default function Header() {
         style={{
           display: "flex",
           alignItems: "center",
-          // justifyContent: "center",
-          justifyContent: "space-between", // Ensures elements are spaced out
-          // height: "150vh",
+          justifyContent: "space-between",
           backgroundImage: `url(./images/header_bg.png)`,
         }}
       >
+        {/* Left: burger */}
         <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
           sx={{ mr: 2 }}
-          // sx={{ mr: 2, display: { sm: "none" } }}
         >
           <MenuIcon />
         </IconButton>
-        <Link href="http://great.greenfieldsdairy.com/">
+
+        {/* Logo ke situs eksternal → gunakan <a> */}
+        <a href="http://great.greenfieldsdairy.com/">
           <Image src="/images/gfi.png" width={50} height={50} alt="logo" />
-        </Link>
+        </a>
+
+        {/* Brand text ke eksternal */}
         <a
-          // target="_blank"
           href="http://great.greenfieldsdairy.com/"
           className={styles.desktopMenu}
           style={{ color: "green" }}
@@ -285,22 +219,20 @@ export default function Header() {
           <b style={{ fontSize: 30, color: "green" }}>.R.E.A.T</b>
         </a>
 
+        {/* Desktop top menu */}
         <div className={styles.desktopMenu}>
           <List sx={{ display: "flex", flexDirection: "row", padding: 0 }}>
             {user &&
               navItemsDesktop.map((item) => (
                 <ListItem key={item.label} disablePadding>
                   {item.onClick ? (
-                    <ListItemButton
-                      sx={{ textAlign: "center" }}
-                      onClick={item.onClick}
-                    >
-                      <ListItemText primary={item.label} />
+                    <ListItemButton sx={{ textAlign: "center" }} onClick={item.onClick}>
+                      <ListItemText primary={item.label } primaryTypographyProps={{ sx: { color: HEADER_TEXT_COLOR } }} />
                     </ListItemButton>
                   ) : (
-                    <Link href={item.path} passHref>
+                    <Link href={item.path} style={{ textDecoration: "none" }}>
                       <ListItemButton sx={{ textAlign: "center" }}>
-                        <ListItemText primary={item.label} />
+                        <ListItemText primary={item.label} primaryTypographyProps={{ sx: { color: HEADER_TEXT_COLOR } }}/>
                       </ListItemButton>
                     </Link>
                   )}
@@ -308,7 +240,7 @@ export default function Header() {
               ))}
             {!user && (
               <ListItem disablePadding>
-                <Link href="/account/login" passHref>
+                <Link href="/account/login" style={{ textDecoration: "none" }}>
                   <ListItemButton sx={{ textAlign: "center" }}>
                     <FaSignInAlt />
                     <span style={{ marginLeft: 8 }}>Login</span>
@@ -318,59 +250,57 @@ export default function Header() {
             )}
           </List>
         </div>
+
         <div style={{ flexGrow: 1 }} />
+
+        {/* Right: logout */}
         {user && (
           <button onClick={() => logout()} className="btn-secondary btn-icon">
             <FaSignOutAlt /> {user.email.split("@")[0]}
           </button>
         )}
       </Toolbar>
+
+      {/* Drawer (sidebar) */}
       <Drawer
         variant="temporary"
-        // variant="persistent"
         open={mobileOpen}
-        // onClose={handleDrawerToggle}
-        onClose={handleDrawerClose} // This will handle closing the drawer when clicking outside
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
+        onClose={handleDrawerClose}
+        ModalProps={{ keepMounted: true }}
         sx={{
+          display: { xs: "block" },
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
-            width: 240,
-            // The following ensures the list items are stacked vertically
-            "& .MuiList-root": {
-              flexDirection: "column",
+            width: 260,
+            "& .MuiListItemButton-root": { borderRadius: 1 },
+            "& .MuiListItemButton-root.Mui-selected": {
+              bgcolor: "action.selected",
             },
           },
         }}
-        // sx={{
-        //   display: { xs: "block", sm: "none" },
-        //   "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
-        // }}
       >
         {drawer}
+
+        {/* Footer kecil di drawer */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             backgroundImage: `url(./images/header_bg.png)`,
-            // height: "100vh",
+            padding: 12,
           }}
         >
-          {/* <img height={40} src={"./anal.png"} alt="greendazh" /> */}
           <Link href="/">
-            <Image alt="greendazh" src="/anal.png" width={40} height={40} />
+            <Image alt="greendazh" src="/images/gfi.png" width={40} height={40} />
           </Link>
           <a
             target="_blank"
-            href="http://greendazh.greenfieldsdairy.com/"
-            style={{ color: "#32CD32" }}
+            href="http://great.greenfieldsdairy.com/"
+            style={{ color: "#32CD32", textDecoration: "none" }}
             rel="noopener noreferrer"
           >
-            &nbsp;&nbsp;
-            <b style={{ fontSize: 30, color: "#32CD32" }}>green.</b>DAZH
+            &nbsp;&nbsp;<b style={{ fontSize: 30, color: "#32CD32" }}>G.R.E.A.T</b>
           </a>
         </div>
       </Drawer>
