@@ -516,7 +516,7 @@ export default function AddCoachPage() {
                 disabled={!pickedAvailable.length}
                 onClick={movePickedToSelected}
               >
-                Tambahkan ke Coachy
+                Tambahkan ke Coachee
               </button>
             </div>
             {/* Selected coachy */}
@@ -571,7 +571,7 @@ export default function AddCoachPage() {
                 ))}
                 {selectedCoachy.length === 0 && (
                   <div className={coachyStyles.emptyMsg}>
-                    Belum ada coachy terpilih
+                    Belum ada coachee terpilih
                   </div>
                 )}
               </div>
@@ -584,7 +584,7 @@ export default function AddCoachPage() {
                 disabled={!pickedSelected.length}
                 onClick={movePickedToAvailable}
               >
-                Hapus dari Coachy
+                Hapus dari Coachee
               </button>
             </div>
           </div>
