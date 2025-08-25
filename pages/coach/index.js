@@ -7,6 +7,7 @@ import { ThemeProvider, createTheme, useMediaQuery, Box } from "@mui/material";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
+import { API_URL3 } from "@/config/index";
 import Edit from "@material-ui/icons/Edit";
 import Layout from "@/components/LayoutLarge";
 import { ExportCsv } from "@material-table/exporters";
@@ -53,10 +54,12 @@ export default function CoachingTablePage({ data }) {
       title: "Coachee",
       field: "employees",
       editable: "never",
-      render: (rowData) =>
-        Array.isArray(rowData.employees)
+      render: (rowData) => {
+        console.log('TABEL employees:', rowData.employees);
+        return Array.isArray(rowData.employees)
           ? rowData.employees.map((emp) => emp.employee_name).join(", ")
-          : "",
+          : "";
+      },
       cellStyle: { minWidth: 180, whiteSpace: "normal", wordBreak: "break-word", overflow: "visible" },
     },
   ];
@@ -100,6 +103,7 @@ export default function CoachingTablePage({ data }) {
       tooltip: 'Show details',
       render: (rowData) => {
         const row = rowData && rowData.rowData ? rowData.rowData : rowData;
+        console.log('Detail Coaching:', rowData.employees);
         if (!row || Object.keys(row).length === 0) {
           return (
             <div style={{ padding: 16, background: '#F8FAFC', borderTop: '1px solid #E2E8F0', color: '#b91c1c' }}>
@@ -107,7 +111,7 @@ export default function CoachingTablePage({ data }) {
             </div>
           );
         }
-        const photoUrl = row.photo ? `http://10.24.0.155:3030/uploads/coaching/${row.photo}` : null;
+        const photoUrl = row.photo ? `${API_URL3}/uploads/coaching/${row.photo}` : null;
         return (
           <div style={{ padding: 16, background: '#F8FAFC', borderTop: '1px solid #E2E8F0' }}>
             <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 8 }}>
@@ -119,6 +123,7 @@ export default function CoachingTablePage({ data }) {
                 <FieldRow label="Coach" value={row.coach} />
                 <FieldRow label="Area Observation" value={row.area_observation} />
                 <FieldRow label="Result Observation" value={row.result_observation} />
+                {console.log('DETAIL employees:', row.employees)}
                 <FieldRow label="Coachee" value={Array.isArray(row.employees) && row.employees.length > 0 ? row.employees.map(e => e.employee_name ?? '-').join(", ") : '-'} />
                 {photoUrl && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -213,7 +218,7 @@ export default function CoachingTablePage({ data }) {
 
 export async function getServerSideProps() {
   try {
-    const res = await fetch(`http://10.24.0.155:3030/api/coaching`);
+    const res = await fetch(`${API_URL3}/api/coaching`);
     const response = await res.json();
     let data = [];
     if (response.success && Array.isArray(response.data)) {

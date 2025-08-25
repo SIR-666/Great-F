@@ -175,7 +175,7 @@ export default function AddCoachPage() {
           ...(data || []),
           {
             employee_no: null,
-            employee_name: "Others",
+            employee_name: "Others (Third Party)",
             department_name: null,
             section_name: null,
             position_name: null,
@@ -186,7 +186,7 @@ export default function AddCoachPage() {
       .catch(() => setAllEmployees([
         {
           employee_no: null,
-          employee_name: "Others",
+          employee_name: "Others (Third Party)",
           department_name: null,
           section_name: null,
           position_name: null,
@@ -506,7 +506,7 @@ export default function AddCoachPage() {
                   )
                   .map((e, idx) => (
                     <div
-                      key={e.employee_no !== null ? e.employee_no : 'others'}
+                      key={e.employee_no !== null ? e.employee_no : 'Others (Third Party)'}
                       className={
                         coachyStyles.listItem +
                         (pickedAvailable.includes(e.employee_no)
@@ -524,8 +524,8 @@ export default function AddCoachPage() {
                         className={coachyStyles.checkbox}
                       />
                       <span>
-                        {e.employee_name === "Others"
-                          ? "Others"
+                        {e.employee_name === "Others (Third Party)"
+                          ? "Others (Third Party)"
                           : <>
                               {e.employee_name}{" "}
                               <span className={coachyStyles.itemMeta}>
@@ -582,7 +582,7 @@ export default function AddCoachPage() {
               <div className={coachyStyles.listBox}>
                 {selectedCoachy.map((e, idx) => (
                   <div
-                    key={e.employee_no !== null ? e.employee_no : 'others'}
+                    key={e.employee_no !== null ? e.employee_no : 'Others (Third Party)'}
                     className={
                       coachyStyles.listItem +
                       (pickedSelected.includes(e.employee_no)
@@ -600,8 +600,8 @@ export default function AddCoachPage() {
                       className={coachyStyles.checkbox}
                     />
                     <span>
-                      {e.employee_name === "Others"
-                        ? "Others"
+                      {e.employee_name === "Others (Third Party)"
+                        ? "Others (Third Party)"
                         : <>
                             {e.employee_name}{" "}
                             <span className={coachyStyles.itemMeta}>
