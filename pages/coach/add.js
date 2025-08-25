@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import { API_URL3 } from "@/config/index";
 import Layout from "@/components/Layout";
 import coachyStyles from "@/styles/Coachy.module.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -166,14 +167,34 @@ export default function AddCoachPage() {
   // Fetch employees & area options on mount
   useEffect(() => {
     // Fetch employees
-    fetch("http://10.24.0.155:3030/api/employees")
+    fetch(`${API_URL3}/api/employees`)
       .then((res) => res.json())
-      .then(({ data }) => setAllEmployees(data || []))
-      .catch(() => setAllEmployees([]));
+      .then(({ data }) => {
+        // Tambahkan Others dengan semua field null
+        const withOthers = [
+          ...(data || []),
+          {
+            employee_no: null,
+            employee_name: "Others",
+            department_name: null,
+            section_name: null,
+            position_name: null,
+          },
+        ];
+        setAllEmployees(withOthers);
+      })
+      .catch(() => setAllEmployees([
+        {
+          employee_no: null,
+          employee_name: "Others",
+          department_name: null,
+          section_name: null,
+          position_name: null,
+        },
+      ]));
 
     // Fetch area options
-    // Fetch area options, lalu mapping ke { value, label }
-    fetch("http://10.24.0.155:3030/api/areas")
+    fetch(`${API_URL3}/api/areas`)
       .then((res) => res.json())
       .then(({ data }) => {
         const mapped = (data || []).map((item) => ({
@@ -324,17 +345,17 @@ export default function AddCoachPage() {
         formData.append("coach", values.coach);
         formData.append("area_observation", values.area_observation);
         formData.append("result_observation", values.result_observation);
-        values.coachy.forEach((c, idx) => {
-          formData.append("employee_ids[]", c.employee_no);
+        values.coachy.forEach((c, idx) => { 
+          formData.append("employee_ids[]", c.employee_no || "");
         });
         formData.append("photo", values.photo);
-        res = await fetch("http://10.24.0.155:3030/api/coaching", {
+        res = await fetch(`${API_URL3}/api/coaching`, {
           method: "POST",
           body: formData,
         });
       } else {
         // Kirim JSON biasa jika tidak ada file
-        res = await fetch("http://10.24.0.155:3030/api/coaching", {
+        res = await fetch(`${API_URL3}/api/coaching`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -344,7 +365,7 @@ export default function AddCoachPage() {
             coach: values.coach,
             area_observation: values.area_observation,
             result_observation: values.result_observation,
-            employee_ids: values.coachy.map((c) => c.employee_no),
+            employee_ids: values.coachy.map((c) => c.employee_no || null),
           }),
         });
       }
@@ -485,7 +506,7 @@ export default function AddCoachPage() {
                   )
                   .map((e, idx) => (
                     <div
-                      key={e.employee_no}
+                      key={e.employee_no !== null ? e.employee_no : 'others'}
                       className={
                         coachyStyles.listItem +
                         (pickedAvailable.includes(e.employee_no)
@@ -503,10 +524,15 @@ export default function AddCoachPage() {
                         className={coachyStyles.checkbox}
                       />
                       <span>
-                        {e.employee_name}{" "}
-                        <span className={coachyStyles.itemMeta}>
-                          ({e.department_name} • {e.section_name})
-                        </span>
+                        {e.employee_name === "Others"
+                          ? "Others"
+                          : <>
+                              {e.employee_name}{" "}
+                              <span className={coachyStyles.itemMeta}>
+                                ({e.department_name} • {e.section_name})
+                              </span>
+                            </>
+                        }
                       </span>
                     </div>
                   ))}
@@ -556,7 +582,7 @@ export default function AddCoachPage() {
               <div className={coachyStyles.listBox}>
                 {selectedCoachy.map((e, idx) => (
                   <div
-                    key={e.employee_no}
+                    key={e.employee_no !== null ? e.employee_no : 'others'}
                     className={
                       coachyStyles.listItem +
                       (pickedSelected.includes(e.employee_no)
@@ -574,10 +600,15 @@ export default function AddCoachPage() {
                       className={coachyStyles.checkbox}
                     />
                     <span>
-                      {e.employee_name}{" "}
-                      <span className={coachyStyles.itemMeta}>
-                        ({e.department_name} • {e.position_name})
-                      </span>
+                      {e.employee_name === "Others"
+                        ? "Others"
+                        : <>
+                            {e.employee_name}{" "}
+                            <span className={coachyStyles.itemMeta}>
+                              ({e.department_name} • {e.position_name})
+                            </span>
+                          </>
+                      }
                     </span>
                   </div>
                 ))}
