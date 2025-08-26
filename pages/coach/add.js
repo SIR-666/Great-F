@@ -299,7 +299,7 @@ export default function AddCoachPage() {
   useEffect(() => {
     // Ambil nama dan dept dari identityData
     const empName = getIdentityData ? getIdentityData("employee_name") : "";
-    const empDept = getIdentityData ? getIdentityData("department_name") : "";
+    const empDept = getIdentityData ? getIdentityData("section_name") : "";
     setEmployeeName(empName || "");
     setEmployeeDept(empDept || "");
     // Set coach otomatis
