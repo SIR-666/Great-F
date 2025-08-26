@@ -796,7 +796,7 @@ export default function AddEventPage({}) {
     fetchData();
     // Get employee data
     const empName = getIdentityData("employee_name") || "";
-    const empDept = getIdentityData("department_name") || "";
+    const empDept = getIdentityData("section_name") || "";
 
     console.log("=== SETTING EMPLOYEE DATA ===");
     console.log("empName from getIdentityData:", empName);
