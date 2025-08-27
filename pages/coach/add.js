@@ -8,140 +8,17 @@ import { ToastContainer, toast } from "react-toastify";
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 export default function AddCoachPage() {
-  // const optionsArea = [
-  //   { value: "Milk-(Filling)", label: " (Milk-Filling)" },
-  //   {
-  //     value: "Milk-(Packing, Inkubasi QC)",
-  //     label: " Anteroom dan hoot room yogurt",
-  //   },
-  //   { value: "Are Anteroom Chilled", label: " Are Anteroom Chilled" },
-  //   { value: "Area CIP Road tanker", label: " Area CIP Road tanker" },
-  //   {
-  //     value: "Area Istirahat Project (Bedeng)",
-  //     label: " Area Istirahat Project (Bedeng)",
-  //   },
-  //   { value: "Area Loading Dock Chilled", label: " Area Loading Dock Chilled" },
-  //   { value: "Area Office Chilled", label: " Area Office Chilled" },
-  //   {
-  //     value: "Area Parkir Truk  Precolling",
-  //     label: " Area Parkir Truk  Precolling",
-  //   },
-  //   { value: "Area Robot Chilled", label: " Area Robot Chilled" },
-  //   {
-  //     value: "Area Warehouse Chilled Baru",
-  //     label: " Area Warehouse Chilled Baru",
-  //   },
-  //   {
-  //     value: "Area Warehouse Chilled Lama",
-  //     label: " Area Warehouse Chilled Lama",
-  //   },
-  //   { value: "Auditorium", label: " Auditorium" },
-  //   { value: "Balkon Cheese", label: " Balkon Cheese" },
-  //   { value: "Blending ", label: " Blending " },
-  //   { value: "Boiler", label: " Boiler" },
-  //   { value: "Chiller", label: " Chiller" },
-  //   { value: "CIP Kitchen ", label: " CIP Kitchen " },
-  //   { value: "Cold Storage", label: " Cold Storage" },
-  //   { value: "Cold Storage Cheese", label: " Cold Storage Cheese" },
-  //   { value: "Cooling tower", label: " Cooling tower" },
-  //   { value: "Decon  Yogurt", label: " Decon  Yogurt" },
-  //   { value: "Decon Cheese", label: " Decon Cheese" },
-  //   { value: "Decon Milk", label: " Decon Milk" },
-  //   { value: "Driver Room", label: " Driver Room" },
-  //   { value: "Esleeve", label: " Esleeve" },
-  //   { value: "Filing Yogurt", label: " Filing Yogurt" },
-  //   { value: "Filling Milk", label: " Filling Milk" },
-  //   { value: "Gazebo (office)", label: " Gazebo (office)" },
-  //   { value: "Gazebo Unloading Milk", label: " Gazebo Unloading Milk" },
-  //   { value: "Genset", label: " Genset" },
-  //   { value: "Kantin", label: " Kantin" },
-  //   { value: "Klinik", label: " Klinik" },
-  //   { value: "Kompresor High Press", label: " Kompresor High Press" },
-  //   { value: "Kompresor Low Press", label: " Kompresor Low Press" },
-  //   { value: "Koperasi", label: " Koperasi" },
-  //   { value: "Lab", label: " Lab" },
-  //   { value: "Laundry", label: " Laundry" },
-  //   { value: "Loading Cheese", label: " Loading Cheese" },
-  //   { value: "Loading/Unloading WH Dry", label: " Loading/Unloading WH Dry" },
-  //   {
-  //     value: "Loading/Unloading WH Material & Chemical",
-  //     label: " Loading/Unloading WH Material & Chemical",
-  //   },
-  //   {
-  //     value: "Loading/Unloading WH Packaging",
-  //     label: " Loading/Unloading WH Packaging",
-  //   },
-  //   { value: "Lobby", label: " Lobby" },
-  //   { value: "Loker Karyawan", label: " Loker Karyawan" },
-  //   { value: "Masjid", label: " Masjid" },
-  //   { value: "Office", label: " Office" },
-  //   { value: "Office Cheese", label: " Office Cheese" },
-  //   { value: "Office Logistik", label: " Office Logistik" },
-  //   { value: "Office QC", label: " Office QC" },
-  //   { value: "Office WWTP", label: " Office WWTP" },
-  //   { value: "Packaging material yogurt", label: " Packaging material yogurt" },
-  //   { value: "Packing Cheese", label: " Packing Cheese" },
-  //   { value: "Packing Milk", label: " Packing Milk" },
-  //   { value: "Packing Yogurt", label: " Packing Yogurt" },
-  //   { value: "Parkir Mobil", label: " Parkir Mobil" },
-  //   { value: "Parkir Motor", label: " Parkir Motor" },
-  //   { value: "Parkir Rest Area", label: " Parkir Rest Area" },
-  //   { value: "Parkir Road Tanker", label: " Parkir Road Tanker" },
-  //   { value: "Parkir Truck", label: " Parkir Truck" },
-  //   { value: "Pass Box Filling Milk", label: " Pass Box Filling Milk" },
-  //   { value: "Pos Security 1", label: " Pos Security 1" },
-  //   { value: "Pos Security 2", label: " Pos Security 2" },
-  //   { value: "Process ", label: " Process " },
-  //   { value: "Processing Cheese", label: " Processing Cheese" },
-  //   { value: "Processing Milk", label: " Processing Milk" },
-  //   { value: "Processing Yogurt", label: " Processing Yogurt" },
-  //   { value: "Rest Area", label: " Rest Area" },
-  //   {
-  //     value: "Robotik ESL (cold storage)",
-  //     label: " Robotik ESL (cold storage)",
-  //   },
-  //   { value: "Robotik UHT", label: " Robotik UHT" },
-  //   { value: "Robotik Yogurt", label: " Robotik Yogurt" },
-  //   { value: "Ruang Inkubasi QC", label: " Ruang Inkubasi QC" },
-  //   {
-  //     value: "Ruang Tunggu driver road tanker",
-  //     label: " Ruang Tunggu driver road tanker",
-  //   },
-  //   { value: "Tanki Solar", label: " Tanki Solar" },
-  //   { value: "TPS", label: " TPS" },
-  //   { value: "TPS LB3", label: " TPS LB3" },
-  //   { value: "TPS Sampah Ekonomis", label: " TPS Sampah Ekonomis" },
-  //   { value: "Trafo", label: " Trafo" },
-  //   {
-  //     value: "Unloading Chemical Processing",
-  //     label: " Unloading Chemical Processing",
-  //   },
-  //   { value: "Unloading Milk", label: " Unloading Milk" },
-  //   { value: "Unloading Milk Cheese", label: " Unloading Milk Cheese" },
-  //   { value: "Unloading Spare part", label: " Unloading Spare part" },
-  //   { value: "UPS", label: " UPS" },
-  //   { value: "View Galery", label: " View Galery" },
-  //   { value: "View Galery Cheese", label: " View Galery Cheese" },
-  //   { value: "Warehouse Cangkang", label: " Warehouse Cangkang" },
-  //   { value: "Warehouse Cheese", label: " Warehouse Cheese" },
-  //   { value: "Warehouse Chemical", label: " Warehouse Chemical" },
-  //   { value: "Warehouse dry", label: " Warehouse dry" },
-  //   { value: "Warehouse Raw Material", label: " Warehouse Raw Material" },
-  //   { value: "Warehouse Spare Part", label: " Warehouse Spare Part" },
-  //   { value: "Workshop Boiler", label: " Workshop Boiler" },
-  //   { value: "Workshop Utility", label: " Workshop Utility" },
-  //   { value: "WT/Holding Tank", label: " WT/Holding Tank" },
-  //   { value: "WWTP", label: " WWTP" },
-  // ];
   const [optionsArea, setOptionsArea] = useState([]);
   // const [loading, setLoading] = useState(true);
 
   const { getIdentityData } = useContext(AuthContext);
   const [employeeName, setEmployeeName] = useState("");
   const [employeeDept, setEmployeeDept] = useState("");
+  const [employeeNo, setEmployeeNo] = useState("");
   const [values, setValues] = useState({
     date_of_coach: "",
     coach: "",
+    employee_no: employeeNo,
     area_observation: "",
     result_observation: "",
     coachy: [], // array of selected coachee employee objects
@@ -300,11 +177,14 @@ export default function AddCoachPage() {
     // Ambil nama dan dept dari identityData
     const empName = getIdentityData ? getIdentityData("employee_name") : "";
     const empDept = getIdentityData ? getIdentityData("section_name") : "";
+    const empNo = getIdentityData ? getIdentityData("employee_no") : "";
     setEmployeeName(empName || "");
     setEmployeeDept(empDept || "");
+    setEmployeeNo(empNo || "");
     // Set coach otomatis
     setValues((prev) => ({
       ...prev,
+      employee_no: empNo || "",
       coach: empName && empDept ? empName + " / " + empDept : "",
     }));
   }, [getIdentityData]);
@@ -345,6 +225,7 @@ export default function AddCoachPage() {
         formData.append("coach", values.coach);
         formData.append("area_observation", values.area_observation);
         formData.append("result_observation", values.result_observation);
+        formData.append("employee_no", values.employee_no);
         values.coachy.forEach((c, idx) => { 
           formData.append("employee_ids[]", c.employee_no || "");
         });
@@ -363,6 +244,7 @@ export default function AddCoachPage() {
           body: JSON.stringify({
             date_of_coach: values.date_of_coach,
             coach: values.coach,
+            employee_no: values.employee_no,
             area_observation: values.area_observation,
             result_observation: values.result_observation,
             employee_ids: values.coachy.map((c) => c.employee_no || null),
