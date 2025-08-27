@@ -229,8 +229,15 @@ export const AuthProvider = ({ children }) => {
       setCookie("role", data.user.role.id);
       router.push("/");
     } else {
-      setError(data.message);
-      setError(null);
+      let errorMsg = "Registration failed";
+      if (typeof data.message === "string") {
+        errorMsg = data.message;
+      } else if (Array.isArray(data.message) && data.message[0]?.messages) {
+        errorMsg = data.message[0].messages[0]?.message || errorMsg;
+      } else if (data.message) {
+        errorMsg = JSON.stringify(data.message);
+      }
+      setError(errorMsg);
     }
   };
 

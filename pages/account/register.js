@@ -17,7 +17,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     error && toast.error(error);
-  });
+  }, [error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,10 +39,11 @@ export default function RegisterPage() {
         <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">NIK</label>
             <input
               type="text"
               id="username"
+              placeholder="Masukkan NIK Anda"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -52,6 +53,7 @@ export default function RegisterPage() {
             <input
               type="email"
               id="email"
+              placeholder="Masukkan Email Anda"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -60,6 +62,7 @@ export default function RegisterPage() {
             <label htmlFor="password">Password</label>
             <input
               type="password"
+              placeholder="Masukkan Password Anda"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -69,6 +72,7 @@ export default function RegisterPage() {
             <label htmlFor="passwordConfirm">Confirm Password</label>
             <input
               type="password"
+              placeholder="Masukkan Konfirmasi Password Anda"
               id="passwordConfirm"
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}

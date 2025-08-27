@@ -1,11 +1,11 @@
 import cookie from "cookie";
-import { API_URL } from "@/config/index";
+import { API_URL, API_URL2 } from "@/config/index";
 
 export default async (req, res) => {
   if (req.method === "POST") {
     const { username, email, password } = req.body;
 
-    const strapiRes = await fetch(`${API_URL}/auth/local/register`, {
+    const strapiRes = await fetch(`${API_URL2}/api/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,9 +34,15 @@ export default async (req, res) => {
 
       res.status(200).json({ user: data.user });
     } else {
-      res
-        .status(data.statusCode)
-        .json({ message: data.message[0].messages[0].message });
+      let errorMsg = "Registration failed";
+      if (Array.isArray(data.message) && data.message[0]?.messages) {
+        errorMsg = data.message[0].messages[0]?.message || errorMsg;
+      } else if (typeof data.message === "string") {
+        errorMsg = data.message;
+      } else if (data.message) {
+        errorMsg = JSON.stringify(data.message);
+      }
+      res.status(data.statusCode || 400).json({ message: errorMsg });
     }
   } else {
     res.setHeader("Allow", ["POST"]);
