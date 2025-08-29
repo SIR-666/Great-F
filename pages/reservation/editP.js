@@ -107,6 +107,8 @@ export default function App() {
     { text: "Yusuf Agus Prastomo", value: " Yusuf Agus Prastomo" },
     { text: "Zoni Wirawan", value: " Zoni Wirawan" },
     { text: "Zuh Rohtul Aulia", value: " Zuh Rohtul Aulia" },
+    { text: "Syahroni Isron Ramdana", value: " Syahroni Isron Ramdana" },
+    { text: "Stevan Martinus", value: " Stevan Martinus" },
   ];
 
   // const [options, setOptions] = useState([]);
@@ -782,6 +784,11 @@ export default function App() {
                 text: "SUPPLY CHAIN - PPIC - 9210DP3004 SUPPLY CHAIN MANAGEMENT-PL",
                 value:
                   " SUPPLY CHAIN - PPIC - 9210DP3004 SUPPLY CHAIN MANAGEMENT-PL",
+              },
+              {
+                id: 18,
+                text: "PROJECT PASOPATI - 9210DP1118 FPACK SIG CFA 1224",
+                value: " PROJECT PASOPATI - 9210DP1118 FPACK SIG CFA 1224",
               },
             ],
             config: {
