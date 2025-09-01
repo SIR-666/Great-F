@@ -674,10 +674,10 @@ export default function AddEventPage({}) {
   };
 
   useEffect(() => {
-    if (employeeName && employeeDept) {
+    if (employeeName && employeeDept && employeeSect) {
       handleInputChange2();
     }
-  }, [employeeName, employeeDept]);
+  }, [employeeName, employeeDept, employeeSect]);
 
   const handleInputChange3 = (e) => {
     // const { name, value } = e.value;
@@ -810,10 +810,10 @@ export default function AddEventPage({}) {
       setValues((prevValues) => ({
         ...prevValues,
         department_area: empDept,
-        pic: empName + "" + " / " + empSect,
+        pic: empName + " / " + empSect,
       }));
       console.log("Values updated with:", {
-        pic: empName + "" + " / " + empSect,
+        pic: empName + " / " + empSect,
         department_area: empDept,
       });
     }
@@ -860,8 +860,8 @@ export default function AddEventPage({}) {
               value={
                 employeeName
                   ? {
-                      value: employeeName + " / " + employeeDept,
-                      label: employeeName + " / " + employeeDept,
+                      value: employeeName + " / " + employeeSect,
+                      label: employeeName + " / " + employeeSect,
                     }
                   : null
               }
