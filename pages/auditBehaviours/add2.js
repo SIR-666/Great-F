@@ -673,12 +673,6 @@ export default function AddEventPage({}) {
     });
   };
 
-  useEffect(() => {
-    if (employeeName && employeeDept && employeeSect) {
-      handleInputChange2();
-    }
-  }, [employeeName, employeeDept, employeeSect]);
-
   const handleInputChange3 = (e) => {
     // const { name, value } = e.value;
     setValues({ ...values, location: e.value });
@@ -797,7 +791,7 @@ export default function AddEventPage({}) {
     fetchData();
     // Get employee data
     const empName = getIdentityData("employee_name") || "";
-    const empDept = getIdentityData("department_area") || "";
+    const empDept = getIdentityData("department_name") || "";
     const empSect = getIdentityData("section_name") || "";
 
     setEmployeeName(empName);
@@ -805,18 +799,17 @@ export default function AddEventPage({}) {
     setEmployeeSect(empSect);
 
     // Set values langsung di sini untuk memastikan sinkronisasi
-    if (empName && empDept) {
-      console.log("Updating values with employee data");
-      setValues((prevValues) => ({
-        ...prevValues,
-        department_area: empDept,
-        pic: empName + " / " + empSect,
-      }));
-      console.log("Values updated with:", {
-        pic: empName + " / " + empSect,
-        department_area: empDept,
-      });
-    }
+
+    console.log("Updating values with employee data");
+    setValues((prevValues) => ({
+      ...prevValues,
+      department_area: empDept ? empDept : "",
+      pic: empName && empSect ? empName + " / " + empSect : "",
+    }));
+    console.log("Values updated with:", {
+      pic: empName && empSect ? empName + " / " + empSect : "",
+      department_area: empDept ? empDept : "",
+    });
 
     const username = getCookie("username");
     checkUser(username);
@@ -869,7 +862,7 @@ export default function AddEventPage({}) {
               id="pic"
               placeholder="Select Auditor"
               isDisabled={true} // Ubah menjadi false
-              onChange={handleInputChange2}
+              // onChange={handleInputChange2}
             />
           </div>
           {/* <div>
