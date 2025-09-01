@@ -479,6 +479,7 @@ export default function AddEventPage({}) {
   const [loading, setLoading] = useState(false);
   const [employeeName, setEmployeeName] = useState("");
   const [employeeDept, setEmployeeDept] = useState("");
+  const [employeeSect, setEmployeeSect] = useState("");
   let today = moment().format("YYYY-MM-DD");
   // var hariIni = new Date().toISOString().split("T")[0];
   const date = new Date();
@@ -668,7 +669,7 @@ export default function AddEventPage({}) {
     setValues({
       ...values,
       department_area: employeeDept,
-      pic: employeeName + " / " + employeeDept,
+      pic: employeeName + " / " + employeeSect,
     });
   };
 
@@ -796,14 +797,12 @@ export default function AddEventPage({}) {
     fetchData();
     // Get employee data
     const empName = getIdentityData("employee_name") || "";
-    const empDept = getIdentityData("section_name") || "";
-
-    console.log("=== SETTING EMPLOYEE DATA ===");
-    console.log("empName from getIdentityData:", empName);
-    console.log("empDept from getIdentityData:", empDept);
+    const empDept = getIdentityData("department_area") || "";
+    const empSect = getIdentityData("section_name") || "";
 
     setEmployeeName(empName);
     setEmployeeDept(empDept);
+    setEmployeeSect(empSect);
 
     // Set values langsung di sini untuk memastikan sinkronisasi
     if (empName && empDept) {
@@ -811,10 +810,10 @@ export default function AddEventPage({}) {
       setValues((prevValues) => ({
         ...prevValues,
         department_area: empDept,
-        pic: empName + "" + " / " + empDept,
+        pic: empName + "" + " / " + empSect,
       }));
       console.log("Values updated with:", {
-        pic: empName + "" + " / " + empDept,
+        pic: empName + "" + " / " + empSect,
         department_area: empDept,
       });
     }
