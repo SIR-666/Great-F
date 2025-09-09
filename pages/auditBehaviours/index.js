@@ -332,7 +332,7 @@ export default function DisableFieldEditable({ evt }) {
               padding: isMobile ? "dense" : "normal",
               pageSize: isMobile ? 5 : 10,
               emptyRowsWhenPaging: false,
-              pageSizeOptions: isMobile ? [5, 10, 20] : [10, 20, 30, 50, 100],
+              pageSizeOptions: isMobile ? [5, 10, 20] : [10, 20, 30, 50, 100, 500],
               draggable: !isMobile,
               maxBodyHeight: isMobile ? "62vh" : "68vh",
               minBodyHeight: isMobile ? "62vh" : "68vh",
