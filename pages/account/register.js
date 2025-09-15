@@ -27,6 +27,13 @@ export default function RegisterPage() {
       return;
     }
 
+    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
+    const gmailRegex1 = /^[a-zA-Z0-9._%+-]+@greenfieldsdairy\.com$/i;
+    if (!gmailRegex.test(email) && !gmailRegex1.test(email)) {
+      toast.error("Email harus menggunakan domain @gmail.com atau @greenfieldsdairy.com yang valid!");
+      return;
+    }
+
     register({ username, email, password });
   };
 

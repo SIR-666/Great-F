@@ -180,6 +180,11 @@ export const AuthProvider = ({ children }) => {
       });
       router.push("/account/login");
     } else {
+      Swal.fire({
+        title: "Error",
+        text: data.message || "Something went wrong",
+        icon: "error",
+      });
       setError(data.message);
     }
   };

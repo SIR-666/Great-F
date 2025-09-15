@@ -1,5 +1,6 @@
 import cookie from "cookie";
 import { API_URL, API_URL2 } from "@/config/index";
+import Swal from "sweetalert2";
 
 export default async (req, res) => {
   if (req.method === "POST") {
@@ -33,6 +34,11 @@ export default async (req, res) => {
       );
 
       res.status(200).json({ user: data.user });
+      Swal.fire({
+        title: "Success",
+        text: "Registration successful!",
+        icon: "success",
+      });
     } else {
       let errorMsg = "Registration failed";
       if (Array.isArray(data.message) && data.message[0]?.messages) {
@@ -43,9 +49,19 @@ export default async (req, res) => {
         errorMsg = JSON.stringify(data.message);
       }
       res.status(data.statusCode || 400).json({ message: errorMsg });
+      Swal.fire({
+        title: "Error",
+        text: errorMsg,
+        icon: "error",
+      });
     }
   } else {
     res.setHeader("Allow", ["POST"]);
     res.status(405).json({ message: `Method ${req.method} not allowed` });
+    Swal.fire({
+      title: "Error",
+      text: `Method ${req.method} not allowed`,
+      icon: "error",
+    });
   }
 };
