@@ -558,6 +558,32 @@ export default function AddEventPage({}) {
     e.preventDefault();
     // console.log(values);
     // Validation
+
+    const empDept = getIdentityData("department_name") || "";
+    const empSect = getIdentityData("section_name") || "";
+
+    let deptArea = empDept;
+    if (empSect === "QUALITY CONTROL") {
+      deptArea = "QC";
+    }
+    if (!deptArea && empSect) {
+      if (empSect === "R&D") {
+        deptArea = "R&D";
+      } else if (empSect === "QUALITY ASSURANCE") {
+        deptArea = "QA";
+      } else if (empSect === "MILK PRODUCTION - GENERAL") {
+        deptArea = "PRODUCTION MILK";
+      } else if (empSect === "IT/MIS") {
+        deptArea = "IT/MIS";
+      } else if (empSect === "SUPPLY CHAIN - PPIC") {
+        deptArea = "PPIC";
+      } else if (empSect === "FINANCE") {
+        deptArea = "FINANCE";
+      } else if (empSect === "QA - LABORATORY") {
+        deptArea = "QA";
+      }
+    }
+
     const hasEmptyFields = Object.values(values).some(
       (element) => element === ""
     );
@@ -583,6 +609,12 @@ export default function AddEventPage({}) {
     ) {
       values.finding_audit_status = "Close";
     }
+
+    const submitValues = {
+      ...values,
+      department_area: empDept ? empDept : deptArea,
+      pic: empDept && empSect ? empDept + " / " + empSect : "",
+    };
 
     // Log setelah setting finding_audit_status
     console.log("Form values after finding_audit_status set:", values);
@@ -800,7 +832,7 @@ export default function AddEventPage({}) {
 
     let deptArea = empDept;
 
-    if(empSect === "QUALITY CONTROL"){
+    if (empSect === "QUALITY CONTROL") {
       deptArea = "QC";
     }
 
