@@ -800,6 +800,10 @@ export default function AddEventPage({}) {
 
     let deptArea = empDept;
 
+    if(empSect === "QUALITY CONTROL"){
+      deptArea = "QC";
+    }
+
     if (!deptArea && empSect) {
       if (empSect === "R&D") {
         deptArea = "R&D";
