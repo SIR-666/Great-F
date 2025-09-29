@@ -624,21 +624,21 @@ export default function AddEventPage({}) {
     } else {
       setLoading(true);
 
-      const formData = new FormData();
 
+      const formData = new FormData();
       Object.keys(values).forEach((key) => {
         if (values[key] !== null && values[key] !== undefined) {
-          // Jika field adalah file
           if (key === "photo_before" || key === "photo_after") {
             if (values[key] instanceof File) {
               formData.append(key, values[key]);
             }
           } else {
-            // Field biasa (text, date, etc)
             formData.append(key, values[key]);
           }
         }
       });
+      // Overwrite department_area agar selalu terisi
+      formData.set("department_area", empDept ? empDept : deptArea);
 
       const res = await fetch(`http://10.24.0.155:3030/api/audit-behaviour`, {
         method: "POST",
