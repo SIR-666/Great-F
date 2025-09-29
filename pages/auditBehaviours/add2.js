@@ -827,7 +827,7 @@ export default function AddEventPage({}) {
     console.log("Updating values with employee data");
     setValues((prevValues) => ({
       ...prevValues,
-      department_area: deptArea,
+      department_area: empDept ? empDept : deptArea,
       pic: empName && empSect ? empName + " / " + empSect : "",
     }));
     console.log("Values updated with:", {
