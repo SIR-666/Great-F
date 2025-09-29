@@ -798,17 +798,37 @@ export default function AddEventPage({}) {
     setEmployeeDept(empDept);
     setEmployeeSect(empSect);
 
+    let deptArea = empDept;
+
+    if (!deptArea && empSect) {
+      if (empSect === "R&D") {
+        deptArea = "R&D";
+      } else if (empSect === "QUALITY ASSURANCE") {
+        deptArea = "QA";
+      } else if (empSect === "MILK PRODUCTION - GENERAL") {
+        deptArea = "PRODUCTION MILK";
+      } else if (empSect === "IT/MIS") {
+        deptArea = "IT/MIS";
+      } else if (empSect === "SUPPLY CHAIN - PPIC") {
+        deptArea = "PPIC";
+      } else if (empSect === "FINANCE") {
+        deptArea = "FINANCE";
+      } else if (empSect === "QA - LABORATORY") {
+        deptArea = "QA";
+      }
+    }
+
     // Set values langsung di sini untuk memastikan sinkronisasi
 
     console.log("Updating values with employee data");
     setValues((prevValues) => ({
       ...prevValues,
-      department_area: empDept ? empDept : "",
+      department_area: deptArea,
       pic: empName && empSect ? empName + " / " + empSect : "",
     }));
     console.log("Values updated with:", {
       pic: empName && empSect ? empName + " / " + empSect : "",
-      department_area: empDept ? empDept : "",
+      department_area: deptArea,
     });
 
     const username = getCookie("username");

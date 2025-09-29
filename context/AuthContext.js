@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
 
   const validateIdentity = async (nik) => {
     try {
-      const res = await fetch(`${API_URL3}/api/validate-identity`, {
+      const res = await fetch(`${API_URL3}/api/validate-identity-HRIS`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
