@@ -558,32 +558,6 @@ export default function AddEventPage({}) {
     e.preventDefault();
     // console.log(values);
     // Validation
-
-    const empDept = getIdentityData("department_name") || "";
-    const empSect = getIdentityData("section_name") || "";
-
-    let deptArea = empDept;
-    if (empSect === "QUALITY CONTROL") {
-      deptArea = "QC";
-    }
-    if (!deptArea && empSect) {
-      if (empSect === "R&D") {
-        deptArea = "R&D";
-      } else if (empSect === "QUALITY ASSURANCE") {
-        deptArea = "QA";
-      } else if (empSect === "MILK PRODUCTION - GENERAL") {
-        deptArea = "PRODUCTION MILK";
-      } else if (empSect === "IT/MIS") {
-        deptArea = "IT/MIS";
-      } else if (empSect === "SUPPLY CHAIN - PPIC") {
-        deptArea = "PPIC";
-      } else if (empSect === "FINANCE") {
-        deptArea = "FINANCE";
-      } else if (empSect === "QA - LABORATORY") {
-        deptArea = "QA";
-      }
-    }
-
     const hasEmptyFields = Object.values(values).some(
       (element) => element === ""
     );
@@ -610,12 +584,6 @@ export default function AddEventPage({}) {
       values.finding_audit_status = "Close";
     }
 
-    const submitValues = {
-      ...values,
-      department_area: empDept ? empDept : deptArea,
-      pic: empDept && empSect ? empDept + " / " + empSect : "",
-    };
-
     // Log setelah setting finding_audit_status
     console.log("Form values after finding_audit_status set:", values);
 
@@ -624,21 +592,21 @@ export default function AddEventPage({}) {
     } else {
       setLoading(true);
 
-
       const formData = new FormData();
+
       Object.keys(values).forEach((key) => {
         if (values[key] !== null && values[key] !== undefined) {
+          // Jika field adalah file
           if (key === "photo_before" || key === "photo_after") {
             if (values[key] instanceof File) {
               formData.append(key, values[key]);
             }
           } else {
+            // Field biasa (text, date, etc)
             formData.append(key, values[key]);
           }
         }
       });
-      // Overwrite department_area agar selalu terisi
-      formData.set("department_area", empDept ? empDept : deptArea);
 
       const res = await fetch(`http://10.24.0.155:3030/api/audit-behaviour`, {
         method: "POST",
@@ -832,7 +800,7 @@ export default function AddEventPage({}) {
 
     let deptArea = empDept;
 
-    if (empSect === "QUALITY CONTROL") {
+    if(empSect === "QUALITY CONTROL"){
       deptArea = "QC";
     }
 
@@ -859,7 +827,7 @@ export default function AddEventPage({}) {
     console.log("Updating values with employee data");
     setValues((prevValues) => ({
       ...prevValues,
-      department_area: empDept ? empDept : deptArea,
+      department_area: deptArea,
       pic: empName && empSect ? empName + " / " + empSect : "",
     }));
     console.log("Values updated with:", {
