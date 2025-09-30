@@ -802,9 +802,7 @@ export default function AddEventPage({}) {
 
     if(empSect === "QUALITY CONTROL"){
       deptArea = "QC";
-    }
-
-    if (!deptArea && empSect) {
+    } else if (deptArea === " " && empSect) {
       if (empSect === "R&D") {
         deptArea = "R&D";
       } else if (empSect === "QUALITY ASSURANCE") {
