@@ -558,31 +558,6 @@ export default function AddEventPage({}) {
     e.preventDefault();
     // console.log(values);
     // Validation
-
-    const empDept = getIdentityData("department_name") || "";
-    const empSect = getIdentityData("section_name") || "";
-
-    let deptArea = empDept;
-    if (empSect === "QUALITY CONTROL") {
-      deptArea = "QC";
-    }
-    if (!deptArea && empSect) {
-      if (empSect === "R&D") {
-        deptArea = "R&D";
-      } else if (empSect === "QUALITY ASSURANCE") {
-        deptArea = "QA";
-      } else if (empSect === "MILK PRODUCTION - GENERAL") {
-        deptArea = "PRODUCTION MILK";
-      } else if (empSect === "IT/MIS") {
-        deptArea = "IT/MIS";
-      } else if (empSect === "SUPPLY CHAIN - PPIC") {
-        deptArea = "PPIC";
-      } else if (empSect === "FINANCE") {
-        deptArea = "FINANCE";
-      } else if (empSect === "QA - LABORATORY") {
-        deptArea = "QA";
-      }
-    }
     const hasEmptyFields = Object.values(values).some(
       (element) => element === ""
     );
@@ -611,11 +586,6 @@ export default function AddEventPage({}) {
 
     // Log setelah setting finding_audit_status
     console.log("Form values after finding_audit_status set:", values);
-    const submitValues = {
-      ...values,
-      department_area: deptArea,
-      pic: empDept && empSect ? empDept + " / " + empSect : "",
-    };
 
     if (hasEmptyFields) {
       toast.error("Please fill in all fields");
@@ -623,14 +593,17 @@ export default function AddEventPage({}) {
       setLoading(true);
 
       const formData = new FormData();
-      Object.keys(submitValues).forEach((key) => {
-        if (submitValues[key] !== null && submitValues[key] !== undefined) {
+
+      Object.keys(values).forEach((key) => {
+        if (values[key] !== null && values[key] !== undefined) {
+          // Jika field adalah file
           if (key === "photo_before" || key === "photo_after") {
-            if (submitValues[key] instanceof File) {
-              formData.append(key, submitValues[key]);
+            if (values[key] instanceof File) {
+              formData.append(key, values[key]);
             }
           } else {
-            formData.append(key, submitValues[key]);
+            // Field biasa (text, date, etc)
+            formData.append(key, values[key]);
           }
         }
       });
@@ -827,7 +800,7 @@ export default function AddEventPage({}) {
 
     let deptArea = empDept;
 
-    if (empSect === "QUALITY CONTROL") {
+    if(empSect === "QUALITY CONTROL"){
       deptArea = "QC";
     }
 
