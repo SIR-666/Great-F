@@ -333,6 +333,7 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         resetPassword,
         getIdentityData,
+        validateIdentity,
       }}
     >
       {children}
