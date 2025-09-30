@@ -13,7 +13,7 @@ import styles from "@/styles/Form.module.css";
 import AuthContext from "@/context/AuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
-
+import RefreshIdentity from "@/components/RefreshIdentity";
 // import dayjs from "dayjs";
 
 const options2 = [
@@ -800,7 +800,7 @@ export default function AddEventPage({}) {
 
     let deptArea = empDept;
 
-    if(empSect === "QUALITY CONTROL"){
+    if (empSect === "QUALITY CONTROL") {
       deptArea = "QC";
     } else if (deptArea === " " && empSect) {
       if (empSect === "R&D") {
@@ -840,6 +840,7 @@ export default function AddEventPage({}) {
 
   return (
     <Layout title="Add New Event">
+      <RefreshIdentity />
       <Link href="/events">Go Back</Link>
       <h1>Add Behavior Based Safety (BBS)</h1>
       <ToastContainer />
