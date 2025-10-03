@@ -1,0 +1,190 @@
+.mooNews-form .order-badge {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	background: linear-gradient(90deg, #2563eb 60%, #1d4ed8 100%);
+	color: #fff;
+	font-weight: 700;
+	font-size: 1.15rem;
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 8px #0002;
+	z-index: 3;
+	border: 2px solid #fff;
+	pointer-events: none;
+}
+
+/* Moo News Add Form Styling - Tailwind-inspired */
+.mooNews-form {
+	max-width: 600px;
+	margin: 2rem auto;
+	background: #fff;
+	border-radius: 0.75rem;
+	box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+	padding: 2rem 2.5rem 2.5rem 2.5rem;
+}
+.mooNews-form label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+	color: #374151;
+}
+.mooNews-form input[type="text"],
+.mooNews-form textarea {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	border: 1px solid #d1d5db;
+	border-radius: 0.5rem;
+	font-size: 1rem;
+	margin-top: 0.25rem;
+	margin-bottom: 1.25rem;
+	background: #f9fafb;
+	transition: border 0.2s;
+}
+.mooNews-form input[type="text"]:focus,
+.mooNews-form textarea:focus {
+	border-color: #2563eb;
+	outline: none;
+	background: #fff;
+}
+.mooNews-form textarea {
+	min-height: 120px;
+	resize: vertical;
+}
+.mooNews-form .images-section {
+	margin-bottom: 1.5rem;
+
+}
+.mooNews-form .multi-image-input {
+	margin-bottom: 1.2rem;
+	min-height: 54px;
+	font-size: 1.15rem;
+	padding: 0.7rem 1.2rem;
+	border-radius: 0.6rem;
+	border: 1.5px solid #bfc7d1;
+	background: #f3f4f6;
+	width: 100%;
+	box-sizing: border-box;
+}
+.mooNews-form .image-thumbnails-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 1.2rem;
+	margin-bottom: 0.7rem;
+	width: 100%;
+	box-sizing: border-box;
+}
+.mooNews-form .image-thumb {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1/1;
+	border-radius: 0.7rem;
+	overflow: hidden;
+	background: #f3f4f6;
+	border: 2.5px solid #e5e7eb;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 8px 0 #0001;
+	cursor: grab;
+	transition: border 0.15s;
+	min-width: 0;
+}
+.mooNews-form .image-thumb:active {
+	border: 2.5px solid #2563eb;
+}
+.mooNews-form .thumb-img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 0.7rem;
+	pointer-events: none;
+	background: #fff;
+}
+.mooNews-form .image-thumb .remove-btn {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	background: #ef4444;
+	color: #fff;
+	border: none;
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	font-size: 1.3rem;
+	font-weight: 700;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+	box-shadow: 0 2px 8px #0002;
+	padding: 0;
+	transition: background 0.15s;
+}
+.mooNews-form .image-thumb .remove-btn:hover {
+	background: #b91c1c;
+}
+.mooNews-form .image-hint {
+	font-size: 1.05rem;
+	color: #64748b;
+	margin-top: 0.35rem;
+	margin-bottom: 0.7rem;
+}
+.mooNews-form .remove-btn {
+	color: #ef4444;
+	background: none;
+	border: none;
+	font-weight: 600;
+	cursor: pointer;
+	padding: 0.25rem 0.75rem;
+	border-radius: 0.375rem;
+	transition: background 0.15s;
+}
+.mooNews-form .remove-btn:hover {
+	background: #fee2e2;
+}
+.mooNews-form .add-image-btn {
+	display: inline-block;
+	margin-top: 0.5rem;
+	color: #2563eb;
+	background: #e0e7ff;
+	border: none;
+	font-weight: 600;
+	padding: 0.5rem 1.25rem;
+	border-radius: 0.375rem;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.mooNews-form .add-image-btn:hover {
+	background: #c7d2fe;
+}
+.mooNews-form .submit-btn {
+	width: 100%;
+	background: linear-gradient(90deg, #ff0000 0%, #ff0000 100%);
+	color: #fff;
+	font-weight: 700;
+	font-size: 1.1rem;
+	padding: 0.85rem 0;
+	border: none;
+	border-radius: 0.5rem;
+	box-shadow: 0 1px 2px 0 rgba(37,99,235,0.08);
+	cursor: pointer;
+	margin-top: 1.5rem;
+	transition: background 0.15s, box-shadow 0.15s;
+}
+.mooNews-form .submit-btn:disabled {
+	background: #a5b4fc;
+	cursor: not-allowed;
+}
+.mooNews-form h1 {
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 800;
+	color: #1e293b;
+	margin-bottom: 2rem;
+}

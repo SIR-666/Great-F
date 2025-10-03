@@ -45,11 +45,24 @@ const groupedNav = (user) => [
       ...(user?.role?.id === 6 || user?.role?.id === 3
         ? [{ label: "Edit Reservation", path: "/reservation/edit" }]
         : []),
-        ...(user?.role?.id === 6 || user?.role?.id === 3
+      ...(user?.role?.id === 6 || user?.role?.id === 3
         ? [{ label: "List Reservation", path: "/reservation/list" }]
         : []),
     ],
   },
+  ...(user?.role?.id === 6 || user?.role?.id === 3
+    ? [
+        {
+          title: "Moo News",
+          key: "MooNews",
+          items: [
+            { label: "Add Moo News", path: "/mooNews/add" },
+            { label: "Edit Moo News", path: "/mooNews/edit" },
+            { label: "List Moo News", path: "/mooNews" },
+          ],
+        },
+      ]
+    : []),
   {
     title: "Audit",
     key: "Audit",
@@ -74,6 +87,7 @@ export default function Header() {
     Greentag: true,
     RoomReservation: false,
     Audit: false,
+    MooNews: false,
   });
 
   const toggleSection = (key) => {
@@ -96,6 +110,7 @@ export default function Header() {
       identityData = null;
     }
     const payload = JSON.stringify({
+      token: getCookie("token"),
       username: user.username,
       email: user.email,
       role: user.role?.id || "",
@@ -103,7 +118,9 @@ export default function Header() {
     });
     const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // TODO: pindahkan ke env
     const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
-    const targetUrl = `http://10.24.0.81:3000/?id=${encodeURIComponent(encrypted)}`;
+    const targetUrl = `http://localhost:3000/?id=${encodeURIComponent(
+      encrypted
+    )}`;
     window.location.href = targetUrl;
   };
 
@@ -229,13 +246,26 @@ export default function Header() {
               navItemsDesktop.map((item) => (
                 <ListItem key={item.label} disablePadding>
                   {item.onClick ? (
-                    <ListItemButton sx={{ textAlign: "center" }} onClick={item.onClick}>
-                      <ListItemText primary={item.label } primaryTypographyProps={{ sx: { color: HEADER_TEXT_COLOR } }} />
+                    <ListItemButton
+                      sx={{ textAlign: "center" }}
+                      onClick={item.onClick}
+                    >
+                      <ListItemText
+                        primary={item.label}
+                        primaryTypographyProps={{
+                          sx: { color: HEADER_TEXT_COLOR },
+                        }}
+                      />
                     </ListItemButton>
                   ) : (
                     <Link href={item.path} style={{ textDecoration: "none" }}>
                       <ListItemButton sx={{ textAlign: "center" }}>
-                        <ListItemText primary={item.label} primaryTypographyProps={{ sx: { color: HEADER_TEXT_COLOR } }}/>
+                        <ListItemText
+                          primary={item.label}
+                          primaryTypographyProps={{
+                            sx: { color: HEADER_TEXT_COLOR },
+                          }}
+                        />
                       </ListItemButton>
                     </Link>
                   )}
@@ -295,7 +325,12 @@ export default function Header() {
           }}
         >
           <Link href="/">
-            <Image alt="greendazh" src="/images/gfi.png" width={40} height={40} />
+            <Image
+              alt="greendazh"
+              src="/images/gfi.png"
+              width={40}
+              height={40}
+            />
           </Link>
           <a
             target="_blank"
@@ -303,7 +338,8 @@ export default function Header() {
             style={{ color: "#32CD32", textDecoration: "none" }}
             rel="noopener noreferrer"
           >
-            &nbsp;&nbsp;<b style={{ fontSize: 30, color: "#32CD32" }}>G.R.E.A.T</b>
+            &nbsp;&nbsp;
+            <b style={{ fontSize: 30, color: "#32CD32" }}>G.R.E.A.T</b>
           </a>
         </div>
       </Drawer>
