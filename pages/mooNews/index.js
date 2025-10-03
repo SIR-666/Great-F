@@ -27,28 +27,43 @@ const MaterialTable = dynamic(() => import("@material-table/core"), {
   ssr: false,
 });
 
+// Setiap icon diberi displayName agar lolos lint react/display-name
+const AddIcon = forwardRef(function AddIcon(props, ref) { return <AddBox {...props} ref={ref} />; });
+const CheckIcon = forwardRef(function CheckIcon(props, ref) { return <Check {...props} ref={ref} />; });
+const ClearIcon = forwardRef(function ClearIcon(props, ref) { return <Clear {...props} ref={ref} />; });
+const DeleteIcon = forwardRef(function DeleteIcon(props, ref) { return <DeleteOutline {...props} ref={ref} />; });
+const DetailPanelIcon = forwardRef(function DetailPanelIcon(props, ref) { return <ChevronRight {...props} ref={ref} />; });
+const EditIcon = forwardRef(function EditIcon(props, ref) { return <Edit {...props} ref={ref} />; });
+const ExportIcon = forwardRef(function ExportIcon(props, ref) { return <SaveAlt {...props} ref={ref} />; });
+const FilterIcon = forwardRef(function FilterIcon(props, ref) { return <FilterList {...props} ref={ref} />; });
+const FirstPageIcon = forwardRef(function FirstPageIcon(props, ref) { return <FirstPage {...props} ref={ref} />; });
+const LastPageIcon = forwardRef(function LastPageIcon(props, ref) { return <LastPage {...props} ref={ref} />; });
+const NextPageIcon = forwardRef(function NextPageIcon(props, ref) { return <ChevronRight {...props} ref={ref} />; });
+const PreviousPageIcon = forwardRef(function PreviousPageIcon(props, ref) { return <ChevronLeft {...props} ref={ref} />; });
+const ResetSearchIcon = forwardRef(function ResetSearchIcon(props, ref) { return <Clear {...props} ref={ref} />; });
+const SearchIcon = forwardRef(function SearchIcon(props, ref) { return <Search {...props} ref={ref} />; });
+const SortArrowIcon = forwardRef(function SortArrowIcon(props, ref) { return <ArrowDownward {...props} ref={ref} />; });
+const ThirdStateCheckIcon = forwardRef(function ThirdStateCheckIcon(props, ref) { return <Remove {...props} ref={ref} />; });
+const ViewColumnIcon = forwardRef(function ViewColumnIcon(props, ref) { return <ViewColumn {...props} ref={ref} />; });
+
 const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => (
-    <ChevronRight {...props} ref={ref} />
-  )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  Add: AddIcon,
+  Check: CheckIcon,
+  Clear: ClearIcon,
+  Delete: DeleteIcon,
+  DetailPanel: DetailPanelIcon,
+  Edit: EditIcon,
+  Export: ExportIcon,
+  Filter: FilterIcon,
+  FirstPage: FirstPageIcon,
+  LastPage: LastPageIcon,
+  NextPage: NextPageIcon,
+  PreviousPage: PreviousPageIcon,
+  ResetSearch: ResetSearchIcon,
+  Search: SearchIcon,
+  SortArrow: SortArrowIcon,
+  ThirdStateCheck: ThirdStateCheckIcon,
+  ViewColumn: ViewColumnIcon,
 };
 
 // Helper kecil untuk row di panel detail
