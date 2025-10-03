@@ -354,7 +354,7 @@ export default function MooNewsList({ news }) {
 
 export async function getServerSideProps() {
   try {
-    const res = await fetch(`${API_BASE}/news`);
+    const res = await fetch(`${API_BASE}/api/news`);
     const response = await res.json();
 
     let news;
