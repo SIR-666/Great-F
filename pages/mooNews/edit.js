@@ -181,7 +181,7 @@ export default function EditMooNewsPage() {
     setLoading(true);
     try {
       // 1. Update berita utama (Volume)
-      const res = await fetch(`${API_BASE}/news/${newsId}`, {
+      const res = await fetch(`${API_BASE}/api/news/${newsId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ Volume: values.Volume }),
@@ -196,7 +196,7 @@ export default function EditMooNewsPage() {
         if (!img.file) continue;
         const formData = new FormData();
         formData.append("image", img.file); // field name must be 'image'
-        const uploadRes = await fetch(`${API_BASE}/news/${newsId}/images`, {
+        const uploadRes = await fetch(`${API_BASE}/api/news/${newsId}/images`, {
           method: "POST",
           body: formData,
         });
