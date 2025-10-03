@@ -37,7 +37,7 @@ export default function EditMooNewsPage() {
     setNewsId(id);
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:3030/api/news/${id}`);
+        const res = await fetch(`${API_URL3}/api/news/${id}`);
         const data = await res.json();
         if (data && data.success && data.data && data.data.NewsID) {
           setValues({
@@ -91,7 +91,7 @@ export default function EditMooNewsPage() {
     if (!window.confirm("Hapus gambar ini secara permanen?")) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3030/api/news/images/${imageId}`, {
+      const res = await fetch(`${API_URL3}/api/news/images/${imageId}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -263,7 +263,7 @@ export default function EditMooNewsPage() {
                       <div key={"img-" + idx} className={mooNewsStyles["image-thumb"]}>
                         <span className={mooNewsStyles["order-badge"]}>{idx + 1}</span>
                         <img
-                          src={`http://localhost:3030/${img.ImageUrl}`}
+                          src={`${API_URL3}/${img.ImageUrl}`}
                           alt={`img-${idx}`}
                           className={mooNewsStyles["thumb-img"]}
                         />
