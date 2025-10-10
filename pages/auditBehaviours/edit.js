@@ -444,7 +444,7 @@ export default function AddEventPage({}) {
 
   const filteredSafetyCategories = data.safety_categories.filter((cat) => {
     if (newCategories.includes(cat.value)) {
-      return allowedRolesForNewCategories.includes(user?.role?.id);
+      return user?.role && allowedRolesForNewCategories.includes(user.role.id);
     }
     return true;
   });
@@ -892,9 +892,7 @@ export default function AddEventPage({}) {
             <label htmlFor="pic">Auditor</label>
             <Select
               value={
-                values.pic
-                  ? { value: values.pic, label: values.pic }
-                  : null
+                values.pic ? { value: values.pic, label: values.pic } : null
               }
               name="pic"
               id="pic"
@@ -917,10 +915,13 @@ export default function AddEventPage({}) {
                     }
                   : null
               }
-              isDisabled={user.role.id === allowedRolesForNewCategories ? true : false}
+              isDisabled={
+                !user?.role ||
+                !allowedRolesForNewCategories.includes(user.role.id)
+              }
               isLoading={state.loadingState}
               name="safety_category"
-              options={data.safety_categories}
+              options={filteredSafetyCategories}
               onChange={(e) => {
                 dispatch({
                   type: POPULATE_STATE,
