@@ -435,6 +435,70 @@ const data = {
         },
       ],
     },
+    {
+      label: "FirstAid",
+      value: "FirstAid",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
+    {
+      label: "RDC + MTC",
+      value: "RDC + MTC",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
+    {
+      label: "LTI",
+      value: "LTI",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
+    {
+      label: "Fatality",
+      value: "Fatality",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
   ],
 };
 
@@ -521,6 +585,16 @@ export default function AddEventPage({}) {
   const [sdata, setSdata] = useState("");
   const [sdata2, setSdata2] = useState("");
   const [sdata3, setSdata3] = useState("");
+
+  const newCategories = ["FirstAid", "RDC + MTC", "LTI", "Fatality"];
+  const allowedRolesForNewCategories = [6, 9];
+
+  const filteredSafetyCategories = data.safety_categories.filter((cat) => {
+    if (newCategories.includes(cat.value)) {
+      return allowedRolesForNewCategories.includes(user?.role?.id);
+    }
+    return true;
+  });
 
   const handleFileChange = (e) => {
     const { name } = e.target;
@@ -907,7 +981,7 @@ export default function AddEventPage({}) {
               // isSearchable
               // placeholder="Safety Category"
               name="safety_category"
-              options={data.safety_categories}
+              options={filteredSafetyCategories}
               onChange={(e) => {
                 dispatch({
                   type: POPULATE_STATE,

@@ -319,6 +319,70 @@ const data = {
         },
       ],
     },
+    {
+      label: "FirstAid",
+      value: "FirstAid",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
+    {
+      label: "RDC + MTC",
+      value: "RDC + MTC",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
+    {
+      label: "LTI",
+      value: "LTI",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
+    {
+      label: "Fatality",
+      value: "Fatality",
+      states: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+      states2: [
+        {
+          label: "-",
+          value: "-",
+        },
+      ],
+    },
   ],
 };
 
@@ -373,6 +437,16 @@ export default function AddEventPage({}) {
     department_area: "",
     footprint: user ? user.email : null,
     finding_audit_status: "",
+  });
+
+  const newCategories = ["FirstAid", "RDC + MTC", "LTI", "Fatality"];
+  const allowedRolesForNewCategories = [6, 9];
+
+  const filteredSafetyCategories = data.safety_categories.filter((cat) => {
+    if (newCategories.includes(cat.value)) {
+      return allowedRolesForNewCategories.includes(user?.role?.id);
+    }
+    return true;
   });
 
   useEffect(() => {
@@ -818,11 +892,8 @@ export default function AddEventPage({}) {
             <label htmlFor="pic">Auditor</label>
             <Select
               value={
-                employeeName
-                  ? {
-                      value: employeeName,
-                      label: employeeName + " / " + employeeDept,
-                    }
+                values.pic
+                  ? { value: values.pic, label: values.pic }
                   : null
               }
               name="pic"
@@ -846,7 +917,7 @@ export default function AddEventPage({}) {
                     }
                   : null
               }
-              isDisabled={true}
+              isDisabled={user.role.id === allowedRolesForNewCategories ? true : false}
               isLoading={state.loadingState}
               name="safety_category"
               options={data.safety_categories}
