@@ -214,6 +214,8 @@ export default function App() {
                 ? 5
                 : d.asset_name == "Canteen Room"
                 ? 6
+                : d.asset_name == "PKL Room"
+                ? 7
                 : null,
           }));
           // console.log("resources ", resources);
@@ -264,6 +266,8 @@ export default function App() {
       ruang = "Jersey Room";
     } else if (event.resource_id === 6) {
       ruang = "Canteen Room";
+    } else if (event.resource_id === 7) {
+      ruang = "PKL Room";
     }
     // console.log("setelah edit ruangan ", event);
 
@@ -791,8 +795,7 @@ export default function App() {
               {
                 id: 18,
                 text: "PROJECT PASOPATI - 9210DP1118 FPACK SIG CFA 1224",
-                value:
-                  " PROJECT PASOPATI - 9210DP1118 FPACK SIG CFA 1224",
+                value: " PROJECT PASOPATI - 9210DP1118 FPACK SIG CFA 1224",
               },
             ],
             config: {

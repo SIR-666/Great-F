@@ -184,6 +184,13 @@ export const RESOURCES = [
     avatar: "https://picsum.photos/200/300",
     color: "#1567bf",
   },
+  {
+    resource_id: 7,
+    title: "PKL Room",
+    mobile: "2 person",
+    avatar: "https://picsum.photos/200/300",
+    color: "#FF9900",
+  },
   // {
   //     resource_id: 7,
   //     title: "MES Room",
