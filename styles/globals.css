@@ -25,6 +25,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+
 .btn {
   display: inline-block;
   background: red;
@@ -56,6 +57,46 @@ h1 {
 }
 
 .btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon svg {
+  margin-right: 5px;
+}
+
+.btn2 {
+  display: inline-block;
+  background: green;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 0;
+  border-radius: 5px;
+}
+
+.btn2:hover {
+  opacity: 0.9;
+}
+
+.btn2-secondary {
+  font: inherit;
+  font-size: 13px;
+  background: #D6D6D6;
+  color: white !important;
+  border: 0;
+  border-radius: 5px;
+  padding: 5px 15px;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.btn2-secondary:hover {
+  opacity: 0.8;
+}
+
+.btn2-icon {
   display: flex;
   align-items: center;
   justify-content: center;

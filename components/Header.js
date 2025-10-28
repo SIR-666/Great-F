@@ -57,7 +57,6 @@ const groupedNav = (user) => [
           key: "MooNews",
           items: [
             { label: "Add Moo News", path: "/mooNews/add" },
-            { label: "Edit Moo News", path: "/mooNews/edit" },
             { label: "List Moo News", path: "/mooNews" },
           ],
         },
@@ -76,6 +75,14 @@ const groupedNav = (user) => [
       // { label: "PSG Initiaton", path: "/psg" },
     ],
   },
+  ...(user?.role?.id === 11 || user?.role?.id === 9
+    ? [
+        {
+          label: "CILT Approval",
+          path: "/cilt", // atau onClick jika perlu
+        },
+      ]
+    : []),
 ];
 
 export default function Header() {
@@ -146,44 +153,61 @@ export default function Header() {
       }
     >
       {user &&
-        groups.map((group, gi) => (
-          <React.Fragment key={group.key}>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => toggleSection(group.key)}>
-                <ListItemText
-                  primary={group.title}
-                  primaryTypographyProps={{ fontWeight: 700 }}
-                />
-                {openSections[group.key] ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </ListItem>
+        groups.map((group, gi) =>
+          group.items ? (
+            <React.Fragment key={group.key}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => toggleSection(group.key)}>
+                  <ListItemText
+                    primary={group.title}
+                    primaryTypographyProps={{ fontWeight: 700 }}
+                  />
+                  {openSections[group.key] ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </ListItem>
 
-            <Collapse in={openSections[group.key]} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {group.items.map((item) => (
-                  <ListItem key={item.label} disablePadding sx={{ pl: 2 }}>
-                    {item.onClick ? (
-                      <ListItemButton onClick={item.onClick}>
-                        <ListItemText primary={item.label} />
-                      </ListItemButton>
-                    ) : (
-                      <Link
-                        href={item.path}
-                        style={{ width: "100%", textDecoration: "none" }}
-                      >
-                        <ListItemButton>
+              <Collapse
+                in={openSections[group.key]}
+                timeout="auto"
+                unmountOnExit
+              >
+                <List component="div" disablePadding>
+                  {group.items.map((item) => (
+                    <ListItem key={item.label} disablePadding sx={{ pl: 2 }}>
+                      {item.onClick ? (
+                        <ListItemButton onClick={item.onClick}>
                           <ListItemText primary={item.label} />
                         </ListItemButton>
-                      </Link>
-                    )}
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
+                      ) : (
+                        <Link
+                          href={item.path}
+                          style={{ width: "100%", textDecoration: "none" }}
+                        >
+                          <ListItemButton>
+                            <ListItemText primary={item.label} />
+                          </ListItemButton>
+                        </Link>
+                      )}
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
 
-            {gi < groups.length - 1 && <Divider sx={{ my: 1 }} />}
-          </React.Fragment>
-        ))}
+              {gi < groups.length - 1 && <Divider sx={{ my: 1 }} />}
+            </React.Fragment>
+          ) : (
+            <ListItem key={group.label} disablePadding>
+              <Link
+                href={group.path}
+                style={{ width: "100%", textDecoration: "none" }}
+              >
+                <ListItemButton>
+                  <ListItemText primary={group.label} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          )
+        )}
 
       {!user && (
         <>
