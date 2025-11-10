@@ -552,8 +552,8 @@ export default function App() {
             options: [
               { id: 4, text: "4", value: "4" },
               { id: 8, text: "8", value: "8" },
-              { id: 16, text: "16", value: "16" },
-              { id: 20, text: "20", value: "20"},
+              { id: 12, text: "12", value: "12" },
+              { id: 16, text: "16", value: "16"},
             ],
             config: {
               label: "Series",
