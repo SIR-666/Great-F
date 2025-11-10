@@ -550,10 +550,10 @@ export default function App() {
             default: "1",
             // Should provide options with type:"select"
             options: [
-              { id: 1, text: "1", value: "1" },
-              { id: 2, text: "2", value: "2" },
-              { id: 3, text: "3", value: "3" },
               { id: 4, text: "4", value: "4" },
+              { id: 8, text: "8", value: "8" },
+              { id: 16, text: "16", value: "16" },
+              { id: 20, text: "20", value: "20"},
             ],
             config: {
               label: "Series",
