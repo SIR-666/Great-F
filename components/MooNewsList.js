@@ -13,10 +13,14 @@ export default function MooNewsList() {
         const result = await res.json();
         if (result && Array.isArray(result.data)) {
           // Sort descending by created_at (terbaru di depan)
-          const sorted = [...result.data].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+          const sorted = [...result.data].sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          );
           setNews(sorted);
         } else if (Array.isArray(result)) {
-          const sorted = [...result].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+          const sorted = [...result].sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          );
           setNews(sorted);
         } else {
           setNews([]);
@@ -33,6 +37,7 @@ export default function MooNewsList() {
   // Use a mapping object for image indexes per NewsID
   const [sideImageIndexes, setSideImageIndexes] = useState({});
   const intervalRef = useRef();
+  const incrementedRef = useRef(null);
 
   // Always define mainNews and sideNews after hooks
   let mainNews = null;
@@ -41,6 +46,30 @@ export default function MooNewsList() {
     mainNews = news[selectedIdx];
     sideNews = news.filter((_, idx) => idx !== selectedIdx);
   }
+
+  useEffect(() => {
+    const newsId = mainNews?.NewsID;
+    if (!newsId || typeof window === "undefined") return;
+    if (incrementedRef.current === newsId) return;
+    incrementedRef.current = newsId;
+
+    const url = `${API_URL3}/api/news/increment/${newsId}`;
+    if (navigator && typeof navigator.sendBeacon === "function") {
+      try {
+        navigator.sendBeacon(url);
+        return;
+      } catch (e) {}
+    }
+
+    void fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({}),
+    }).catch((err) => {
+      console.error("increment news counter failed", err);
+    });
+  }, [mainNews?.NewsID]);
 
   // Reset indexes when news changes (preserve existing if possible)
   useEffect(() => {
@@ -89,7 +118,6 @@ export default function MooNewsList() {
           flexWrap: "wrap",
         }}
       >
-        {/* Main News */}
         <div
           className="moo-news-main"
           style={{
@@ -105,10 +133,30 @@ export default function MooNewsList() {
           }}
         >
           <h2 style={{ fontSize: 28, marginBottom: 12 }}>{mainNews.Volume}</h2>
-          <div style={{ color: "#888", fontSize: 14, marginBottom: 16 }}>
+          <div style={{ color: "#888", fontSize: 14, marginBottom: 8 }}>
             {mainNews.created_at &&
               new Date(mainNews.created_at).toLocaleDateString()}
           </div>
+
+          <div
+            style={{
+              color: "#555",
+              fontSize: 13,
+              marginBottom: 16,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span style={{ fontWeight: 600 }}>Dilihat:</span>
+            <span>
+              {Number(
+                mainNews.view_count ?? mainNews.ViewCount ?? mainNews.Views ?? 0
+              ).toLocaleString()}{" "}
+              orang
+            </span>
+          </div>
+
           {mainNews.Images && mainNews.Images.length > 0 ? (
             <div style={{ width: "100%", marginBottom: 16 }}>
               {mainNews.Images.map((img) => (
@@ -157,7 +205,7 @@ export default function MooNewsList() {
               fontWeight: 700,
               fontSize: 18,
               marginBottom: 12,
-              
+
               textAlign: "left",
             }}
           >
