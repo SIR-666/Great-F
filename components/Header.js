@@ -24,6 +24,8 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 const HEADER_TEXT_COLOR = "#024623ff";
+const API_TRAINING =
+  process.env.NEXT_PUBLIC_TRAINING_URL || "http://localhost:3000";
 
 // ====== Grouped menu (kategori → submenu) ======
 const groupedNav = (user, handleHRGARedirect) => [
@@ -130,9 +132,7 @@ export default function Header() {
     });
     const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // TODO: pindahkan ke env
     const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
-    const targetUrl = `http://localhost:3000/?id=${encodeURIComponent(
-      encrypted
-    )}`;
+    const targetUrl = `${API_TRAINING}/?id=${encodeURIComponent(encrypted)}`;
     window.location.href = targetUrl;
   };
 
