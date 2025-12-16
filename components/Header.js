@@ -26,7 +26,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 const HEADER_TEXT_COLOR = "#024623ff";
 
 // ====== Grouped menu (kategori → submenu) ======
-const groupedNav = (user) => [
+const groupedNav = (user, handleHRGARedirect) => [
   {
     title: "Greentag",
     key: "Greentag",
@@ -50,7 +50,7 @@ const groupedNav = (user) => [
         : []),
     ],
   },
-  ...(user?.role?.id === 6 || user?.role?.id === 3
+  ...(user?.role?.id === 6 || user?.role?.id === 8
     ? [
         {
           title: "Moo News",
@@ -83,6 +83,11 @@ const groupedNav = (user) => [
         },
       ]
     : []),
+  {
+    title: "Training",
+    key: "Training",
+    items: [{ label: "Training", onClick: handleHRGARedirect }],
+  },
 ];
 
 export default function Header() {
@@ -125,7 +130,7 @@ export default function Header() {
     });
     const secretKey = "?asdasdASE@fdglhkdfhJJLakasd$%"; // TODO: pindahkan ke env
     const encrypted = CryptoJS.AES.encrypt(payload, secretKey).toString();
-    const targetUrl = `http://10.24.0.81:3000/?id=${encodeURIComponent(
+    const targetUrl = `http://localhost:3000/?id=${encodeURIComponent(
       encrypted
     )}`;
     window.location.href = targetUrl;
@@ -141,7 +146,11 @@ export default function Header() {
   ];
 
   // Hitung sekali agar tidak memanggil groupedNav berkali-kali
-  const groups = useMemo(() => (user ? groupedNav(user) : []), [user]);
+  // ganti useMemo saat ini
+  const groups = useMemo(
+    () => (user ? groupedNav(user, handleHRGARedirect) : []),
+    [user, handleHRGARedirect]
+  );
 
   // ====== Drawer with grouped collapsible menus ======
   const drawer = (
