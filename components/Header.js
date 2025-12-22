@@ -142,7 +142,7 @@ export default function Header() {
     { label: "Add Behavior", path: "/auditBehaviours/add2" },
     { label: "Add GMP", path: "/gmp/addGMP" },
     { label: "Coaching", path: "/coach/add" },
-    { label: "HRGA", onClick: handleHRGARedirect },
+    { label: "Training", onClick: handleHRGARedirect },
   ];
 
   // Hitung sekali agar tidak memanggil groupedNav berkali-kali
