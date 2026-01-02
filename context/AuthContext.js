@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
 
   const validateIdentity = async (nik) => {
     try {
-      const res = await fetch(`${API_URL3}/api/validate-identity-HRIS`, {
+      const res = await fetch(`${API_URL3}/api/validate-identity`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -280,6 +280,7 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(data.user);
+      setCookie("token", data.jwt);
       setCookie("username", data.user.username);
       setCookie("role", data.user.role.id);
       console.log("✅ Login successful:", data.user);
