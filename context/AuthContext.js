@@ -87,6 +87,45 @@ export const AuthProvider = ({ children }) => {
   //   }
   // };
 
+  const validateIdentityHRIS = async (nik) => {
+    try {
+      const res = await fetch(`${API_URL3}/api/validate-identity-HRIS`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nik }),
+      });
+
+      console.log("Response status:", res.status);
+      console.log("Response ok:", res.ok);
+
+      const data = await res.json();
+      console.log("Response data:", data);
+
+      if (res.ok) {
+        console.log("Saving identity data to cookies only:", data);
+
+        setCookie("identityData", JSON.stringify(data), {
+          maxAge: 60 * 60 * 24 * 30, // 30 hari
+          path: "/",
+        });
+
+        const stored = getCookie("identityData");
+        console.log("Verification - stored identity data in cookies:", stored);
+
+        return data;
+      } else {
+        console.error("API Error:", data.message);
+        setError(data.message);
+        return null;
+      }
+    } catch (error) {
+      console.error("Network/Fetch Error:", error);
+      setError("Network error during identity validation");
+      return null;
+    }
+  };
   const validateIdentity = async (nik) => {
     try {
       const res = await fetch(`${API_URL3}/api/validate-identity`, {
@@ -252,13 +291,21 @@ export const AuthProvider = ({ children }) => {
 
     // Validate identity first if nik is provided
     if (nik) {
-      console.log("NIK provided, calling validateIdentity...");
-      const validationResult = await validateIdentity(nik);
-      console.log("Validation result:", validationResult);
+      console.log("NIK provided, calling validateIdentityHRIS...");
+      let validationResult = await validateIdentityHRIS(nik);
+      console.log("Validation result (HRIS):", validationResult);
 
       if (!validationResult) {
-        console.log("Validation failed, stopping login process");
-        return;
+        console.log(
+          "HRIS validation failed, trying fallback validateIdentity...",
+        );
+        validationResult = await validateIdentity(nik);
+        console.log("Validation result (fallback):", validationResult);
+
+        if (!validationResult) {
+          console.log("Validation failed (both), stopping login process");
+          return;
+        }
       }
     } else {
       console.log("No NIK provided, skipping identity validation");
